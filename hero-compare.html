@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Noah's Ark — Hero Tone Comparison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400&family=Nunito+Sans:wght@400;600;700;800&family=Baloo+2:wght@500;600;700;800&family=Mulish:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#342D4F;          /* logo indigo */
+    --ink-soft:#5B5278;
+    --cream:#FBF6EC;        /* warm light bg */
+    --white:#ffffff;
+    --coral:#F07A5B;        /* cheerful primary CTA */
+    --coral-dk:#D9613F;
+    --marigold:#F2B33D;     /* sunny accent */
+    --sage:#8FB89E;         /* soft secondary */
+    --sky:#EAF1F6;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:#e8e4dc;color:var(--ink)}
+  .lab{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
+  .lab-h{font-family:'Nunito Sans',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--ink-soft);margin:34px 4px 12px;display:flex;align-items:center;gap:10px}
+  .lab-h span{background:var(--ink);color:#fff;border-radius:6px;padding:3px 9px;letter-spacing:.06em}
+  .frame{border-radius:22px;overflow:hidden;box-shadow:0 30px 60px -28px rgba(52,45,79,.45);background:#fff}
+  .intro{font-family:'Nunito Sans',sans-serif;background:#fff;border-radius:16px;padding:22px 26px;color:#4a4366;line-height:1.6;font-size:15px}
+  .intro b{color:var(--ink)}
+  .swatches{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .sw{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;font-family:'Nunito Sans',sans-serif}
+  .chip{width:22px;height:22px;border-radius:6px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+
+  /* ====== SHARED NAV + HERO SCAFFOLD ====== */
+  .site{position:relative}
+  .nav{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:22px 40px}
+  .nav .logo{font-weight:800;font-size:20px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+  .nav .logo .mark{width:34px;height:34px;border-radius:9px;background:var(--ink);display:grid;place-items:center;color:#fff;font-size:18px}
+  .nav ul{list-style:none;display:flex;gap:30px;align-items:center}
+  .nav a{text-decoration:none;color:inherit;font-size:15px;font-weight:600;opacity:.85}
+  .nav a:hover{opacity:1}
+  .nav .cta{padding:11px 22px;border-radius:999px;background:var(--coral);color:#fff;box-shadow:0 10px 22px -8px var(--coral);transition:transform .2s,box-shadow .2s}
+  .nav .cta:hover{transform:translateY(-2px);box-shadow:0 16px 28px -8px var(--coral);opacity:1}
+
+  .hero{position:relative;min-height:88vh;display:grid}
+  .hero-media{position:absolute;inset:0;z-index:0;overflow:hidden}
+  .hero-media video{width:100%;height:100%;object-fit:cover}
+  .pill{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:13px;padding:7px 15px;border-radius:999px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--sage)}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-weight:700;text-decoration:none;cursor:pointer;border:none}
+  .btn-primary{background:var(--coral);color:#fff;box-shadow:0 14px 28px -10px var(--coral)}
+  .btn-primary:hover{background:var(--coral-dk);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px rgba(52,45,79,.18)}
+  .btn-ghost:hover{box-shadow:inset 0 0 0 2px var(--ink)}
+  .btn,.nav .cta{transition:transform .2s,box-shadow .2s,background .2s}
+  .arrow{transition:transform .25s}
+  .btn:hover .arrow{transform:translateX(4px)}
+
+  /* ============ VARIANT A: WARM & CHARACTERFUL ============ */
+  .A .nav .logo{font-family:'Fraunces',serif}
+  .A .nav{font-family:'Nunito Sans',sans-serif}
+  .A .hero{background:var(--cream)}
+  .A .hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:20px;align-items:center;width:100%;max-width:1180px;margin:0 auto;padding:120px 40px 60px}
+  .A .copy .pill{background:#fff;color:var(--ink);box-shadow:0 8px 20px -10px rgba(52,45,79,.4)}
+  .A .copy h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(40px,5.4vw,72px);line-height:1.04;letter-spacing:-.015em;margin:22px 0 18px}
+  .A .copy h1 em{font-style:italic;color:var(--coral)}
+  .A .copy h1 .u{position:relative;white-space:nowrap}
+  .A .copy h1 .u svg{position:absolute;left:0;right:0;bottom:-12px;width:100%;height:14px}
+  .A .copy p{font-family:'Nunito Sans',sans-serif;font-size:18px;line-height:1.6;color:var(--ink-soft);max-width:30ch;margin-bottom:30px}
+  .A .copy .actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-family:'Nunito Sans',sans-serif}
+  .A .btn{padding:15px 26px;border-radius:14px;font-size:16px}
+  .A .trust{margin-top:30px;display:flex;align-items:center;gap:18px;font-family:'Nunito Sans',sans-serif;font-size:13px;font-weight:700;color:var(--ink-soft)}
+  .A .trust .stars{color:var(--marigold);letter-spacing:2px}
+  /* media collage */
+  .A .art{position:relative;height:520px}
+  .A .art .photo{position:absolute;border-radius:24px;overflow:hidden;box-shadow:0 30px 50px -20px rgba(52,45,79,.5)}
+  .A .art .p1{inset:0 0 60px 40px;}
+  .A .art .p1 video{width:100%;height:100%;object-fit:cover}
+  .A .art .p2{width:190px;height:230px;right:-6px;bottom:0;border:6px solid var(--cream)}
+  .A .art .p2 img{width:100%;height:100%;object-fit:cover}
+  .A .art .badge{position:absolute;left:-18px;top:34px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 16px 30px -14px rgba(52,45,79,.5);display:flex;align-items:center;gap:11px;font-family:'Nunito Sans',sans-serif;z-index:3}
+  .A .art .badge .ic{width:38px;height:38px;border-radius:11px;background:var(--sage);display:grid;place-items:center;font-size:19px}
+  .A .art .badge b{display:block;font-size:14px}
+  .A .art .badge small{font-size:12px;color:var(--ink-soft)}
+  .A .art .blob{position:absolute;width:130px;height:130px;border-radius:50%;background:var(--marigold);opacity:.25;right:30%;top:-26px;z-index:0}
+  .A .float{animation:floaty 5s ease-in-out infinite}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+  /* ============ VARIANT B: FRIENDLY & ROUNDED ============ */
+  .B{font-family:'Mulish',sans-serif}
+  .B .nav .logo{font-family:'Baloo 2',cursive}
+  .B .hero{background:var(--sky)}
+  .B .hero-media::after{content:"";position:absolute;inset:0;background:rgba(52,45,79,.46)}
+  .B .hero-grid{position:relative;z-index:3;width:100%;max-width:900px;margin:0 auto;padding:150px 40px 70px;text-align:center;display:flex;flex-direction:column;align-items:center}
+  .B .copy .pill{background:rgba(255,255,255,.18);color:#fff;backdrop-filter:blur(6px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
+  .B .copy .pill .dot{background:var(--marigold)}
+  .B .copy h1{font-family:'Baloo 2',cursive;font-weight:700;color:#fff;font-size:clamp(40px,6vw,76px);line-height:1.06;margin:20px 0 16px;text-shadow:0 4px 24px rgba(52,45,79,.4)}
+  .B .copy h1 .hl{color:var(--marigold)}
+  .B .copy p{font-size:19px;line-height:1.6;color:rgba(255,255,255,.92);max-width:54ch;margin:0 auto 32px}
+  .B .copy .actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .B .btn{padding:16px 30px;border-radius:999px;font-size:16px;font-family:'Mulish',sans-serif}
+  .B .btn-ghost{color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.6)}
+  .B .btn-ghost:hover{box-shadow:inset 0 0 0 2px #fff;background:rgba(255,255,255,.12)}
+  .B .chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+  .B .chips .c{background:rgba(255,255,255,.16);backdrop-filter:blur(6px);color:#fff;border-radius:999px;padding:9px 18px;font-weight:700;font-size:14px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3);display:flex;align-items:center;gap:8px}
+  .B .chips .c i{font-style:normal}
+  .B .wave{position:absolute;bottom:-1px;left:0;right:0;z-index:4;line-height:0}
+  .B .wave svg{width:100%;height:70px;display:block}
+
+  @media(max-width:860px){
+    .A .hero-grid{grid-template-columns:1fr;padding-top:110px}
+    .A .art{display:none}
+    .nav ul{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="lab">
+
+  <div class="intro">
+    <b>Noah's Ark Veterinary Hospital — Homepage hero, two tones.</b> Same unified system (logo indigo <b>#342D4F</b> + warm cream + cheerful coral/marigold/sage, real lifestyle photo & video, motion-forward). The difference is <b>personality of type + layout</b>. Reply with <b>A</b> or <b>B</b> (or mix — e.g. "A's layout, B's energy").
+    <div class="swatches">
+      <span class="sw"><span class="chip" style="background:#342D4F"></span>Indigo</span>
+      <span class="sw"><span class="chip" style="background:#FBF6EC"></span>Cream</span>
+      <span class="sw"><span class="chip" style="background:#F07A5B"></span>Coral</span>
+      <span class="sw"><span class="chip" style="background:#F2B33D"></span>Marigold</span>
+      <span class="sw"><span class="chip" style="background:#8FB89E"></span>Sage</span>
+    </div>
+  </div>
+
+  <!-- ============ VARIANT A ============ -->
+  <div class="lab-h"><span>A</span> Warm &amp; Characterful — Fraunces serif + Nunito Sans · split layout, photo collage, gentle float</div>
+  <div class="frame">
+    <div class="site A">
+      <nav class="nav">
+        <div class="logo"><span class="mark">⌂</span> Noah's Ark</div>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Our Team</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#" class="cta">Book a Visit</a></li>
+        </ul>
+      </nav>
+      <header class="hero">
+        <div class="hero-grid">
+          <div class="copy">
+            <span class="pill"><span class="dot"></span> Williamsburg, VA · Family-owned since day one</span>
+            <h1>Where your pet is a <span class="u"><em>neighbor</em>
+              <svg viewBox="0 0 200 14" preserveAspectRatio="none"><path d="M2 9 C 50 2, 150 2, 198 8" stroke="#F2B33D" stroke-width="5" fill="none" stroke-linecap="round"/></svg>
+            </span>, not a number</h1>
+            <p>Compassionate, science-first care for dogs &amp; cats — from a team that knows you both by name.</p>
+            <div class="actions">
+              <a class="btn btn-primary" href="#">Book a Visit <span class="arrow">→</span></a>
+              <a class="btn btn-ghost" href="#">Meet the Team</a>
+            </div>
+            <div class="trust"><span class="stars">★★★★★</span> Loved by Williamsburg families · AAHA accredited</div>
+          </div>
+          <div class="art">
+            <div class="blob float"></div>
+            <div class="photo p1"><video src="assets/media/hero.mp4" autoplay muted loop playsinline poster="assets/media/hero-poster.jpg"></video></div>
+            <div class="photo p2"><img src="assets/media/owner-beagle.jpg" alt="Owner hugging her beagle" /></div>
+            <div class="badge float"><div class="ic">🐾</div><div><b>Open Saturdays</b><small>7:30a – 12p</small></div></div>
+          </div>
+        </div>
+      </header>
+    </div>
+  </div>
+
+  <!-- ============ VARIANT B ============ -->
+  <div class="lab-h"><span>B</span> Friendly &amp; Rounded — Baloo 2 + Mulish · full-bleed video, centered, glass chips, wave bridge</div>
+  <div class="frame">
+    <div class="site B">
+      <nav class="nav" style="color:#fff">
+        <div class="logo"><span class="mark">⌂</span> Noah's Ark</div>
+        <ul>
+          <li><a href="#" style="color:#fff">About</a></li>
+          <li><a href="#" style="color:#fff">Services</a></li>
+          <li><a href="#" style="color:#fff">Our Team</a></li>
+          <li><a href="#" style="color:#fff">Contact</a></li>
+          <li><a href="#" class="cta">Book a Visit</a></li>
+        </ul>
+      </nav>
+      <header class="hero">
+        <div class="hero-media"><video src="assets/media/hero.mp4" autoplay muted loop playsinline poster="assets/media/hero-poster.jpg"></video></div>
+        <div class="hero-grid">
+          <div class="copy">
+            <span class="pill"><span class="dot"></span> Williamsburg, VA · Independently owned</span>
+            <h1>Big-hearted care for your <span class="hl">whole</span> family</h1>
+            <p>Dogs, cats, and the people who love them — looked after by a neighborhood team that treats you like a friend.</p>
+            <div class="actions">
+              <a class="btn btn-primary" href="#">Book a Visit <span class="arrow">→</span></a>
+              <a class="btn btn-ghost" href="#">Explore Services</a>
+            </div>
+            <div class="chips">
+              <span class="c"><i>🐶</i> Dogs &amp; Cats</span>
+              <span class="c"><i>⭐</i> AAHA Accredited</span>
+              <span class="c"><i>🕖</i> Open Saturdays</span>
+            </div>
+          </div>
+        </div>
+        <div class="wave"><svg viewBox="0 0 1200 70" preserveAspectRatio="none"><path d="M0 40 C 200 10, 400 70, 600 40 C 800 10, 1000 70, 1200 35 L1200 70 L0 70 Z" fill="#FBF6EC"/></svg></div>
+      </header>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

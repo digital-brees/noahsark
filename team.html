@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Our Team | Noah's Ark Veterinary Hospital — Williamsburg, VA</title>
+<meta name="description" content="Meet the veterinarians and team behind Noah's Ark Veterinary Hospital in Williamsburg, VA — a family-owned practice caring for dogs and cats since 1992." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/site.css" />
+<style>
+  /* ---------- page hero (editorial, left-aligned) ---------- */
+  .team-hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;overflow:hidden}
+  .team-hero .bg{position:absolute;inset:0;z-index:0}
+  .team-hero .bg img{width:100%;height:100%;object-fit:cover}
+  .team-hero .bg::after{content:"";position:absolute;inset:0;background:rgba(16,20,48,.55)}
+  .team-hero .inner{position:relative;z-index:3;width:100%;max-width:var(--maxw);margin:0 auto;padding:0 32px 88px;color:#fff}
+  .team-hero .eyebrow{color:#fff}
+  .team-hero .eyebrow::before{background:var(--accent)}
+  .team-hero h1{color:#fff;font-size:clamp(44px,6.6vw,86px);letter-spacing:-.03em;line-height:1.0;margin:22px 0 20px;max-width:16ch}
+  .team-hero h1 .accent{color:var(--accent)}
+  .team-hero p{font-size:clamp(17px,1.7vw,20px);color:rgba(255,255,255,.82);max-width:50ch;font-weight:400}
+
+  /* ---------- values (editorial cards, hairline) ---------- */
+  .values{background:var(--white);padding:104px 0 84px}
+  .values .head{max-width:760px;margin:0 0 56px}
+  .values .head h2{font-size:clamp(30px,4.2vw,50px);margin:18px 0;letter-spacing:-.025em}
+  .values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}
+  .value-card{padding:36px 28px 32px;border-right:1px solid var(--line);transition:background .3s}
+  .value-card:last-child{border-right:none}
+  .value-card:hover{background:var(--paper)}
+  .value-card .ic{width:50px;height:50px;border-radius:var(--r-sm);display:grid;place-items:center;margin-bottom:22px;background:var(--ink)}
+  .value-card .ic svg{width:26px;height:26px;display:block}
+  .value-card .num{font-family:var(--font-head);font-size:13px;color:var(--accent-dk);font-weight:600;letter-spacing:.04em;margin-bottom:8px}
+  .value-card h3{font-size:21px;margin-bottom:10px;letter-spacing:-.01em}
+  .value-card p{font-size:14.5px;color:var(--ink-soft);line-height:1.6}
+
+  /* ---------- section shells ---------- */
+  .team-section{padding:104px 0}
+  .team-section.alt{background:var(--paper-2)}
+  .section-head{max-width:720px;margin:0 0 60px}
+  .section-head h2{font-size:clamp(32px,4.4vw,54px);margin:18px 0 16px;letter-spacing:-.025em}
+  .section-head p{color:var(--ink-soft);font-size:18px;max-width:56ch}
+
+  /* ---------- veterinarian cards ---------- */
+  .vet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+  .vet-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;display:flex;flex-direction:column}
+  .vet-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);border-color:transparent}
+  .vet-photo{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--ink)}
+  .vet-photo img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+  .vet-card:hover .vet-photo img{transform:scale(1.04)}
+  .vet-body{padding:26px 26px 28px;flex:1;display:flex;flex-direction:column}
+  .vet-body .role{color:var(--accent-dk);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.14em}
+  .vet-body h3{font-size:26px;margin:9px 0 12px;letter-spacing:-.02em}
+  .vet-body .cred{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+  .vet-body .cred span{font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--ink-soft);border:1px solid var(--line);padding:4px 9px;border-radius:var(--r-xs)}
+  .vet-body p{font-size:14.5px;color:var(--ink-soft);margin-bottom:22px;flex:1;line-height:1.65}
+  .read-bio{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font-weight:600;color:var(--ink);font-size:14.5px;
+    background:none;padding:0;cursor:pointer;border:none;border-bottom:1.5px solid var(--accent);padding-bottom:3px;font-family:var(--font-body);transition:gap .2s,color .2s}
+  .read-bio:hover{color:var(--accent-dk);gap:12px}
+  .read-bio .arrow{transition:transform .25s}
+
+  /* ---------- support staff ---------- */
+  .staff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(216px,1fr));gap:24px}
+  .staff-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;cursor:pointer;
+    transition:transform .25s,box-shadow .25s,border-color .25s;text-align:left;font-family:var(--font-body);padding:0;width:100%}
+  .staff-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-md);border-color:transparent}
+  .staff-photo{aspect-ratio:1/1;overflow:hidden;background:var(--ink)}
+  .staff-photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+  .staff-card:hover .staff-photo img{transform:scale(1.05)}
+  .staff-body{padding:18px 20px 20px}
+  .staff-body h3{font-size:18px;margin-bottom:4px;letter-spacing:-.01em}
+  .staff-body .role{color:var(--ink-soft);font-weight:500;font-size:13px;display:block;margin-bottom:12px}
+  .staff-body .more{color:var(--accent-dk);font-weight:600;font-size:12.5px;display:inline-flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.08em}
+
+  /* ---------- bio modal ---------- */
+  .modal{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:24px}
+  .modal.open{display:flex}
+  .modal-scrim{position:absolute;inset:0;background:rgba(16,20,48,.62);backdrop-filter:blur(3px);animation:fadein .25s}
+  .modal-card{position:relative;z-index:2;background:#fff;border-radius:var(--r-lg);max-width:680px;width:100%;max-height:88vh;overflow:hidden;
+    box-shadow:var(--shadow-lg);display:grid;grid-template-columns:240px 1fr;animation:pop .3s cubic-bezier(.2,.8,.2,1)}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+  .modal-photo{background:var(--ink)}
+  .modal-photo img{width:100%;height:100%;object-fit:cover}
+  .modal-body{padding:36px 36px 38px;overflow-y:auto}
+  .modal-body .role{color:var(--accent-dk);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.14em}
+  .modal-body h3{font-size:30px;margin:8px 0 8px;letter-spacing:-.02em}
+  .modal-body .cred{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:20px}
+  .modal-body .cred span{font-size:11px;font-weight:600;color:var(--ink-soft);border:1px solid var(--line);padding:4px 9px;border-radius:var(--r-xs)}
+  .modal-body p{color:var(--ink-soft);font-size:15.5px;line-height:1.75}
+  .modal-close{position:absolute;top:14px;right:16px;z-index:3;background:rgba(255,255,255,.92);border:1px solid var(--line);width:38px;height:38px;border-radius:50%;
+    font-size:20px;cursor:pointer;color:var(--ink);display:grid;place-items:center;transition:transform .2s}
+  .modal-close:hover{transform:rotate(90deg)}
+
+  /* ---------- join CTA — image-led split band ---------- */
+  .join{padding:104px 0}
+  .join .box{position:relative;overflow:hidden;border-radius:var(--r-lg);min-height:420px;
+    display:grid;grid-template-columns:1.05fr .95fr;background:var(--ink)}
+  .join .copy{position:relative;z-index:2;padding:64px 56px;display:flex;flex-direction:column;justify-content:center;align-self:stretch}
+  .join .copy .eyebrow{color:#fff;margin-bottom:18px}
+  .join .copy .eyebrow::before{background:var(--accent)}
+  .join .copy h2{color:#fff;font-size:clamp(30px,3.8vw,48px);margin-bottom:16px;letter-spacing:-.025em;max-width:14ch}
+  .join .copy h2 .accent{color:var(--accent)}
+  .join .copy p{color:rgba(255,255,255,.74);max-width:42ch;font-size:17px;margin-bottom:30px}
+  .join .copy .actions{display:flex;gap:14px;flex-wrap:wrap}
+  .join .media{position:relative;overflow:hidden}
+  .join .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  /* subtle navy tint unifies the photo with the panel (no gradient) */
+  .join .media::after{content:"";position:absolute;inset:0;background:rgba(33,43,102,.16)}
+  @media(max-width:760px){
+    .join .box{grid-template-columns:1fr}
+    .join .media{min-height:250px;order:-1}
+    .join .copy{padding:44px 32px}
+  }
+
+  @media(max-width:900px){
+    .values-grid{grid-template-columns:repeat(2,1fr)}
+    .value-card{border-bottom:1px solid var(--line)}
+    .value-card:nth-child(2){border-right:none}
+    .vet-grid{grid-template-columns:1fr;max-width:440px}
+    .join .box{grid-template-columns:1fr;gap:28px}
+  }
+  @media(max-width:560px){
+    .modal-card{grid-template-columns:1fr;max-height:90vh}
+    .modal-photo{height:210px}
+    .values-grid{grid-template-columns:1fr}
+    .value-card,.value-card:nth-child(2){border-right:none}
+  }
+</style>
+</head>
+<body data-page="team" data-base="">
+
+<div id="global-header"></div>
+
+<main>
+  <!-- HERO -->
+  <section class="team-hero">
+    <div class="bg"><img src="assets/media/team-hero.jpg" alt="A cat and a small dog resting together by a sunny window" /></div>
+    <div class="inner">
+      <span class="eyebrow">Williamsburg, VA · Family-owned since 1992</span>
+      <h1>The people behind the <span class="accent">care</span></h1>
+      <p>The veterinarians, technicians, and familiar faces who know you and your pet by name.</p>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="values">
+    <div class="container">
+      <div class="head reveal">
+        <span class="eyebrow">What we stand for</span>
+        <h2>Four values, every visit</h2>
+        <p class="lede">The principles every member of our team carries into the exam room.</p>
+      </div>
+      <div class="values-grid">
+        <div class="value-card reveal">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 21s-7.6-4.8-10.1-9.2C-.1 8.4 1.8 4.8 5.4 4.8c2.1 0 3.4 1.1 4.7 2.7C11.3 5.9 12.6 4.8 14.7 4.8c3.6 0 5.5 3.6 3.5 7C15.6 16.2 12 21 12 21z"/></svg></div>
+          <div class="num">01</div><h3>Compassion</h3><p>For every animal in our care, for our clients, and for each other.</p>
+        </div>
+        <div class="value-card reveal">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M13.5 2 4 13.2h5.6L8.5 22 20 10.4h-5.7L15.5 2z"/></svg></div>
+          <div class="num">02</div><h3>Drive</h3><p>We show up driven to do our best work, every single day.</p>
+        </div>
+        <div class="value-card reveal">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.4" fill="#fff" stroke="none"/><line x1="12" y1="2" x2="12" y2="4.6"/><line x1="12" y1="19.4" x2="12" y2="22"/><line x1="2" y1="12" x2="4.6" y2="12"/><line x1="19.4" y1="12" x2="22" y2="12"/><line x1="4.9" y1="4.9" x2="6.7" y2="6.7"/><line x1="17.3" y1="17.3" x2="19.1" y2="19.1"/><line x1="4.9" y1="19.1" x2="6.7" y2="17.3"/><line x1="17.3" y1="6.7" x2="19.1" y2="4.9"/></svg></div>
+          <div class="num">03</div><h3>Positive Attitude</h3><p>We choose to make the day brighter for everyone around us.</p>
+        </div>
+        <div class="value-card reveal">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.6"/><circle cx="12" cy="12" r="1" fill="#fff" stroke="none"/></svg></div>
+          <div class="num">04</div><h3>Proficient</h3><p>Lives depend on us, so we strive for excellence in every task.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VETERINARIANS -->
+  <section class="team-section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Our Veterinarians</span>
+        <h2>The doctors in your corner</h2>
+        <p>Experienced, compassionate, and deeply rooted in the Williamsburg community.</p>
+      </div>
+      <div class="vet-grid">
+
+        <article class="vet-card reveal">
+          <div class="vet-photo">
+            <img src="https://placehold.co/600x750/212B66/F7F4EE?text=Dr.+Sean+Sparkman%0A(photo+coming+soon)" alt="Portrait of Dr. Sean Sparkman, Owner and Veterinarian" />
+          </div>
+          <div class="vet-body">
+            <span class="role">Owner · Veterinarian</span>
+            <h3>Dr. Sean A. Sparkman</h3>
+            <div class="cred"><span>AVMA</span><span>AAHA</span><span>VVMA</span><span>GPVMA</span></div>
+            <p>Caring for pets across the Hampton Roads area since 2006, and owner of Noah's Ark since 2014.</p>
+            <button class="read-bio" data-name="Dr. Sean A. Sparkman" data-role="Owner · Veterinarian" data-cred="AVMA|AAHA|VVMA|GPVMA" data-photo="https://placehold.co/480x600/212B66/F7F4EE?text=Dr.+Sean+Sparkman" data-bio="Dr. Sean Sparkman took ownership of Noah's Ark Veterinary Hospital in September of 2014. He has cared for pets in the Hampton Roads area since 2006. He also practiced emergency medicine as a relief veterinarian with the Peninsula Veterinary Emergency Clinic.">Read full bio <span class="arrow">→</span></button>
+          </div>
+        </article>
+
+        <article class="vet-card reveal">
+          <div class="vet-photo">
+            <img src="https://placehold.co/600x750/212B66/F7F4EE?text=Dr.+Jenny+Robinson%0A(photo+coming+soon)" alt="Portrait of Dr. Jenny Robinson, Veterinarian" />
+          </div>
+          <div class="vet-body">
+            <span class="role">Veterinarian</span>
+            <h3>Dr. Jenny Robinson</h3>
+            <div class="cred"><span>DVM</span></div>
+            <p>A Williamsburg native and Bruton High grad who came home to practice the medicine she loves.</p>
+            <button class="read-bio" data-name="Dr. Jenny Robinson" data-role="Veterinarian" data-cred="DVM" data-photo="https://placehold.co/480x600/212B66/F7F4EE?text=Dr.+Jenny+Robinson" data-bio="Dr. Jenny Robinson was born and raised in Williamsburg, Virginia. She graduated from Bruton High School, received her undergraduate degree from Virginia Commonwealth University, and then attended Virginia-Maryland College of Veterinary Medicine, graduating in 2019.">Read full bio <span class="arrow">→</span></button>
+          </div>
+        </article>
+
+        <article class="vet-card reveal">
+          <div class="vet-photo">
+            <img src="https://placehold.co/600x750/212B66/F7F4EE?text=Dr.+Matthew+Pate%0A(photo+coming+soon)" alt="Portrait of Dr. Matthew Pate, Veterinarian" />
+          </div>
+          <div class="vet-body">
+            <span class="role">Veterinarian</span>
+            <h3>Dr. Matthew Pate</h3>
+            <div class="cred"><span>DVM</span></div>
+            <p>Texas-raised and Auburn-trained, bringing science-first care to every patient he meets.</p>
+            <button class="read-bio" data-name="Dr. Matthew Pate" data-role="Veterinarian" data-cred="DVM" data-photo="https://placehold.co/480x600/212B66/F7F4EE?text=Dr.+Matthew+Pate" data-bio="Dr. Pate is originally from Houston, Texas. He received his Bachelor's Degree in Biomedical Sciences from Texas A&M University in 2013. He earned his Doctorate of Veterinary Medicine from Auburn University in 2019.">Read full bio <span class="arrow">→</span></button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPPORT STAFF -->
+  <section class="team-section alt">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Our Support Team</span>
+        <h2>The people who keep us running</h2>
+        <p>Technicians, assistants, and the welcoming faces at our front desk. Select anyone to read their story.</p>
+      </div>
+      <div class="staff-grid" id="staffGrid"></div>
+    </div>
+  </section>
+
+  <!-- JOIN CTA -->
+  <section class="join">
+    <div class="container">
+      <div class="box reveal">
+        <div class="copy">
+          <span class="eyebrow">Careers at Noah's Ark</span>
+          <h2>Want to join the <span class="accent">team?</span></h2>
+          <p>We're always looking for compassionate, driven people who love animals as much as we do.</p>
+          <div class="actions">
+            <a href="careers.html" class="btn btn-accent">See open roles <span class="arrow">→</span></a>
+            <a href="contact.html" class="btn btn-ghost-light">Get in touch</a>
+          </div>
+        </div>
+        <div class="media"><img src="assets/media/cta-join.jpg" alt="A happy dog being petted outdoors on a sunny day" /></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- BIO MODAL -->
+<div class="modal" id="bioModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-scrim" data-close></div>
+  <div class="modal-card">
+    <button class="modal-close" data-close aria-label="Close">&times;</button>
+    <div class="modal-photo"><img id="mPhoto" src="" alt="" /></div>
+    <div class="modal-body">
+      <span class="role" id="mRole"></span>
+      <h3 id="mName"></h3>
+      <div class="cred" id="mCred"></div>
+      <p id="mBio"></p>
+    </div>
+  </div>
+</div>
+
+<div id="global-footer"></div>
+
+<script src="includes/load-partials.js"></script>
+<script>
+/* support staff data — bios verbatim from noahsarkvet.com */
+var STAFF = [
+  {name:"Cori Wallace", role:"LVT · Practice Manager", bio:"Cori joined Noah's Ark in August 2000. She obtained an Associates Degree in Veterinary Technology at Cedar Valley Community College in 2008."},
+  {name:"Siedah Clark", role:"Licensed Veterinary Technician", bio:"Siedah joined Noah's Ark in July of 2019. She resides in the Denbigh area and has worked in veterinary medicine for 11 years."},
+  {name:"Catie Gregory", role:"Licensed Veterinary Technician", bio:"Catie was born and raised in Newport News, VA where she currently resides with her husband and daughter. She has been an LVT since 2015."},
+  {name:"Matt Doubles", role:"Veterinary Assistant", bio:"Matt joined Noah's Ark in June 2013 with four years prior kennel experience. He has lived in Williamsburg since 2001."},
+  {name:"Ardis Crespo", role:"Veterinary Assistant", bio:"Ardis was born in Willingboro, NJ and has also lived in Virginia Beach and Williamsburg, VA."},
+  {name:"Shannon Davenport", role:"Treatment Assistant", bio:"Shannon originates from upstate New York and joined Noah's Ark in January of 2021."},
+  {name:"Carol Ely", role:"Customer Service Rep · Supervisor", bio:"Carol joined Noah's Ark as a receptionist in March 2016. A Liberal Arts graduate of the University of Virginia, she previously worked as a veterinary assistant."},
+  {name:"April McDonald", role:"Customer Service Representative", bio:"April joined Noah's Ark in August of 2021. She has lived in Williamsburg since December of 2020."},
+  {name:"Jill Moon", role:"Bookkeeper", bio:"Jill is the winner of our longest service award having been with Noah's Ark since 1992. She has a Bachelor's Degree in Psychology from VCU."}
+];
+
+(function(){
+  var grid = document.getElementById('staffGrid');
+  STAFF.forEach(function(s){
+    var ph = 'https://placehold.co/440x440/212B66/F7F4EE?text='+encodeURIComponent(s.name.replace(' ','\n'));
+    var btn = document.createElement('button');
+    btn.className = 'staff-card reveal';
+    btn.innerHTML =
+      '<div class="staff-photo"><img src="'+ph+'" alt="Portrait of '+s.name+', '+s.role+'"></div>'+
+      '<div class="staff-body"><h3>'+s.name+'</h3><span class="role">'+s.role+'</span>'+
+      '<span class="more">Read story →</span></div>';
+    btn.addEventListener('click', function(){ openBio(s.name, s.role, '', ph.replace('440x440','480x600'), s.bio); });
+    grid.appendChild(btn);
+  });
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.14});
+    grid.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+  } else { grid.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');}); }
+})();
+
+/* modal */
+var modal = document.getElementById('bioModal');
+function openBio(name, role, cred, photo, bio){
+  document.getElementById('mName').textContent = name;
+  document.getElementById('mRole').textContent = role;
+  document.getElementById('mBio').textContent = bio;
+  var c = document.getElementById('mCred'); c.innerHTML='';
+  if(cred){ cred.split('|').forEach(function(x){ if(x){var s=document.createElement('span');s.textContent=x;c.appendChild(s);} }); }
+  var img = document.getElementById('mPhoto'); img.src = photo; img.alt = 'Portrait of '+name;
+  modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+}
+function closeBio(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+document.querySelectorAll('.read-bio').forEach(function(b){
+  b.addEventListener('click', function(){ openBio(b.dataset.name, b.dataset.role, b.dataset.cred, b.dataset.photo, b.dataset.bio); });
+});
+modal.querySelectorAll('[data-close]').forEach(function(el){ el.addEventListener('click', closeBio); });
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeBio(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Noah's Ark — Hero (Blend, leaning B)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Baloo+2:wght@500;600;700;800&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#342D4F; --ink-soft:#5B5278;
+    --cream:#FBF6EC; --coral:#F07A5B; --coral-dk:#D9613F;
+    --marigold:#F2B33D; --sage:#8FB89E;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:#e8e4dc;font-family:'Mulish',sans-serif;color:var(--ink)}
+  .lab{max-width:1280px;margin:0 auto;padding:24px 18px 70px}
+  .intro{background:#fff;border-radius:16px;padding:20px 24px;color:#4a4366;line-height:1.6;font-size:15px}
+  .intro b{color:var(--ink)}
+  .lab-h{font-weight:800;text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--ink-soft);margin:30px 4px 12px;display:flex;align-items:center;gap:10px}
+  .lab-h span{background:var(--coral);color:#fff;border-radius:6px;padding:3px 9px;letter-spacing:.06em}
+  .frame{border-radius:22px;overflow:hidden;box-shadow:0 30px 60px -28px rgba(52,45,79,.45)}
+
+  .site{position:relative}
+  .nav{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:22px 40px;color:#fff}
+  .nav .logo{font-family:'Baloo 2',cursive;font-weight:700;font-size:21px;display:flex;align-items:center;gap:10px}
+  .nav .logo .mark{width:36px;height:36px;border-radius:10px;background:#fff;color:var(--ink);display:grid;place-items:center;font-size:19px}
+  .nav ul{list-style:none;display:flex;gap:28px;align-items:center}
+  .nav a{text-decoration:none;color:#fff;font-size:15px;font-weight:600;opacity:.9}
+  .nav a:hover{opacity:1}
+  .nav .cta{padding:11px 22px;border-radius:999px;background:var(--coral);box-shadow:0 10px 22px -8px var(--coral);opacity:1;transition:transform .2s,box-shadow .2s}
+  .nav .cta:hover{transform:translateY(-2px);box-shadow:0 16px 28px -8px var(--coral)}
+
+  .hero{position:relative;min-height:92vh;display:grid;overflow:hidden}
+  .hero-media{position:absolute;inset:0;z-index:0}
+  .hero-media video{width:100%;height:100%;object-fit:cover}
+  .hero-media::after{content:"";position:absolute;inset:0;background:rgba(40,34,64,.5)}
+  .hero-media::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(40,34,64,.55),rgba(40,34,64,0) 45%)}
+
+  .wrap{position:relative;z-index:3;width:100%;max-width:1080px;margin:0 auto;padding:150px 40px 90px;text-align:center;display:flex;flex-direction:column;align-items:center}
+  .pill{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:13px;padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.16);color:#fff;backdrop-filter:blur(6px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.34)}
+  .pill .dot{width:8px;height:8px;border-radius:50%;background:var(--marigold);animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.5}}
+
+  h1{font-family:'Baloo 2',cursive;font-weight:700;color:#fff;font-size:clamp(42px,6.4vw,82px);line-height:1.05;margin:22px 0 18px;text-shadow:0 6px 30px rgba(40,34,64,.45)}
+  h1 .accent{font-family:'Fraunces',serif;font-style:italic;font-weight:500;color:var(--marigold);position:relative;white-space:nowrap}
+  h1 .accent svg{position:absolute;left:-2%;bottom:-10px;width:104%;height:16px}
+  .sub{font-size:clamp(17px,2vw,20px);line-height:1.6;color:rgba(255,255,255,.94);max-width:56ch;margin:0 auto 34px}
+
+  .actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-weight:800;font-family:'Mulish',sans-serif;text-decoration:none;cursor:pointer;border:none;padding:16px 30px;border-radius:999px;font-size:16px;transition:transform .2s,box-shadow .2s,background .2s}
+  .btn-primary{background:var(--coral);color:#fff;box-shadow:0 16px 30px -10px var(--coral)}
+  .btn-primary:hover{background:var(--coral-dk);transform:translateY(-2px)}
+  .btn-ghost{background:rgba(255,255,255,.1);color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.6)}
+  .btn-ghost:hover{box-shadow:inset 0 0 0 2px #fff;background:rgba(255,255,255,.18)}
+  .arrow{transition:transform .25s}.btn:hover .arrow{transform:translateX(4px)}
+
+  .trust{margin-top:26px;display:flex;align-items:center;gap:12px;color:#fff;font-weight:700;font-size:14px;flex-wrap:wrap;justify-content:center}
+  .trust .stars{color:var(--marigold);letter-spacing:2px;font-size:16px}
+  .trust .sep{opacity:.5}
+
+  /* static info chips (replaces floating badges) */
+  .chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+  .chips .c{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.14);backdrop-filter:blur(6px);color:#fff;border-radius:14px;padding:11px 17px;font-weight:700;font-size:14px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.28)}
+  .chips .c .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;background:rgba(255,255,255,.16)}
+  .chips .c b{font-family:'Baloo 2',cursive;font-weight:700}
+  .chips .c span{opacity:.8;font-weight:600;font-size:13px}
+
+  .wave{position:absolute;bottom:-1px;left:0;right:0;z-index:5;line-height:0}
+  .wave svg{width:100%;height:74px;display:block}
+
+  @media(max-width:820px){
+    .nav ul{display:none}
+    .badge{display:none}
+    .wrap{padding-top:120px}
+  }
+  @media(prefers-reduced-motion:reduce){.badge,.pill .dot{animation:none}}
+</style>
+</head>
+<body>
+<div class="lab">
+  <div class="intro">
+    <b>Noah's Ark — Blend (leaning B).</b> Keeps B's full-bleed video, centered energy, glass chips &amp; wave bridge. Adds A's warmth: a <b>Fraunces italic accent word</b> with a hand-drawn marigold underline, two <b>floating neighborhood badges</b> with gentle motion, and a star trust line. Tell me what to push warmer or bouncier.
+  </div>
+
+  <div class="lab-h"><span>Blend</span> Friendly &amp; Rounded base · Characterful serif accent + floating community details</div>
+  <div class="frame">
+    <div class="site">
+      <nav class="nav">
+        <div class="logo"><span class="mark">⌂</span> Noah's Ark</div>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Our Team</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#" class="cta">Book a Visit</a></li>
+        </ul>
+      </nav>
+      <header class="hero">
+        <div class="hero-media">
+          <video src="assets/media/hero.mp4" autoplay muted loop playsinline poster="assets/media/hero-poster.jpg"></video>
+        </div>
+
+        <div class="wrap">
+          <span class="pill"><span class="dot"></span> Williamsburg, VA · Independently owned</span>
+          <h1>Big-hearted care for your
+            <span class="accent">whole<svg viewBox="0 0 200 16" preserveAspectRatio="none"><path d="M3 11 C 55 3, 150 3, 197 9" stroke="#F2B33D" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span> family</h1>
+          <p class="sub">Dogs, cats, and the people who love them — looked after by a neighborhood team that treats you like a friend, not a number.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#">Book a Visit <span class="arrow">→</span></a>
+            <a class="btn btn-ghost" href="#">Meet the Team</a>
+          </div>
+          <div class="trust"><span class="stars">★★★★★</span> Loved by Williamsburg families</div>
+          <div class="chips">
+            <span class="c"><span class="ic">🐾</span> <b>Open Saturdays</b> <span>7:30a–12p</span></span>
+            <span class="c"><span class="ic">⭐</span> <b>AAHA Accredited</b></span>
+            <span class="c"><span class="ic">🐶</span> <b>Dogs &amp; Cats</b></span>
+            <span class="c"><span class="ic">🏡</span> <b>Family-Owned</b></span>
+          </div>
+        </div>
+
+        <div class="wave"><svg viewBox="0 0 1200 74" preserveAspectRatio="none"><path d="M0 42 C 200 8, 400 74, 600 40 C 800 8, 1000 74, 1200 34 L1200 74 L0 74 Z" fill="#FBF6EC"/></svg></div>
+      </header>
+    </div>
+  </div>
+</div>
+</body>
+</html>

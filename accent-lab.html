@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Noah's Ark — Accent Comparison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/site.css" />
+<style>
+  body{background:#e8e4dc;padding:30px 22px 70px}
+  .lab-head{max-width:1200px;margin:0 auto 8px}
+  .lab-head .eyebrow{color:var(--accent-dk)}
+  .lab-head h1{font-size:34px;letter-spacing:-.02em;margin:12px 0 6px}
+  .lab-head p{color:var(--ink-soft);max-width:60ch;margin-bottom:6px}
+  .grid{max-width:1200px;margin:24px auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  .panel{background:var(--paper);border-radius:16px;overflow:hidden;box-shadow:0 18px 40px -26px rgba(33,43,102,.5)}
+  .swatchbar{display:flex;align-items:center;gap:12px;padding:16px 22px;background:#fff;border-bottom:1px solid var(--line)}
+  .dot{width:30px;height:30px;border-radius:8px;background:var(--accent);flex:0 0 auto}
+  .swatchbar b{font-family:var(--font-head);font-size:17px}
+  .swatchbar code{font-family:ui-monospace,monospace;font-size:12.5px;color:var(--ink-soft);margin-left:auto}
+  .warm{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:3px 8px;border-radius:5px;background:var(--paper-2);color:var(--ink-soft)}
+  .body{padding:26px 24px 28px}
+  .body .eyebrow{color:var(--accent-dk);margin-bottom:12px}
+  .body h2{font-size:30px;letter-spacing:-.02em;margin-bottom:8px}
+  .body h2 .accent{color:var(--accent)}
+  .body p.l{color:var(--ink-soft);font-size:14.5px;margin-bottom:18px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+  .icns{display:flex;gap:10px;margin-bottom:18px}
+  .icns .ic{width:44px;height:44px;border-radius:8px;display:grid;place-items:center;background:var(--ink)}
+  .icns .ic.ac{background:var(--accent)}
+  .icns .ic svg{width:22px;height:22px}
+  .readlink{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--ink);border-bottom:1.5px solid var(--accent);padding-bottom:3px}
+  .mini{background:var(--ink);border-radius:12px;padding:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .mini h3{color:#fff;font-size:20px;letter-spacing:-.01em}
+  .mini h3 .accent{color:var(--accent)}
+  @media(max-width:780px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="lab-head">
+    <span class="eyebrow">Accent comparison</span>
+    <h1>Same design, six accents</h1>
+    <p>Navy <code>#212B66</code> + warm paper are fixed. Only the accent changes — buttons, eyebrow ticks, the highlighted word, an accent icon tile, link underlines, and the CTA. Tell me a name or hex.</p>
+  </div>
+  <div class="grid" id="grid"></div>
+
+  <template id="panelTpl">
+    <div class="panel">
+      <div class="swatchbar">
+        <span class="dot"></span><b class="nm"></b>
+        <span class="warm tag"></span>
+        <code class="hx"></code>
+      </div>
+      <div class="body">
+        <span class="eyebrow">Our Veterinarians</span>
+        <h2>The doctors <span class="accent">in your corner</span></h2>
+        <p class="l">Experienced, compassionate, and rooted in the Williamsburg community.</p>
+        <div class="row">
+          <button class="btn btn-primary">Book a Visit <span class="arrow">→</span></button>
+          <button class="btn btn-accent">See Services</button>
+          <button class="btn btn-ghost">Meet the Team</button>
+        </div>
+        <div class="icns">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 21s-7.6-4.8-10.1-9.2C-.1 8.4 1.8 4.8 5.4 4.8c2.1 0 3.4 1.1 4.7 2.7C11.3 5.9 12.6 4.8 14.7 4.8c3.6 0 5.5 3.6 3.5 7C15.6 16.2 12 21 12 21z"/></svg></span>
+          <span class="ic ac"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.6"/></svg></span>
+          <a class="readlink">Read full bio <span class="arrow">→</span></a>
+        </div>
+        <div class="mini">
+          <h3>Want to join the <span class="accent">team?</span></h3>
+          <button class="btn btn-accent">Open roles <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+<script>
+var ACCENTS = [
+  {nm:"Cerulean Sky",   hx:"#2E86C1", dk:"#246C9E", tag:"cool · clean"},
+  {nm:"Aqua",           hx:"#3FAEC0", dk:"#2E8C9C", tag:"cool · fresh"},
+  {nm:"Periwinkle",     hx:"#7C8AD9", dk:"#5E6CC0", tag:"cool · friendly"},
+  {nm:"Eucalyptus",     hx:"#7CA08F", dk:"#5E8472", tag:"cool · green"},
+  {nm:"Cornflower",     hx:"#5577C2", dk:"#3F5EA3", tag:"cool · mid-blue"},
+  {nm:"Slate Teal",     hx:"#3E7C84", dk:"#2E626A", tag:"cool · muted"}
+];
+var grid = document.getElementById('grid'), tpl = document.getElementById('panelTpl');
+ACCENTS.forEach(function(a){
+  var node = tpl.content.cloneNode(true);
+  var panel = node.querySelector('.panel');
+  panel.style.setProperty('--accent', a.hx);
+  panel.style.setProperty('--accent-dk', a.dk);
+  node.querySelector('.nm').textContent = a.nm;
+  node.querySelector('.hx').textContent = a.hx;
+  node.querySelector('.tag').textContent = a.tag;
+  grid.appendChild(node);
+});
+</script>
+</body>
+</html>
