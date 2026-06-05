@@ -73,7 +73,11 @@ Direction chosen: **"Refined Modern Sans"** (after explicit feedback that earlie
 
 ## Built This Session
 - **team.html** — COMPLETE on locked system:
-  - Editorial hero (cat+dog window photo `team-hero.jpg`, solid navy scrim, left-aligned, bottom-anchored)
+  - Editorial hero — **now a looping muted autoplay VIDEO** (`hero.mp4` + `hero-poster.jpg` poster) replacing the still `team-hero.jpg`. Solid navy scrim, left-aligned, bottom-anchored. NOTE: hero.mp4 is the homepage scratch clip (generic placeholder) — swap for real clinic footage when available (Drive Candid folder empty).
+  - **REAL bios + portraits ported from live site (2026-06-05):** all 12 staff now use real photos in `assets/team/` (downloaded from noahsarkvet.com, came as AVIF → converted to true JPEG via ffmpeg, ≤1600px, ~1MB total). Bios upgraded from trimmed → FULL verbatim text (support staff gained full detail: Matt's dogs/hobbies, April's pets, Jill's family, Cori's VALVT/interests, etc.). Roster confirmed unchanged: Sparkman, Robinson, Pate (stray `dr._rolley.jpg` on their server is NOT a current vet — red herring).
+    - Vet img files: `sparkman.jpg`, `robinson.jpg`, `pate.jpg`. Staff img files: `cori_wallace/siedah_clark/catie_gregory/matt_doubles/ardis_crespo/shannon_davenport/carol_ely/april_mcdonald/jill_moon.jpg`.
+    - Pate's portrait is a wide family-on-beach shot → center-crops in the 4/5 vet card. Fine for now; swap for a tighter headshot if client provides one.
+    - STAFF array in team.html `<script>` now carries `img:` field per person; render loop + bio modal use real image (placehold.co kept only as never-firing fallback).
   - Values: 4 numbered columns w/ hairline dividers on WHITE, solid-navy SVG icon tiles, warm hover wash
   - Veterinarians: 3 cards (credential chips, teaser, "Read full bio" → modal, verbatim bios)
   - Support team: 9 cards injected via JS, click → same modal (verbatim bios)
