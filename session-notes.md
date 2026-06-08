@@ -45,7 +45,7 @@
 Direction chosen: **"Refined Modern Sans"** (after explicit feedback that earlier rounded/playful versions read "daycare").
 - **Type:** Bricolage Grotesque (headlines, sharp/modern) + Inter (body/UI). Baloo/Fraunces REMOVED — rounded fonts read juvenile.
 - **Palette (3 only):**
-  - `--ink` **#212B66** royal navy — text, dark sections, primary buttons, icon tiles
+  - `--ink` **#342D4F** brand indigo (the LOGO color) — text, dark sections, primary buttons, icon tiles. (2026-06-08: re-anchored from #212B66 back to the true brand primary #342D4F for brand fidelity — re-unifies the UI with the navy logo lockup. Accessibility-neutral: near-identical luminance, all contrast ratios still pass. Supporting tints retuned to the same plum-indigo hue: --ink-soft #5B5278 (6.9:1 on paper), --ink-faint #8C86A8, --line/--shadow rgba(52,45,79,...).)
   - `--paper` **#FBFAF7** clean warm near-white — base
   - `--paper-2` **#F2EFE9** soft greige — accent band / hover only
   - `--accent` **#7C8AD9** periwinkle (+ `--accent-dk` #5E6CC0) — CTA, eyebrow ticks, link underlines, hovers, footer icons
@@ -55,7 +55,7 @@ Direction chosen: **"Refined Modern Sans"** (after explicit feedback that earlie
 - **Neutral rhythm:** white → near-white → soft greige stepping; warm beige only as hover wash / single band.
 
 ## Logo
-- Real logo from live site (matches Drive). Navy = #342D4F originally but site ink is now #212B66.
+- Real logo from live site (matches Drive). Logo navy = **#342D4F** — and the site ink is now anchored on #342D4F too, so logo and UI match exactly (2026-06-08).
 - `assets/logo/noahs-ark-navy.png` (transparent) + `assets/logo/noahs-ark-white.png` (recolored white for dark bg).
 - Header: white logo over hero → swaps to navy when scrolled/solid. Footer: white logo. NOTE: logo is a SQUARE STACKED lockup — reads small/compact in nav. Possible future ask: horizontal lockup from client.
 
@@ -91,6 +91,17 @@ Direction chosen: **"Refined Modern Sans"** (after explicit feedback that earlie
 - Accent color: yellow/ochre REJECTED → teal REJECTED ("not sure") → **periwinkle #7C8AD9 chosen** (cool, distinct from navy).
 - Purple changed from #342D4F → **#212B66** per Brees.
 - Base lightened twice toward white to kill "dated beige" feel.
+
+## Accessibility (WCAG 2.1 AA pass — 2026-06-08)
+Full a11y pass on the built surfaces (team.html + shared header/footer/css/js):
+- **CTA contrast fix (touches locked palette):** solid CTA buttons changed from navy-on-periwinkle #7C8AD9 (**4.05:1, FAILED**) to **white on --accent-dk #5E6CC0 (4.79:1, PASS)**. Affects `.btn-accent`, `.nav-cta`, `.mm-cta`; `.btn-primary` hover also moved off periwinkle. Decorative periwinkle (eyebrow ticks, link underlines, hover washes) UNCHANGED at #7C8AD9. Brees chose "Option B" from `a11y-cta-compare.html` (scratch comparison page, safe to delete).
+- **Skip link** ("Skip to main content") added as first focusable in header.html → targets `<main id="main" tabindex="-1">`. Styled in site.css.
+- **Visible focus** — global `:focus-visible` ring (periwinkle, white on navy footer). No outlines suppressed anywhere.
+- **Bio modal** — added `aria-labelledby="mName"`, focus moves to close button on open, focus trapped (Tab/Shift+Tab cycle), focus restored to trigger on close, Escape closes.
+- **Mobile menu** — `aria-controls` on hamburger, focus moves to close button on open + back to hamburger on close, focus trap + Escape-to-close in load-partials.js.
+- **Reduced motion** — hero video no longer autoplays under `prefers-reduced-motion` (poster shown); modal/card hover animations disabled in that mode.
+- **Footer copyright** opacity raised .5→.66 to clear 4.5:1 on navy.
+- NOTE: when homepage + other pages are built, reuse the same patterns (skip link target id=main, accent-dk CTAs, focus-visible inherited from site.css).
 
 ## To Do / Next
 - [ ] Connect Vercel

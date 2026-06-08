@@ -57,12 +57,25 @@
       menu.setAttribute('aria-hidden', open ? 'false' : 'true');
       burger.setAttribute('aria-expanded', open ? 'true' : 'false');
       document.body.style.overflow = open ? 'hidden' : '';
+      // move focus into the panel on open, restore to the trigger on close
+      if (open) { if (close) close.focus(); }
+      else { burger.focus(); }
     }
     if (burger && menu) {
       burger.addEventListener('click', function () { setMenu(true); });
       if (close) close.addEventListener('click', function () { setMenu(false); });
       menu.querySelectorAll('a').forEach(function (a) {
         a.addEventListener('click', function () { setMenu(false); });
+      });
+      // Escape closes the menu; keep focus trapped inside while open
+      menu.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { setMenu(false); return; }
+        if (e.key !== 'Tab') return;
+        var f = menu.querySelectorAll('a[href], button');
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       });
     }
   }

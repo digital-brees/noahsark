@@ -15,7 +15,7 @@
   .team-hero .bg{position:absolute;inset:0;z-index:0}
   .team-hero .bg img,
   .team-hero .bg video{width:100%;height:100%;object-fit:cover;display:block}
-  .team-hero .bg::after{content:"";position:absolute;inset:0;background:rgba(16,20,48,.55)}
+  .team-hero .bg::after{content:"";position:absolute;inset:0;background:rgba(26,21,38,.55)}
   .team-hero .inner{position:relative;z-index:3;width:100%;max-width:var(--maxw);margin:0 auto;padding:0 32px 88px;color:#fff}
   .team-hero .eyebrow{color:#fff}
   .team-hero .eyebrow::before{background:var(--accent)}
@@ -78,7 +78,7 @@
   /* ---------- bio modal ---------- */
   .modal{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:24px}
   .modal.open{display:flex}
-  .modal-scrim{position:absolute;inset:0;background:rgba(16,20,48,.62);backdrop-filter:blur(3px);animation:fadein .25s}
+  .modal-scrim{position:absolute;inset:0;background:rgba(26,21,38,.62);backdrop-filter:blur(3px);animation:fadein .25s}
   .modal-card{position:relative;z-index:2;background:#fff;border-radius:var(--r-lg);max-width:680px;width:100%;max-height:88vh;overflow:hidden;
     box-shadow:var(--shadow-lg);display:grid;grid-template-columns:240px 1fr;animation:pop .3s cubic-bezier(.2,.8,.2,1)}
   @keyframes fadein{from{opacity:0}to{opacity:1}}
@@ -109,7 +109,7 @@
   .join .media{position:relative;overflow:hidden}
   .join .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   /* subtle navy tint unifies the photo with the panel (no gradient) */
-  .join .media::after{content:"";position:absolute;inset:0;background:rgba(33,43,102,.16)}
+  .join .media::after{content:"";position:absolute;inset:0;background:rgba(52,45,79,.16)}
   @media(max-width:760px){
     .join .box{grid-template-columns:1fr}
     .join .media{min-height:250px;order:-1}
@@ -129,13 +129,22 @@
     .values-grid{grid-template-columns:1fr}
     .value-card,.value-card:nth-child(2){border-right:none}
   }
+
+  /* respect reduced-motion: kill modal/hover animations and transforms */
+  @media(prefers-reduced-motion:reduce){
+    .modal-scrim,.modal-card{animation:none}
+    .vet-card,.vet-card:hover,.staff-card,.staff-card:hover{transform:none}
+    .vet-card:hover .vet-photo img,.staff-card:hover .staff-photo img{transform:none}
+    .modal-close:hover{transform:none}
+    .team-hero .bg video{transition:none}
+  }
 </style>
 </head>
 <body data-page="team" data-base="">
 
 <div id="global-header"></div>
 
-<main>
+<main id="main" tabindex="-1">
   <!-- HERO -->
   <section class="team-hero">
     <div class="bg">
@@ -264,7 +273,7 @@
 </main>
 
 <!-- BIO MODAL -->
-<div class="modal" id="bioModal" aria-hidden="true" role="dialog" aria-modal="true">
+<div class="modal" id="bioModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="mName">
   <div class="modal-scrim" data-close></div>
   <div class="modal-card">
     <button class="modal-close" data-close aria-label="Close">&times;</button>
@@ -298,7 +307,7 @@ var STAFF = [
 (function(){
   var grid = document.getElementById('staffGrid');
   STAFF.forEach(function(s){
-    var img = s.img || 'https://placehold.co/440x440/212B66/F7F4EE?text='+encodeURIComponent(s.name.replace(' ','\n'));
+    var img = s.img || 'https://placehold.co/440x440/342D4F/FBFAF7?text='+encodeURIComponent(s.name.replace(' ','\n'));
     var btn = document.createElement('button');
     btn.className = 'staff-card reveal';
     btn.innerHTML =
@@ -314,8 +323,27 @@ var STAFF = [
   } else { grid.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');}); }
 })();
 
-/* modal */
+/* reduced motion: don't autoplay the looping hero video */
+(function(){
+  var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+  if(rm && rm.matches){
+    var v = document.querySelector('.team-hero .bg video');
+    if(v){ v.removeAttribute('autoplay'); v.pause(); }
+  }
+})();
+
+/* modal — with focus management (move in, trap, restore) */
 var modal = document.getElementById('bioModal');
+var lastFocused = null;
+function trapFocus(e){
+  if(e.key === 'Escape'){ closeBio(); return; }
+  if(e.key !== 'Tab') return;
+  var f = modal.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])');
+  if(!f.length) return;
+  var first = f[0], last = f[f.length-1];
+  if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+  else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+}
 function openBio(name, role, cred, photo, bio){
   document.getElementById('mName').textContent = name;
   document.getElementById('mRole').textContent = role;
@@ -323,14 +351,21 @@ function openBio(name, role, cred, photo, bio){
   var c = document.getElementById('mCred'); c.innerHTML='';
   if(cred){ cred.split('|').forEach(function(x){ if(x){var s=document.createElement('span');s.textContent=x;c.appendChild(s);} }); }
   var img = document.getElementById('mPhoto'); img.src = photo; img.alt = 'Portrait of '+name;
+  lastFocused = document.activeElement;
   modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+  modal.addEventListener('keydown', trapFocus);
+  var closeBtn = modal.querySelector('.modal-close'); if(closeBtn) closeBtn.focus();
 }
-function closeBio(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+function closeBio(){
+  if(!modal.classList.contains('open')) return;
+  modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow='';
+  modal.removeEventListener('keydown', trapFocus);
+  if(lastFocused && lastFocused.focus){ lastFocused.focus(); lastFocused = null; }
+}
 document.querySelectorAll('.read-bio').forEach(function(b){
   b.addEventListener('click', function(){ openBio(b.dataset.name, b.dataset.role, b.dataset.cred, b.dataset.photo, b.dataset.bio); });
 });
 modal.querySelectorAll('[data-close]').forEach(function(el){ el.addEventListener('click', closeBio); });
-document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeBio(); });
 </script>
 </body>
 </html>

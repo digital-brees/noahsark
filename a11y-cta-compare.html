@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CTA Contrast Options — Noah's Ark A11y</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#212B66; --paper:#FBFAF7; --paper-2:#F2EFE9; --white:#fff;
+    --accent:#7C8AD9; --accent-dk:#5E6CC0; --accent-light:#93A0E3;
+    --line:rgba(33,43,102,.14);
+    --font-head:'Bricolage Grotesque',sans-serif; --font-body:'Inter',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-body);background:var(--paper);color:var(--ink);line-height:1.6;padding:56px 28px 90px}
+  .wrap{max-width:1080px;margin:0 auto}
+  .eyebrow{font-weight:700;text-transform:uppercase;letter-spacing:.18em;font-size:12px;color:var(--accent-dk);display:inline-flex;align-items:center;gap:12px;margin-bottom:14px}
+  .eyebrow::before{content:"";width:26px;height:1.5px;background:var(--accent)}
+  h1{font-family:var(--font-head);font-size:clamp(30px,4.4vw,46px);letter-spacing:-.025em;margin-bottom:10px}
+  .sub{color:#525A88;max-width:64ch;margin-bottom:44px;font-size:16px}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  @media(max-width:880px){.grid{grid-template-columns:1fr}}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+  .card.win{border-color:var(--accent);box-shadow:0 18px 40px -26px rgba(33,43,102,.4)}
+  .card .label{padding:18px 22px 4px}
+  .card .label .opt{font-family:var(--font-head);font-size:19px;letter-spacing:-.01em}
+  .card .label .desc{font-size:13px;color:#525A88;margin-top:4px;min-height:52px}
+
+  /* the two backgrounds each CTA actually appears on */
+  .stage{padding:26px 22px;display:flex;flex-direction:column;gap:16px}
+  .onlight{background:var(--paper-2);border-radius:12px;padding:24px;display:flex;justify-content:center}
+  .ondark{background:var(--ink);border-radius:12px;padding:24px;display:flex;justify-content:center}
+  .ctx{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#8A90B4;margin-bottom:9px}
+  .ondark .ctx{color:rgba(255,255,255,.55)}
+
+  .btn{display:inline-flex;align-items:center;gap:9px;font-weight:600;font-family:var(--font-body);cursor:pointer;border:none;
+    padding:14px 26px;border-radius:8px;font-size:15.5px;letter-spacing:.01em}
+  .btn .arr{display:inline-block}
+
+  /* OPTION A — current (navy on periwinkle) */
+  .a-cta{background:var(--accent);color:var(--ink)}
+  /* OPTION B — white on darker periwinkle */
+  .b-cta{background:var(--accent-dk);color:#fff}
+  /* OPTION C — navy on lightened periwinkle */
+  .c-cta{background:var(--accent-light);color:var(--ink)}
+
+  .metrics{padding:16px 22px 22px;border-top:1px solid var(--line);margin-top:auto}
+  .metric{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;padding:6px 0}
+  .metric .ratio{font-family:var(--font-head);font-weight:600}
+  .pill{font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 9px;border-radius:999px}
+  .pass{background:#E3F3E8;color:#1F7A3D}
+  .fail{background:#FBE4E2;color:#C0392B}
+  .swatches{display:flex;gap:8px;padding:0 22px 20px}
+  .sw{flex:1;height:34px;border-radius:6px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600}
+
+  .note{margin-top:40px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px 26px;font-size:14px;color:#525A88}
+  .note b{color:var(--ink)}
+  .legend{margin-top:14px;font-size:12.5px;color:#8A90B4}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">Accessibility · CTA contrast</span>
+  <h1>Three ways to make the CTA pass WCAG AA</h1>
+  <p class="sub">WCAG AA requires <b>4.5:1</b> minimum contrast for button text. Each card shows the real button on both backgrounds it appears on (greige accent band &amp; navy panel), with measured contrast. Only solid CTA buttons are affected — eyebrow ticks, link underlines, and hover washes keep periwinkle either way.</p>
+
+  <div class="grid">
+
+    <!-- OPTION A -->
+    <div class="card">
+      <div class="label">
+        <div class="opt">A · Current (locked)</div>
+        <div class="desc">Navy text on periwinkle #7C8AD9. What's built today.</div>
+      </div>
+      <div class="stage">
+        <div>
+          <div class="ctx">On greige band</div>
+          <div class="onlight"><button class="btn a-cta">See open roles <span class="arr">→</span></button></div>
+        </div>
+        <div>
+          <div class="ctx">On navy panel</div>
+          <div class="ondark"><button class="btn a-cta">Book a Visit</button></div>
+        </div>
+      </div>
+      <div class="swatches">
+        <div class="sw" style="background:#7C8AD9;color:#212B66">#7C8AD9 bg</div>
+        <div class="sw" style="background:#212B66;color:#fff">#212B66 text</div>
+      </div>
+      <div class="metrics">
+        <div class="metric"><span>Text contrast</span><span class="ratio">4.05:1</span></div>
+        <div class="metric"><span>WCAG AA (4.5:1)</span><span class="pill fail">FAIL</span></div>
+      </div>
+    </div>
+
+    <!-- OPTION B -->
+    <div class="card win">
+      <div class="label">
+        <div class="opt">B · White on darker ✓</div>
+        <div class="desc">White text on #5E6CC0 — a token already in the system. Recommended.</div>
+      </div>
+      <div class="stage">
+        <div>
+          <div class="ctx">On greige band</div>
+          <div class="onlight"><button class="btn b-cta">See open roles <span class="arr">→</span></button></div>
+        </div>
+        <div>
+          <div class="ctx">On navy panel</div>
+          <div class="ondark"><button class="btn b-cta">Book a Visit</button></div>
+        </div>
+      </div>
+      <div class="swatches">
+        <div class="sw" style="background:#5E6CC0;color:#fff">#5E6CC0 bg</div>
+        <div class="sw" style="background:#fff;color:#212B66">#fff text</div>
+      </div>
+      <div class="metrics">
+        <div class="metric"><span>Text contrast</span><span class="ratio">4.79:1</span></div>
+        <div class="metric"><span>WCAG AA (4.5:1)</span><span class="pill pass">PASS</span></div>
+      </div>
+    </div>
+
+    <!-- OPTION C -->
+    <div class="card">
+      <div class="label">
+        <div class="opt">C · Lighten periwinkle</div>
+        <div class="desc">Keep navy text, lighten bg to ~#93A0E3. Accent reads more pastel.</div>
+      </div>
+      <div class="stage">
+        <div>
+          <div class="ctx">On greige band</div>
+          <div class="onlight"><button class="btn c-cta">See open roles <span class="arr">→</span></button></div>
+        </div>
+        <div>
+          <div class="ctx">On navy panel</div>
+          <div class="ondark"><button class="btn c-cta">Book a Visit</button></div>
+        </div>
+      </div>
+      <div class="swatches">
+        <div class="sw" style="background:#93A0E3;color:#212B66">#93A0E3 bg</div>
+        <div class="sw" style="background:#212B66;color:#fff">#212B66 text</div>
+      </div>
+      <div class="metrics">
+        <div class="metric"><span>Text contrast</span><span class="ratio">4.62:1</span></div>
+        <div class="metric"><span>WCAG AA (4.5:1)</span><span class="pill pass">PASS</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <b>How to read this:</b> Option A is the current locked style and is the only one that fails. Option B keeps your navy-forward look and just darkens the chip slightly with white text — closest to a "primary button" feel. Option C keeps navy text but the periwinkle goes noticeably lighter/pastel to earn the contrast.
+    <div class="legend">Ratios computed with the WCAG relative-luminance formula. Decorative periwinkle usage (eyebrow ticks, link underlines, hover fills) is unaffected and stays #7C8AD9 in all three options.</div>
+  </div>
+</div>
+</body>
+</html>
