@@ -1,9 +1,48 @@
 # Noah's Ark Veterinary Hospital — Session Notes
 
-**Status:** Team page REDESIGNED (2026-06-09) — new animated hero, interactive Values showcase, dark doctors section, full-bleed CTA. Design system finalized + WCAG AA enforced.
+**Status:** SERVICE RESTRUCTURE BUILT + DESIGN ITERATION IN PROGRESS (2026-06-09) — 5 service hubs + emergency + 4 blog posts + new dropdown nav + 46 301 redirects. Service-page DESIGN reworked after Brees feedback: cinematic video heroes, breadcrumbs removed, toggles removed, **Wellness rebuilt to the rich multi-section DE pattern (exemplar) — awaiting Brees sign-off before propagating to the other 5.** Team page redesign also complete. WCAG AA enforced.
 **Started:** 2026-06-03
 **Designer:** Brees
 **Local dev:** `py -3 -m http.server 8791` (from project root) → http://localhost:8791/
+
+---
+
+## Service Restructure / SEO Migration (2026-06-09)
+Built to two SEO build docs (`noahs-ark-5-page-build-doc` + `noahs-ark-blog-posts-build-doc`). Goal: collapse ~50 per-condition pages into **5 clean service hubs**, move educational content to **blog posts**, and 301 everything so nothing 404s. Full deliverable detail in **`REDIRECTS-AND-QA.md`** (redirect table, .htaccess block, QA checklist).
+
+**Built (all on the locked design system + shared includes):**
+- **5 service hubs** in `services/`: `wellness-care.html`, `diagnostics.html`, `surgery.html`, `dental-care.html`, `end-of-life-care.html`. Pattern: light `.page-hero` (eyebrow + H1 + intro), `<details>/<summary>` toggle accordions (collapsed by default, question H2s, answer-first prose), cross-link cards, navy `.cta-band`. FAQPage + VeterinaryCare JSON-LD each.
+- **1 standalone Emergency page** `services/emergency-care.html` (Brees' decision — honest business-hours-only model, no 24/7; builder note to add after-hours ER).
+- **4 blog posts** in `blog/`: `cancer-in-pets-signs-and-treatment`, `heart-disease-in-pets`, `pet-allergies-signs-testing-relief`, `dog-behavior-and-training`. `.prose` layout, BlogPosting + FAQPage JSON-LD. Built BEFORE redirecting sources.
+- **Index/support pages (root):** `services.html` (hub grid, 6 cards), `blog.html` (4 posts + links OUT to protected articles), `breeds.html` (placeholder hub, links out — protected breed pages NOT touched). Plus factual placeholder pages so the new nav has no dead links: `about.html`, `careers.html`, `forms.html`, `contact.html` (real NAP/hours), `resources/educational-handouts.html`. Placeholders carry builder notes; About/Careers copy still pending Alie.
+- **Redirects:** `vercel.json` (`cleanUrls:true`, 46 `permanent` 301s, no dup sources). Cancer + cardiology condition pages reconciled to the **blog posts** (not Diagnostics).
+
+**Shared component changes (affect team.html too):**
+- `includes/header.html` — rebuilt: navy **utility bar** (phone + Pet Portal + RX Refill + Online Store + Request Appointment, externals `target=_blank rel=noopener`) + **dropdown nav** (Home / About⌄[Team,Careers] / Services⌄[5 hubs + Emergency] / Resources⌄[Forms,Blog,Breeds,Educational Handouts] / Contact / Request Appointment). Old flat nav replaced.
+- `includes/footer.html` — phone **804→757**, Care column replaced with the 5 hubs + Emergency, added Pet Portal/RX/Store utility links.
+- `includes/load-partials.js` — added Esc-to-close for dropdowns (hover/`:focus-within` reveal handles the rest).
+- `assets/css/site.css` — appended: `.util-bar`, dropdown nav (`.has-sub/.subnav`), `.page-hero/.crumbs`, `details.tog` toggles, `.prose`, `.crosslinks/.xcards`, `.cta-band/.cta-phone`, `.hub-grid/.hub-card`, `.post-list`, `.draft-flag`, `.footer-utility`. **Cache-bust bumped `?v=2`→`?v=3`** (updated on team.html too).
+
+**Decisions made (Brees, this session):** phone = **(757) 564-9815** (applied site-wide incl. header/footer); Emergency = **standalone page**; build = **integrate into prototype** (not standalone files).
+
+**Pending before launch:** confirm End-of-Life offering (remove draft banner) · add after-hours ER to emergency page · confirm live source-URL structure matches redirect `source` paths · wire real Breeds list + Forms (JotForm) + handouts · homepage (Alie copy) link the 5 hubs + emergency callout · resubmit sitemap in GSC · sign-off Cori & Dr. Sparkman.
+
+**Known minor:** taller header (util bar + main) means team.html drifting-portrait hero `top:86px` may sit slightly under the bar — veil covers it, but nudge the offset if it bugs.
+
+---
+
+## Service-Page Design Iteration (2026-06-09, after Brees feedback)
+Three rounds of feedback reshaped the service-page design. Key reference: **Lewis & Clark `wellness-and-prevention.html`** is the canonical DE service-page pattern (video hero → editorial intro w/ custom visual → numbered icon cards → split image+copy highlight → image CTA band). Noah's Ark service pages are being brought to that pattern in the LOCKED Noah's system (Bricolage/Inter, indigo+periwinkle, hairlines, solid-navy icon tiles, NO gradients/solid scrims only).
+
+**Done across all 7 service surfaces (hub + 5 details + emergency):**
+- **Cinematic full-bleed video heroes** (`.svc-hero`): `<video data-hero>` (hero.mp4 placeholder) + per-page poster + solid navy scrim + `.scrim-base`, white overlaid eyebrow/H1/intro, bottom-anchored. Header now transparent over hero (removed `data-header="solid"`), goes solid on scroll. Reduced-motion safe: video only plays via JS when motion allowed (no `autoplay` attr) — handled in `load-partials.js` `initHeroVideos()`.
+- Per-page hero posters: wellness=owner-beagle, diagnostics=proficient-cat, surgery=owner-lab, dental=cta-join, end-of-life=team-hero, emergency+hub=hero-poster.
+- **Breadcrumbs removed** site-wide (Brees disliked them). **Hero intros trimmed** to one tight line each (kept Williamsburg in title+H1+intro).
+- **Toggles/accordions removed** (Brees: "we decided we weren't doing that" — they actually came from the SEO build doc spec). All converted to OPEN editorial Q&A (`.svc-block`, 2-col question/answer, hairline rhythm). FAQPage JSON-LD kept in head.
+
+**Wellness = rebuilt EXEMPLAR (full rich pattern), awaiting sign-off:** hero → `.svc-intro` (copy + framed photo w/ "Since 1992" caption card) → `.svc-cards` (6 numbered icon cards: Exams/Vaccines/Parasites/Spay-Neuter/Microchip/Nutrition, navy icon tiles, periwinkle accent, hover lift) → `.svc-split` (parasite/Virginia highlight + photo) → `.svc-faq` (full Q&A, one section near bottom, backs schema) → `.cta-band--image` (photo + solid scrim). New CSS in site.css: `.svc-intro/.svc-cards/.svc-grid/.svc-card/.svc-split/.svc-faq/.cta-band--image`. **Wellness on `?v=5`; other pages still `?v=4`.**
+
+**NEXT (pending Brees OK):** propagate the rich pattern to Diagnostics, Surgery, Dental, End-of-Life, Emergency (each: own icon cards + split + imagery), bump all to `?v=5`. Open Qs for Brees: (1) is the pattern right? (2) full-bleed vs split hero (L&C uses split mirroring its team hero); (3) unique per-service video clips vs wait for real clinic footage (only hero.mp4 placeholder exists now).
 
 ---
 

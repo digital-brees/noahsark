@@ -49,6 +49,19 @@
       if (link) link.classList.add('active');
     }
 
+    // desktop dropdowns: Escape closes the open submenu by returning focus to its trigger
+    header.querySelectorAll('.has-sub').forEach(function (sub) {
+      sub.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        var trigger = sub.querySelector(':scope > a');
+        if (trigger && sub.contains(document.activeElement)) {
+          // move focus out of the submenu so :focus-within releases and it closes
+          trigger.focus();
+          trigger.blur();
+        }
+      });
+    });
+
     // mobile menu
     var burger = document.getElementById('hamburger');
     var menu = document.getElementById('mobileMenu');
@@ -85,9 +98,21 @@
     if (y) y.textContent = new Date().getFullYear();
   }
 
+  function initHeroVideos() {
+    // Hero videos carry no `autoplay` attribute — we start them here only when
+    // motion is allowed, so reduced-motion users just see the poster frame.
+    var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('video[data-hero]').forEach(function (v) {
+      if (rm) { try { v.pause(); } catch (e) {} return; }
+      var p = v.play ? v.play() : null;
+      if (p && p.catch) p.catch(function () {}); // ignore autoplay-block rejections
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     inject('global-header', 'header.html', initHeader);
     inject('global-footer', 'footer.html', initFooter);
+    initHeroVideos();
 
     // global scroll-reveal
     var els = document.querySelectorAll('.reveal');

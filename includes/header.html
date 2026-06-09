@@ -1,28 +1,87 @@
 <a class="skip-link" href="#main">Skip to main content</a>
 <header class="site-header" id="siteHeader">
+
+  <!-- mobile overlay -->
   <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
     <button class="mobile-close" id="mobileClose" aria-label="Close menu">&times;</button>
+    <a href="{{base}}index.html">Home</a>
     <a href="{{base}}about.html">About</a>
-    <a href="{{base}}services.html">Services</a>
-    <a href="{{base}}team.html">Our Team</a>
-    <a href="{{base}}blog.html">Blog</a>
+    <a href="{{base}}team.html">Team</a>
     <a href="{{base}}careers.html">Careers</a>
+    <a href="{{base}}services.html">Services</a>
+    <a href="{{base}}services/wellness-care.html">&nbsp;&nbsp;Wellness &amp; Prevention</a>
+    <a href="{{base}}services/diagnostics.html">&nbsp;&nbsp;Diagnostics</a>
+    <a href="{{base}}services/surgery.html">&nbsp;&nbsp;Surgery</a>
+    <a href="{{base}}services/dental-care.html">&nbsp;&nbsp;Dental Care</a>
+    <a href="{{base}}services/end-of-life-care.html">&nbsp;&nbsp;End of Life Care</a>
+    <a href="{{base}}services/emergency-care.html">&nbsp;&nbsp;Emergency Care</a>
+    <a href="{{base}}forms.html">Forms</a>
+    <a href="{{base}}blog.html">Blog</a>
+    <a href="{{base}}breeds.html">Breeds</a>
     <a href="{{base}}contact.html">Contact</a>
-    <a href="{{base}}contact.html" class="mm-cta">Book a Visit</a>
+    <a href="https://connect.allydvm.com/practice/noahsark_vh/appointment_request" target="_blank" rel="noopener" class="mm-cta">Request Appointment</a>
   </div>
+
+  <!-- utility bar -->
+  <div class="util-bar">
+    <div class="util-inner">
+      <a class="util-phone" href="tel:+17575649815" aria-label="Call Noah's Ark at (757) 564-9815">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3l2 5-2.4 1.5a11 11 0 0 0 5 5L15 13l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+        (757) 564-9815
+      </a>
+      <a class="util-link" href="https://connect.allydvm.com/pet/noahsark_vh/sign_up" target="_blank" rel="noopener">Pet Portal</a>
+      <span class="util-sep" aria-hidden="true"></span>
+      <a class="util-link" href="https://connect.allydvm.com/practice/noahsark_vh/refill_request" target="_blank" rel="noopener">RX Refill</a>
+      <span class="util-sep" aria-hidden="true"></span>
+      <a class="util-link" href="https://noahsarkveterinary.greatpetrx.com/" target="_blank" rel="noopener">Online Store</a>
+      <a class="util-appt" href="https://connect.allydvm.com/practice/noahsark_vh/appointment_request" target="_blank" rel="noopener">Request Appointment</a>
+    </div>
+  </div>
+
+  <!-- main bar -->
   <div class="bar">
     <a href="{{base}}index.html" class="brand" aria-label="Noah's Ark Veterinary Hospital — home">
       <img class="logo-light" src="{{base}}assets/logo/noahs-ark-white.png" alt="Noah's Ark Veterinary Hospital" />
       <img class="logo-dark" src="{{base}}assets/logo/noahs-ark-navy.png" alt="Noah's Ark Veterinary Hospital" />
     </a>
-    <nav>
+    <nav aria-label="Primary">
       <ul class="nav-links">
-        <li><a href="{{base}}about.html" data-nav="about">About</a></li>
-        <li><a href="{{base}}services.html" data-nav="services">Services</a></li>
-        <li><a href="{{base}}team.html" data-nav="team">Our Team</a></li>
-        <li><a href="{{base}}blog.html" data-nav="blog">Blog</a></li>
+        <li><a href="{{base}}index.html" data-nav="home">Home</a></li>
+        <li class="has-sub">
+          <a href="{{base}}about.html" data-nav="about">About
+            <svg class="caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg>
+          </a>
+          <ul class="subnav">
+            <li><a href="{{base}}team.html">Team</a></li>
+            <li><a href="{{base}}careers.html">Careers</a></li>
+          </ul>
+        </li>
+        <li class="has-sub">
+          <a href="{{base}}services.html" data-nav="services">Services
+            <svg class="caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg>
+          </a>
+          <ul class="subnav">
+            <li><a href="{{base}}services/wellness-care.html">Wellness &amp; Prevention</a></li>
+            <li><a href="{{base}}services/diagnostics.html">Diagnostics</a></li>
+            <li><a href="{{base}}services/surgery.html">Surgery</a></li>
+            <li><a href="{{base}}services/dental-care.html">Dental Care</a></li>
+            <li><a href="{{base}}services/end-of-life-care.html">End of Life Care</a></li>
+            <li><a href="{{base}}services/emergency-care.html">Emergency Care</a></li>
+          </ul>
+        </li>
+        <li class="has-sub">
+          <a href="{{base}}blog.html" data-nav="resources">Resources
+            <svg class="caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg>
+          </a>
+          <ul class="subnav">
+            <li><a href="{{base}}forms.html">Forms</a></li>
+            <li><a href="{{base}}blog.html">Blog</a></li>
+            <li><a href="{{base}}breeds.html">Breeds</a></li>
+            <li><a href="{{base}}resources/educational-handouts.html">Educational Handouts</a></li>
+          </ul>
+        </li>
         <li><a href="{{base}}contact.html" data-nav="contact">Contact</a></li>
-        <li><a href="{{base}}contact.html" class="nav-cta">Book a Visit</a></li>
+        <li><a href="https://connect.allydvm.com/practice/noahsark_vh/appointment_request" target="_blank" rel="noopener" class="nav-cta">Request Appointment</a></li>
       </ul>
     </nav>
     <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
