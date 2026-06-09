@@ -1,9 +1,40 @@
 # Noah's Ark Veterinary Hospital — Session Notes
 
-**Status:** SERVICE RESTRUCTURE BUILT + DESIGN ITERATION IN PROGRESS (2026-06-09) — 5 service hubs + emergency + 4 blog posts + new dropdown nav + 46 301 redirects. Service-page DESIGN reworked after Brees feedback: cinematic video heroes, breadcrumbs removed, toggles removed, **Wellness rebuilt to the rich multi-section DE pattern (exemplar) — awaiting Brees sign-off before propagating to the other 5.** Team page redesign also complete. WCAG AA enforced.
+**Status:** WELLNESS PAGE = NEW DESIGN-DIRECTION EXEMPLAR, IN ACTIVE ITERATION (2026-06-09 pm). After several rounds, Brees rejected the generic "modern vet" look ("any logo could be on this site") and we pivoted the **Wellness page** to a new direction modeled on the **CarelyGo Webflow template** (warm, photo-forward, light/cheerful, community). This is now the exemplar to validate before propagating to the other 5 service pages. See **"Wellness Redesign — CarelyGo Direction"** section below for full detail + OPEN DECISIONS (accent color coral vs teal is the live open question). Service restructure (5 hubs + emergency + 4 blog posts + dropdown nav + 46 301s) and Team page redesign remain done from earlier in the day.
 **Started:** 2026-06-03
 **Designer:** Brees
-**Local dev:** `py -3 -m http.server 8791` (from project root) → http://localhost:8791/
+**Local dev:** `py -3 -m http.server 8791` (from project root) → http://localhost:8791/  · Wellness page is on `site.css?v=25` (bump on every css/js change — the HTML + JS are NOT auto-cache-busted, so hard-refresh / bump the `?v=` query when iterating).
+
+---
+
+## Wellness Redesign — CarelyGo Direction (2026-06-09 pm) — THE ACTIVE WORK
+Canonical file: `services/wellness-care.html` + shared `assets/css/site.css` + `includes/load-partials.js`. This page is the lab for a new whole-site direction; nothing here has propagated to the other pages yet.
+
+**How we got here (so we don't repeat dead ends):** started from the rich multi-section pattern → added parallax + a cinematic hero zoom (kept) → tried curved section edges (rejected) → floating rounded dark panel (rejected as "still blocky") → an "Ark/arch" concept w/ arched hero portal + peak mark + waterline (liked the *idea*, but) → Brees referenced **https://carelygo-template.webflow.io/** as the real target. Pivoted to that.
+
+**IMPORTANT brand correction (Brees, this session):** the earlier "daycare" rejection was about the **COLORS**, NOT rounded shapes/curves. So curves, pills, rounded cards are all fair game. (The old MEMORY/session note implying "no wave dividers / rounded = daycare" was wrong — shapes were never the problem.)
+
+**CarelyGo language, built in Noah's Ark palette/type (Bricolage + Inter):**
+- **Hero** (`.carely-hero`): warm full-bleed photo (`hero-owner.jpg`, woman+golden at sunset), even solid scrim `rgba(26,21,38,.52)`, slow `heroZoom` for motion, header transparent over it. White **pill eyebrow** (`.pill-eyebrow`, white bg, ink text, our **peak mark** SVG inside) + big friendly H1 + community line ("here in the Williamsburg neighborhood since 1992") + Request button + phone. (Replaced the dark arched-portal hero — Brees: dark fought the Light/Cheerful brief.)
+- **Intro** (`.svc-intro`, paper): copy + framed **cat** photo (`cat-intro.jpg`) w/ redesigned "Since 1992" mark (accent tick, anchored inside frame).
+- **Service cards** = **photo cards** (`.pcards/.pcard`): warm pet photo fills a rounded card, a floating **white label panel** (`.pcard__label`) holds the service name + one line (dark text on white = AA-safe, no risky text-on-photo). 6 cards, 3 dogs/3 cats (`card-exam/vaccine/parasite/spay/microchip/nutrition.jpg`). Hover lifts + zooms. Section bg = **light purple `--sky`** (Brees request), white "What We Offer" pill on it.
+- **`--sky` purple spills into the feature** (`.svc-feature::before` height:50%) so the next section's photo + dark card **straddle the purple→paper seam** (Brees's "de-blocking" sketch — content crossing the color boundary).
+- **Feature** (`.svc-feature`): still the older **floating dark ink card overlapping an (arch-topped) photo** — works as contrast on the purple spill, but the leftover arch top + dark card are NOT yet reconciled to the CarelyGo language. TODO.
+- **FAQ** (`.svc-faq`): editorial sticky-rail + numbered open Q&A (kept from earlier; questions are `<h3>`).
+- **CTA**: still the old full-bleed image band — NOT yet reworked.
+
+**Reusable pieces added to site.css:** `.pill-eyebrow` (+`--soft` sky variant), `.peak-eyebrow`, `.pcards/.pcard/.pcard__label`, `.carely-hero*`, `--sky` token, `heroZoom` keyframe, parallax engine in load-partials.js (`[data-parallax]`, reduced-motion gated), directional reveals (`.reveal-right`, `.reveal-delay-*`, svc-card nth-child cascade).
+
+### OPEN DECISION — ACCENT COLOR (pick up here)
+Periwinkle no longer works now that light-purple + dark-purple carry the palette (too same-hue, muddy). Explored, AA-tuned, 3 tokens each (`--accent` / `--accent-dk` for white-text buttons + marks on light / `--accent-lt` for text on dark ink):
+- **Coral** `#E8765A / #C24B33 / #F4A48F` — warm, cheerful, pops on the warm hero + purples. Brees was OK with it.
+- **Gold/amber** `#F2A900 / #936000 / #F3C56B` — **REJECTED** ("omg no this is worse"; AA forces a muddy deep-amber button that dies on the warm hero).
+- **Teal** `#1FA6AC / #0E7378 / #7FD0D4` — fresh/clean jewel-tone, pops cool-on-warm. **Currently live in the committed code (v25).** Brees asked to see it, then paused.
+- Prior periwinkle (for reference/revert): `#7C8AD9 / #5E6CC0 / #AEB8E8`.
+**Decision still open: Coral vs Teal.** Code currently ships TEAL. Swap is just the 3 `--accent*` tokens in `:root`.
+
+### NEXT (when we pick back up)
+1. Lock the accent (coral vs teal). 2. Reconcile the **feature** section (drop leftover arch, bring into CarelyGo warm/light language) + rework the **CTA** as a warm photo closer. 3. **Pill eyebrows** on the remaining sections for one consistent tag language. 4. Then template the whole Wellness system across Diagnostics/Surgery/Dental/End-of-Life/Emergency. 5. Real local Williamsburg photography eventually (all current photos are Pexels stock placeholders).
 
 ---
 

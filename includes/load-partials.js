@@ -109,13 +109,42 @@
     });
   }
 
+  function initParallax() {
+    // Subtle scroll-coupled depth on full-bleed layers + framed images.
+    // Disabled entirely under reduced-motion — no inline transforms get written.
+    var mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mq && mq.matches) return;
+    var items = [].slice.call(document.querySelectorAll('[data-parallax]')).map(function (el) {
+      return { el: el, speed: parseFloat(el.getAttribute('data-parallax')) || 0.15 };
+    });
+    if (!items.length) return;
+    var vh = window.innerHeight, ticking = false;
+    function update() {
+      ticking = false;
+      for (var i = 0; i < items.length; i++) {
+        var it = items[i], r = it.el.getBoundingClientRect();
+        if (r.bottom < -200 || r.top > vh + 200) continue; // skip far offscreen
+        var delta = (r.top + r.height / 2) - vh / 2;
+        var shift = -delta * it.speed;
+        var cap = r.height * 0.16;                          // keep movement inside the layer
+        if (shift > cap) shift = cap; else if (shift < -cap) shift = -cap;
+        it.el.style.transform = 'translate3d(0,' + shift.toFixed(1) + 'px,0)';
+      }
+    }
+    function onScroll() { if (!ticking) { ticking = true; window.requestAnimationFrame(update); } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', function () { vh = window.innerHeight; onScroll(); }, { passive: true });
+    update();
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     inject('global-header', 'header.html', initHeader);
     inject('global-footer', 'footer.html', initFooter);
     initHeroVideos();
+    initParallax();
 
     // global scroll-reveal
-    var els = document.querySelectorAll('.reveal');
+    var els = document.querySelectorAll('.reveal, .reveal-right');
     if ('IntersectionObserver' in window && els.length) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
