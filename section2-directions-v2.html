@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Section 2 — Visual Directions v2 | Noah's Ark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/site.css" />
+<style>
+  body{background:var(--paper-2)}
+  .intro{max-width:var(--maxw);margin:0 auto;padding:60px 32px 8px}
+  .intro .eyebrow{margin-bottom:14px}
+  .intro .eyebrow::before{background:var(--accent)}
+  .intro h1{font-family:var(--font-head);font-size:clamp(30px,4.4vw,46px);letter-spacing:-.025em;margin-bottom:12px}
+  .intro p{color:var(--ink-soft);font-size:17px;max-width:72ch}
+  .demo-label{max-width:var(--maxw);margin:0 auto;padding:62px 32px 22px}
+  .demo-label .tag{display:inline-block;background:var(--ink);color:#fff;font-family:var(--font-body);font-weight:700;
+    font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border-radius:var(--r-xs);margin-bottom:16px}
+  .demo-label h2{font-family:var(--font-head);font-size:clamp(24px,3.4vw,36px);letter-spacing:-.02em;margin-bottom:8px}
+  .demo-label p{color:var(--ink-soft);font-size:16px;max-width:66ch}
+  .demo-frame{background:var(--white);box-shadow:0 30px 60px -40px rgba(52,45,79,.5)}
+  .spacer{height:30px}
+  .eyebrow::before{background:var(--accent)}
+
+  /* ============ DIRECTION D — contained cinematic panel ============ */
+  .dD{padding:96px 0;background:var(--white)}
+  .dD .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+  .dD .panel{position:relative;border-radius:var(--r-lg);overflow:hidden;min-height:600px;
+    display:flex;flex-direction:column;justify-content:space-between;background:var(--ink)}
+  .dD .panel .bg{position:absolute;inset:0;z-index:0}
+  .dD .panel .bg img{width:100%;height:100%;object-fit:cover}
+  .dD .panel .bg::after{content:"";position:absolute;inset:0;background:rgba(26,21,38,.6)}
+  .dD .top{position:relative;z-index:2;padding:54px 54px 0;color:#fff}
+  .dD .top .eyebrow{color:#fff;margin-bottom:16px}
+  .dD .top h2{font-family:var(--font-head);color:#fff;font-size:clamp(28px,3.8vw,50px);letter-spacing:-.025em;line-height:1.05;max-width:16ch}
+  .dD .cols{position:relative;z-index:2;padding:46px 54px 50px;display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  .dD .col{padding:24px 24px 6px;border-left:1px solid rgba(255,255,255,.22)}
+  .dD .col:first-child{padding-left:0;border-left:none}
+  .dD .col .n{font-family:var(--font-head);font-size:13px;color:var(--accent);font-weight:600;letter-spacing:.06em}
+  .dD .col h3{color:#fff;font-size:19px;margin:8px 0 8px;letter-spacing:-.01em}
+  .dD .col p{color:rgba(255,255,255,.8);font-size:13px;line-height:1.55}
+
+  /* ============ DIRECTION E — overlapping layered cards ============ */
+  .dE{padding:104px 0;background:var(--white);overflow:hidden}
+  .dE .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+  .dE .head{max-width:680px;margin:0 0 44px}
+  .dE .head .eyebrow{margin-bottom:14px}
+  .dE .head h2{font-family:var(--font-head);font-size:clamp(28px,4vw,48px);letter-spacing:-.025em}
+  .dE .stage{position:relative;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:0}
+  .dE .media{position:relative;aspect-ratio:5/4;border-radius:var(--r-lg);overflow:hidden;background:var(--ink)}
+  .dE .media img{width:100%;height:100%;object-fit:cover}
+  .dE .cards{position:relative;z-index:3;display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-left:-90px}
+  .dE .vc{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:26px 24px 24px;box-shadow:var(--shadow-md)}
+  .dE .vc .ic{width:42px;height:42px;border-radius:var(--r-sm);background:var(--ink);display:grid;place-items:center;margin-bottom:16px}
+  .dE .vc .ic svg{width:22px;height:22px}
+  .dE .vc .n{font-family:var(--font-head);font-size:12px;color:var(--accent-dk);font-weight:600;letter-spacing:.05em}
+  .dE .vc h3{font-size:18px;margin:5px 0 7px;letter-spacing:-.01em}
+  .dE .vc p{font-size:13px;color:var(--ink-soft);line-height:1.5}
+  .dE .vc:nth-child(2){transform:translateY(28px)}
+  .dE .vc:nth-child(3){transform:translateY(-28px)}
+
+  /* ============ DIRECTION F — editorial mosaic ============ */
+  .dF{padding:96px 0;background:var(--white)}
+  .dF .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+  .dF .head{max-width:680px;margin:0 0 40px}
+  .dF .head .eyebrow{margin-bottom:14px}
+  .dF .head h2{font-family:var(--font-head);font-size:clamp(28px,4vw,48px);letter-spacing:-.025em}
+  .dF .mosaic{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:240px;gap:14px}
+  .dF .cell{border-radius:var(--r-md);overflow:hidden;position:relative}
+  .dF .cell.photo{background:var(--ink)}
+  .dF .cell.photo img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+  .dF .cell.photo:hover img{transform:scale(1.05)}
+  .dF .cell.val{background:var(--ink);color:#fff;padding:26px 24px;display:flex;flex-direction:column;justify-content:flex-end}
+  .dF .cell.val.paper{background:var(--paper-2);color:var(--ink)}
+  .dF .cell.val .n{font-family:var(--font-head);font-size:13px;font-weight:600;letter-spacing:.05em;color:var(--accent)}
+  .dF .cell.val.paper .n{color:var(--accent-dk)}
+  .dF .cell.val h3{font-size:21px;margin:8px 0 8px;letter-spacing:-.01em;color:inherit}
+  .dF .cell.val p{font-size:13px;line-height:1.55;color:rgba(255,255,255,.8)}
+  .dF .cell.val.paper p{color:var(--ink-soft)}
+  .dF .cell.feature{grid-row:span 2}
+
+  @media(max-width:860px){
+    .dD .cols{grid-template-columns:1fr 1fr}
+    .dD .col:nth-child(3){border-left:none;padding-left:0}
+    .dE .stage{grid-template-columns:1fr;gap:0}
+    .dE .cards{margin-left:0;margin-top:-50px}
+    .dE .vc:nth-child(2),.dE .vc:nth-child(3){transform:none}
+    .dF .mosaic{grid-template-columns:1fr 1fr;grid-auto-rows:200px}
+    .dF .cell.feature{grid-row:span 1}
+  }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <span class="eyebrow">Section 2 · Values — round two</span>
+  <h1>Drama, but contained — and image-forward, but not flat</h1>
+  <p>Addressing your notes: <strong>D</strong> keeps B's cinematic energy but contains it in a rounded panel so it reads as a designed block, not a second hero. <strong>E</strong> and <strong>F</strong> take C's imagery somewhere more dimensional — overlap and layering, or an editorial mosaic. Same four values, same locked system. Pick one (or mix).</p>
+</div>
+
+<!-- ===== DIRECTION D ===== -->
+<div class="demo-label">
+  <span class="tag">Direction D</span>
+  <h2>Contained cinematic panel</h2>
+  <p>B's drama, solved: the dark immersive treatment lives inside a rounded panel with paper margins around it, so it's clearly a deliberate block on the page rather than another full-bleed hero. Headline top-left, values as overlaid columns below.</p>
+</div>
+<div class="demo-frame">
+  <section class="dD">
+    <div class="wrap">
+      <div class="panel">
+        <div class="bg"><img src="assets/media/owner-lab.jpg" alt="A dog being cared for at Noah's Ark" /></div>
+        <div class="top">
+          <span class="eyebrow">What we stand for</span>
+          <h2>Four values we carry into every exam room</h2>
+        </div>
+        <div class="cols">
+          <div class="col"><div class="n">01</div><h3>Compassion</h3><p>For every animal in our care, for our clients, and for each other.</p></div>
+          <div class="col"><div class="n">02</div><h3>Drive</h3><p>We show up driven to do our best work, every single day.</p></div>
+          <div class="col"><div class="n">03</div><h3>Positive Attitude</h3><p>We choose to make the day brighter for everyone around us.</p></div>
+          <div class="col"><div class="n">04</div><h3>Proficient</h3><p>Lives depend on us, so we strive for excellence in every task.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="spacer"></div>
+
+<!-- ===== DIRECTION E ===== -->
+<div class="demo-label">
+  <span class="tag">Direction E</span>
+  <h2>Overlapping layered cards</h2>
+  <p>C's imagery with depth: a large photo on one side and the four value cards layered over its edge, staggered up and down so nothing sits flat. The overlap creates a sense of dimension you can't get from a plain grid.</p>
+</div>
+<div class="demo-frame">
+  <section class="dE">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow">What we stand for</span>
+        <h2>Four values, every visit</h2>
+      </div>
+      <div class="stage">
+        <div class="media"><img src="assets/media/team-hero.jpg" alt="The Noah's Ark team caring for a pet" /></div>
+        <div class="cards">
+          <div class="vc"><div class="ic"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 21s-7.6-4.8-10.1-9.2C-.1 8.4 1.8 4.8 5.4 4.8c2.1 0 3.4 1.1 4.7 2.7C11.3 5.9 12.6 4.8 14.7 4.8c3.6 0 5.5 3.6 3.5 7C15.6 16.2 12 21 12 21z"/></svg></div><div class="n">01</div><h3>Compassion</h3><p>For every animal in our care, for our clients, and for each other.</p></div>
+          <div class="vc"><div class="ic"><svg viewBox="0 0 24 24" fill="#fff"><path d="M13.5 2 4 13.2h5.6L8.5 22 20 10.4h-5.7L15.5 2z"/></svg></div><div class="n">02</div><h3>Drive</h3><p>We show up driven to do our best work, every single day.</p></div>
+          <div class="vc"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="4.4" fill="#fff" stroke="none"/><line x1="12" y1="2" x2="12" y2="4.6"/><line x1="12" y1="19.4" x2="12" y2="22"/><line x1="2" y1="12" x2="4.6" y2="12"/><line x1="19.4" y1="12" x2="22" y2="12"/></svg></div><div class="n">03</div><h3>Positive Attitude</h3><p>We choose to make the day brighter for everyone around us.</p></div>
+          <div class="vc"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.6"/><circle cx="12" cy="12" r="1" fill="#fff" stroke="none"/></svg></div><div class="n">04</div><h3>Proficient</h3><p>Lives depend on us, so we strive for excellence in every task.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="spacer"></div>
+
+<!-- ===== DIRECTION F ===== -->
+<div class="demo-label">
+  <span class="tag">Direction F</span>
+  <h2>Editorial mosaic</h2>
+  <p>Photos and values interlock in a single woven grid — a tall feature image, navy value tiles, paper value tiles, and supporting photos. Rich and magazine-like, never a flat row of identical cards.</p>
+</div>
+<div class="demo-frame">
+  <section class="dF">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow">What we stand for</span>
+        <h2>Four values, every visit</h2>
+      </div>
+      <div class="mosaic">
+        <div class="cell photo feature"><img src="assets/media/owner-beagle.jpg" alt="A beagle being comforted at Noah's Ark"></div>
+        <div class="cell val"><div class="n">01</div><h3>Compassion</h3><p>For every animal in our care, and for each other.</p></div>
+        <div class="cell val paper"><div class="n">02</div><h3>Drive</h3><p>We show up to do our best work, every single day.</p></div>
+        <div class="cell photo"><img src="assets/media/cta-join.jpg" alt="A happy dog outdoors"></div>
+        <div class="cell photo"><img src="assets/media/owner-lab.jpg" alt="A Labrador receiving care"></div>
+        <div class="cell val paper"><div class="n">03</div><h3>Positive Attitude</h3><p>We make the day brighter for everyone around us.</p></div>
+        <div class="cell val"><div class="n">04</div><h3>Proficient</h3><p>Lives depend on us — we strive for excellence in every task.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="spacer"></div>
+<div class="spacer"></div>
+
+</body>
+</html>

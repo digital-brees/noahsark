@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Section 2 — Happy + Depth | Noah's Ark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/site.css" />
+<style>
+  body{background:var(--paper-2)}
+  .intro{max-width:var(--maxw);margin:0 auto;padding:60px 32px 8px}
+  .intro .eyebrow{margin-bottom:14px}.intro .eyebrow::before{background:var(--accent)}
+  .intro h1{font-family:var(--font-head);font-size:clamp(30px,4.4vw,46px);letter-spacing:-.025em;margin-bottom:12px}
+  .intro p{color:var(--ink-soft);font-size:17px;max-width:74ch}
+  .demo-label{max-width:var(--maxw);margin:0 auto;padding:62px 32px 22px}
+  .demo-label .tag{display:inline-block;background:var(--ink);color:#fff;font-family:var(--font-body);font-weight:700;
+    font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border-radius:var(--r-xs);margin-bottom:16px}
+  .demo-label h2{font-family:var(--font-head);font-size:clamp(24px,3.4vw,36px);letter-spacing:-.02em;margin-bottom:8px}
+  .demo-label p{color:var(--ink-soft);font-size:16px;max-width:68ch}
+  .demo-frame{background:var(--white);box-shadow:0 30px 60px -40px rgba(52,45,79,.5)}
+  .spacer{height:30px}
+  .eyebrow::before{background:var(--accent)}
+  .vhead{max-width:680px;margin:0 0 40px}
+  .vhead .eyebrow{margin-bottom:14px}
+  .vhead h2{font-family:var(--font-head);font-size:clamp(28px,4vw,46px);letter-spacing:-.025em}
+
+  /* ===== G — bento + periwinkle depth blocks ===== */
+  .dG{padding:96px 0;background:var(--white);overflow:hidden}
+  .dG .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+  .dG .bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:18px}
+  .dG .ph{position:relative}
+  .dG .ph::after{content:"";position:absolute;right:-11px;bottom:-11px;width:62%;height:52%;background:var(--accent);border-radius:var(--r-md);z-index:0}
+  .dG .ph .img{position:relative;z-index:1;width:100%;height:100%;border-radius:var(--r-md);overflow:hidden;background:var(--ink)}
+  .dG .ph .img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+  .dG .ph:hover .img img{transform:scale(1.05)}
+  .dG .feature{grid-column:1/3;grid-row:1/3}
+  .dG .val{border-radius:var(--r-md);padding:24px 22px;display:flex;flex-direction:column;justify-content:flex-end;background:var(--ink);color:#fff}
+  .dG .val.paper{background:var(--paper-2);color:var(--ink)}
+  .dG .val.peri{background:var(--accent);color:var(--ink);justify-content:center}      /* large text only — AA at 3:1 */
+  .dG .val .n{font-family:var(--font-head);font-size:13px;font-weight:600;letter-spacing:.05em;color:var(--accent)}
+  .dG .val.paper .n{color:var(--accent-dk)}
+  .dG .val.peri .n{color:var(--ink);font-size:15px}
+  .dG .val h3{font-size:21px;margin:8px 0 7px;letter-spacing:-.01em;color:inherit}
+  .dG .val.peri h3{font-size:26px;margin:6px 0 0}
+  .dG .val p{font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.8)}
+  .dG .val.paper p{color:var(--ink-soft)}
+
+  /* ===== H — slanted parallelogram mosaic ===== */
+  .dH{padding:96px 0;background:var(--white);overflow:hidden}
+  .dH .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+  .dH .slant{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .dH .tile{position:relative;height:330px;clip-path:polygon(7% 0, 100% 0, 93% 100%, 0 100%);overflow:hidden}
+  .dH .tile.photo{background:var(--ink)}
+  .dH .tile.photo img{width:100%;height:100%;object-fit:cover}
+  .dH .tile.val{background:var(--ink);color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:30px 34px}
+  .dH .tile.val.peri{background:var(--accent);color:var(--ink);justify-content:center}
+  .dH .tile .n{font-family:var(--font-head);font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--accent)}
+  .dH .tile.val.peri .n{color:var(--ink)}
+  .dH .tile h3{font-size:21px;margin:8px 0 8px;letter-spacing:-.01em}
+  .dH .tile.val.peri h3{font-size:25px;margin:6px 0 0}
+  .dH .tile p{font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.82)}
+  .dH .note{margin-top:18px;font-size:13px;color:var(--ink-faint);text-align:center}
+
+  /* ===== I — diagonal-split duo tiles ===== */
+  .dI{padding:96px 0;background:var(--white)}
+  .dI .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+  .dI .rows{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .dI .duo{position:relative;height:260px;border-radius:var(--r-md);overflow:hidden;background:var(--ink)}
+  .dI .duo .photo{position:absolute;inset:0}
+  .dI .duo .photo img{width:100%;height:100%;object-fit:cover}
+  .dI .duo .panel{position:absolute;inset:0;background:var(--ink);color:#fff;
+    clip-path:polygon(0 0, 62% 0, 38% 100%, 0 100%);display:flex;flex-direction:column;justify-content:center;padding:30px 34px}
+  .dI .duo.flip .panel{clip-path:polygon(38% 0, 100% 0, 100% 100%, 62% 100%);align-items:flex-end;text-align:right;padding:30px 34px 30px 90px}
+  .dI .duo.peri .panel{background:var(--accent);color:var(--ink)}
+  .dI .duo .n{font-family:var(--font-head);font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--accent)}
+  .dI .duo.peri .n{color:var(--ink)}
+  .dI .duo h3{font-size:23px;margin:8px 0 8px;letter-spacing:-.01em}
+  .dI .duo p{font-size:13px;line-height:1.5;color:rgba(255,255,255,.85);max-width:24ch}
+  .dI .duo.flip p{margin-left:auto}
+
+  @media(max-width:860px){
+    .dG .bento{grid-template-columns:1fr 1fr;grid-auto-rows:180px}
+    .dG .feature{grid-column:1/3}
+    .dH .slant{grid-template-columns:1fr 1fr}
+    .dI .rows{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <span class="eyebrow">Section 2 · Values — happy + depth</span>
+  <h1>Editorial, but with joy and dimension</h1>
+  <p>You liked the editorial mosaic; the client wants it to feel <strong>happy</strong>. The move: bright photography, periwinkle color pops, and <strong>sharp diagonal geometry</strong> for energy and depth — slants and overlap, not rounded blobs or waves (which would read "daycare"). Three takes below.</p>
+</div>
+
+<!-- G -->
+<div class="demo-label">
+  <span class="tag">Direction G</span>
+  <h2>Bento + periwinkle depth</h2>
+  <p>A woven bento grid with mixed tile sizes. Each photo casts a periwinkle block behind it for depth and a hit of color, and one value lives on a bright periwinkle tile. Cheerful and dimensional without a single rounded gimmick.</p>
+</div>
+<div class="demo-frame">
+  <section class="dG"><div class="wrap">
+    <div class="vhead"><span class="eyebrow">What we stand for</span><h2>Four values, every visit</h2></div>
+    <div class="bento">
+      <div class="ph feature"><div class="img"><img src="assets/media/cta-join.jpg" alt="A happy dog outdoors"></div></div>
+      <div class="val"><div class="n">01</div><h3>Compassion</h3><p>For every animal in our care, and for each other.</p></div>
+      <div class="val paper"><div class="n">02</div><h3>Drive</h3><p>Our best work, every single day.</p></div>
+      <div class="ph"><div class="img"><img src="assets/media/owner-beagle.jpg" alt="A beagle being comforted"></div></div>
+      <div class="val peri"><div class="n">03</div><h3>Positive Attitude</h3></div>
+      <div class="val"><div class="n">04</div><h3>Proficient</h3><p>Lives depend on us — we strive for excellence.</p></div>
+      <div class="ph"><div class="img"><img src="assets/media/owner-lab.jpg" alt="A Labrador receiving care"></div></div>
+    </div>
+  </div></section>
+</div>
+
+<div class="spacer"></div>
+
+<!-- H -->
+<div class="demo-label">
+  <span class="tag">Direction H</span>
+  <h2>Slanted parallelogram mosaic</h2>
+  <p>The whole row leans into a diagonal — photo and value tiles are sheared into parallelograms, so the section reads with motion and energy. A periwinkle tile keeps it cheerful. Bold and unmistakably custom.</p>
+</div>
+<div class="demo-frame">
+  <section class="dH"><div class="wrap">
+    <div class="vhead"><span class="eyebrow">What we stand for</span><h2>Four values, every visit</h2></div>
+    <div class="slant">
+      <div class="tile photo"><img src="assets/media/cta-join.jpg" alt="A happy dog outdoors"></div>
+      <div class="tile val"><div class="n">01</div><h3>Compassion</h3><p>For every animal in our care, and for each other.</p></div>
+      <div class="tile val peri"><div class="n">02 · Drive</div><h3>Our best work, every day.</h3></div>
+      <div class="tile photo"><img src="assets/media/owner-beagle.jpg" alt="A beagle being comforted"></div>
+    </div>
+    <p class="note">(Second row would carry values 03 + 04 the same way — shown short here.)</p>
+  </div></section>
+</div>
+
+<div class="spacer"></div>
+
+<!-- I -->
+<div class="demo-label">
+  <span class="tag">Direction I</span>
+  <h2>Diagonal-split duo tiles</h2>
+  <p>Each value is one tile where a photo and a color panel meet on a diagonal seam, alternating direction for a zigzag rhythm down the section. Photo + value share each tile — image-forward, dynamic, and full of depth.</p>
+</div>
+<div class="demo-frame">
+  <section class="dI"><div class="wrap">
+    <div class="vhead"><span class="eyebrow">What we stand for</span><h2>Four values, every visit</h2></div>
+    <div class="rows">
+      <div class="duo"><div class="photo"><img src="assets/media/cta-join.jpg" alt="A happy dog outdoors"></div><div class="panel"><div class="n">01</div><h3>Compassion</h3><p>For every animal in our care, and for each other.</p></div></div>
+      <div class="duo flip peri"><div class="photo"><img src="assets/media/owner-beagle.jpg" alt="A beagle being comforted"></div><div class="panel"><div class="n">02</div><h3>Drive</h3><p>We do our best work, every single day.</p></div></div>
+      <div class="duo flip"><div class="photo"><img src="assets/media/team-hero.jpg" alt="The Noah's Ark team at work"></div><div class="panel"><div class="n">03</div><h3>Positive Attitude</h3><p>We make the day brighter for everyone.</p></div></div>
+      <div class="duo"><div class="photo"><img src="assets/media/owner-lab.jpg" alt="A Labrador receiving care"></div><div class="panel"><div class="n">04</div><h3>Proficient</h3><p>Lives depend on us — excellence in every task.</p></div></div>
+    </div>
+  </div></section>
+</div>
+
+<div class="spacer"></div><div class="spacer"></div>
+
+</body>
+</html>

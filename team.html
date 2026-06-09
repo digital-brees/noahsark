@@ -8,34 +8,59 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/css/site.css" />
+<link rel="stylesheet" href="assets/css/site.css?v=2" />
 <style>
-  /* ---------- page hero (editorial, left-aligned) ---------- */
-  .team-hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;overflow:hidden}
-  .team-hero .bg{position:absolute;inset:0;z-index:0}
-  .team-hero .bg img,
-  .team-hero .bg video{width:100%;height:100%;object-fit:cover;display:block}
-  .team-hero .bg::after{content:"";position:absolute;inset:0;background:rgba(26,21,38,.55)}
-  .team-hero .inner{position:relative;z-index:3;width:100%;max-width:var(--maxw);margin:0 auto;padding:0 32px 88px;color:#fff}
-  .team-hero .eyebrow{color:#fff}
-  .team-hero .eyebrow::before{background:var(--accent)}
-  .team-hero h1{color:#fff;font-size:clamp(44px,6.6vw,86px);letter-spacing:-.03em;line-height:1.0;margin:22px 0 20px;max-width:16ch}
-  .team-hero h1 .accent{color:var(--accent)}
-  .team-hero p{font-size:clamp(17px,1.7vw,20px);color:rgba(255,255,255,.82);max-width:50ch;font-weight:400}
+  /* ---------- page hero — drifting portrait grid behind a light paper veil ---------- */
+  .team-hero{position:relative;overflow:hidden;background:var(--paper);min-height:80vh;display:flex;align-items:center;padding:150px 0 96px}
+  .hero-grid{position:absolute;top:86px;left:0;right:0;bottom:0;z-index:0;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(3,1fr);gap:3px;pointer-events:none}
+  .hero-grid .ph{overflow:hidden;background:var(--ink)}
+  .hero-grid .ph img{width:100%;height:100%;object-fit:cover;object-position:center 18%;transform:scale(1.08);animation:hdrift 36s ease-in-out infinite alternate;will-change:transform}
+  .hero-grid .ph:nth-child(2n) img{animation-duration:42s;animation-delay:-7s}
+  .hero-grid .ph:nth-child(3n) img{animation-duration:48s;animation-delay:-17s}
+  .hero-grid .ph:nth-child(5n) img{animation-duration:39s;animation-delay:-25s}
+  @keyframes hdrift{0%{transform:scale(1.08) translate(0,0)}100%{transform:scale(1.16) translate(-2.2%,-2.2%)}}
+  /* light veil sinks the faces into a soft cheerful texture; solid (no gradient) */
+  .hero-veil{position:absolute;inset:0;z-index:1;background:rgba(251,250,247,.82)}
+  .team-hero .hero-inner{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:0 32px;text-align:center}
+  .team-hero .hero-inner .eyebrow{justify-content:center;margin-bottom:20px}
+  .team-hero .hero-inner h1{font-family:var(--font-head);font-weight:600;color:var(--ink);font-size:clamp(42px,6.4vw,84px);letter-spacing:-.03em;line-height:1.0;margin:0 auto 20px;max-width:18ch}
+  .team-hero .hero-inner h1 .accent{color:var(--accent)}
+  .team-hero .hero-inner p{color:var(--ink-soft);font-size:clamp(17px,1.8vw,20px);max-width:54ch;margin:0 auto;font-weight:400}
+  @media(max-width:640px){
+    .team-hero{min-height:0;padding:120px 0 72px}
+    .hero-grid{grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(6,1fr)}
+  }
 
   /* ---------- values (editorial cards, hairline) ---------- */
   .values{background:var(--white);padding:104px 0 84px}
   .values .head{max-width:760px;margin:0 0 56px}
   .values .head h2{font-size:clamp(30px,4.2vw,50px);margin:18px 0;letter-spacing:-.025em}
-  .values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}
-  .value-card{padding:36px 28px 32px;border-right:1px solid var(--line);transition:background .3s}
-  .value-card:last-child{border-right:none}
-  .value-card:hover{background:var(--paper)}
-  .value-card .ic{width:50px;height:50px;border-radius:var(--r-sm);display:grid;place-items:center;margin-bottom:22px;background:var(--ink)}
-  .value-card .ic svg{width:26px;height:26px;display:block}
-  .value-card .num{font-family:var(--font-head);font-size:13px;color:var(--accent-dk);font-weight:600;letter-spacing:.04em;margin-bottom:8px}
-  .value-card h3{font-size:21px;margin-bottom:10px;letter-spacing:-.01em}
-  .value-card p{font-size:14.5px;color:var(--ink-soft);line-height:1.6}
+  /* interactive showcase: value menu + crossfading image stage */
+  .v-show{display:grid;grid-template-columns:.82fr 1.18fr;gap:42px;align-items:stretch}
+  .v-tabs{display:flex;flex-direction:column;border-top:1px solid var(--line);align-self:center}
+  .v-tab{border:none;background:none;text-align:left;padding:22px 10px;border-bottom:1px solid var(--line);cursor:pointer;
+    font-family:var(--font-body);display:flex;gap:16px;align-items:baseline;transition:padding .35s ease,box-shadow .35s ease}
+  .v-tab .n{font-family:var(--font-head);color:var(--accent-dk);font-weight:600;font-size:14px}
+  .v-tab .t{font-family:var(--font-head);font-size:21px;letter-spacing:-.01em;color:var(--ink-soft);font-weight:600;transition:color .35s ease}
+  .v-tab[aria-selected="true"]{padding-left:20px;box-shadow:inset 3px 0 0 var(--accent)}
+  .v-tab[aria-selected="true"] .t{color:var(--ink)}
+  .v-stage{position:relative;border-radius:var(--r-lg);overflow:hidden;background:var(--ink);min-height:480px}
+  .v-slide{position:absolute;inset:0;opacity:0;transform:scale(1.04);transition:opacity .6s ease,transform .9s ease;pointer-events:none}
+  .v-slide img{width:100%;height:100%;object-fit:cover}
+  .v-slide::after{content:"";position:absolute;inset:0;background:rgba(26,21,38,.2)}
+  .v-slide.active{opacity:1;transform:none}
+  .v-cap{position:absolute;left:24px;right:24px;bottom:24px;z-index:2;background:var(--ink);color:#fff;
+    padding:26px 30px;border-radius:var(--r-md);max-width:40ch}
+  .v-cap .cap-num{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-head);font-weight:600;font-size:13px;letter-spacing:.06em;color:#fff;margin-bottom:12px}
+  .v-cap .cap-num::before{content:"";width:20px;height:1.5px;background:var(--accent)}
+  .v-cap h3{font-size:clamp(22px,2.6vw,30px);letter-spacing:-.02em;margin-bottom:10px;color:#fff}
+  .v-cap p{font-size:15px;line-height:1.6;color:rgba(255,255,255,.85)}
+  @media(max-width:820px){
+    .v-show{grid-template-columns:1fr;gap:22px}
+    .v-stage{min-height:360px;order:-1}
+    .v-cap{right:auto;max-width:none;left:16px;bottom:16px}
+  }
+  @media(prefers-reduced-motion:reduce){.v-slide,.v-tab{transition:none}}
 
   /* ---------- section shells ---------- */
   .team-section{padding:104px 0}
@@ -43,6 +68,14 @@
   .section-head{max-width:720px;margin:0 0 60px}
   .section-head h2{font-size:clamp(32px,4.4vw,54px);margin:18px 0 16px;letter-spacing:-.025em}
   .section-head p{color:var(--ink-soft);font-size:18px;max-width:56ch}
+
+  /* dark section variant (doctors) — color rhythm */
+  .team-section.dark{background:var(--ink)}
+  .team-section.dark .eyebrow{color:#fff}
+  .team-section.dark .eyebrow::before{background:var(--accent)}
+  .team-section.dark .section-head h2{color:#fff}
+  .team-section.dark .section-head p{color:rgba(255,255,255,.74)}
+  .team-section.dark .vet-card{border-color:rgba(255,255,255,.1);box-shadow:var(--shadow-md)}
 
   /* ---------- veterinarian cards ---------- */
   .vet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
@@ -95,39 +128,29 @@
     font-size:20px;cursor:pointer;color:var(--ink);display:grid;place-items:center;transition:transform .2s}
   .modal-close:hover{transform:rotate(90deg)}
 
-  /* ---------- join CTA — image-led split band ---------- */
-  .join{padding:104px 0}
-  .join .box{position:relative;overflow:hidden;border-radius:var(--r-lg);min-height:420px;
-    display:grid;grid-template-columns:1.05fr .95fr;background:var(--ink)}
-  .join .copy{position:relative;z-index:2;padding:64px 56px;display:flex;flex-direction:column;justify-content:center;align-self:stretch}
-  .join .copy .eyebrow{color:#fff;margin-bottom:18px}
-  .join .copy .eyebrow::before{background:var(--accent)}
-  .join .copy h2{color:#fff;font-size:clamp(30px,3.8vw,48px);margin-bottom:16px;letter-spacing:-.025em;max-width:14ch}
-  .join .copy h2 .accent{color:var(--accent)}
-  .join .copy p{color:rgba(255,255,255,.74);max-width:42ch;font-size:17px;margin-bottom:30px}
-  .join .copy .actions{display:flex;gap:14px;flex-wrap:wrap}
-  .join .media{position:relative;overflow:hidden}
-  .join .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  /* subtle navy tint unifies the photo with the panel (no gradient) */
-  .join .media::after{content:"";position:absolute;inset:0;background:rgba(52,45,79,.16)}
-  @media(max-width:760px){
-    .join .box{grid-template-columns:1fr}
-    .join .media{min-height:250px;order:-1}
-    .join .copy{padding:44px 32px}
+  /* ---------- join CTA — full-bleed image, text on top ---------- */
+  .join{position:relative;min-height:540px;display:flex;align-items:center;overflow:hidden;padding:96px 0}
+  .join .cta-bg{position:absolute;inset:0;z-index:0}
+  .join .cta-bg img{width:100%;height:100%;object-fit:cover;display:block}
+  .join .cta-bg::after{content:"";position:absolute;inset:0;background:rgba(26,21,38,.64)}
+  .join .container{position:relative;z-index:2}
+  .join .cta-inner{max-width:680px;margin:0 auto;text-align:center;color:#fff}
+  .join .cta-inner .eyebrow{color:#fff;margin-bottom:18px;justify-content:center}
+  .join .cta-inner .eyebrow::before{background:var(--accent)}
+  .join .cta-inner h2{color:#fff;font-size:clamp(34px,5vw,64px);line-height:1.0;letter-spacing:-.03em;margin:0 auto 18px;max-width:16ch}
+  .join .cta-inner h2 .accent{color:var(--accent)}
+  .join .cta-inner p{color:rgba(255,255,255,.88);max-width:48ch;font-size:17px;margin:0 auto 30px}
+  .join .cta-inner .actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+  @media(max-width:600px){
+    .join{min-height:0;padding:72px 0}
   }
 
   @media(max-width:900px){
-    .values-grid{grid-template-columns:repeat(2,1fr)}
-    .value-card{border-bottom:1px solid var(--line)}
-    .value-card:nth-child(2){border-right:none}
     .vet-grid{grid-template-columns:1fr;max-width:440px}
-    .join .box{grid-template-columns:1fr;gap:28px}
   }
   @media(max-width:560px){
     .modal-card{grid-template-columns:1fr;max-height:90vh}
     .modal-photo{height:210px}
-    .values-grid{grid-template-columns:1fr}
-    .value-card,.value-card:nth-child(2){border-right:none}
   }
 
   /* respect reduced-motion: kill modal/hover animations and transforms */
@@ -136,26 +159,51 @@
     .vet-card,.vet-card:hover,.staff-card,.staff-card:hover{transform:none}
     .vet-card:hover .vet-photo img,.staff-card:hover .staff-photo img{transform:none}
     .modal-close:hover{transform:none}
-    .team-hero .bg video{transition:none}
+    .hero-grid .ph img{animation:none}
   }
 </style>
 </head>
-<body data-page="team" data-base="">
+<body data-page="team" data-base="" data-header="solid">
 
 <div id="global-header"></div>
 
 <main id="main" tabindex="-1">
-  <!-- HERO -->
+  <!-- HERO — drifting portrait grid behind a light veil -->
   <section class="team-hero">
-    <div class="bg">
-      <video autoplay muted loop playsinline poster="assets/media/hero-poster.jpg" aria-label="Noah's Ark team caring for pets">
-        <source src="assets/media/hero.mp4" type="video/mp4" />
-      </video>
+    <div class="hero-grid" aria-hidden="true">
+      <!-- row 1 -->
+      <div class="ph"><img src="assets/team/sparkman.jpg" alt="" loading="eager" /></div>
+      <div class="ph"><img src="assets/team/robinson.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/pate.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/cori_wallace.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/siedah_clark.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/catie_gregory.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/matt_doubles.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/ardis_crespo.jpg" alt="" /></div>
+      <!-- row 2 -->
+      <div class="ph"><img src="assets/team/shannon_davenport.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/carol_ely.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/april_mcdonald.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/jill_moon.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/sparkman.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/robinson.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/pate.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/cori_wallace.jpg" alt="" /></div>
+      <!-- row 3 -->
+      <div class="ph"><img src="assets/team/siedah_clark.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/catie_gregory.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/matt_doubles.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/ardis_crespo.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/shannon_davenport.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/carol_ely.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/april_mcdonald.jpg" alt="" /></div>
+      <div class="ph"><img src="assets/team/jill_moon.jpg" alt="" /></div>
     </div>
-    <div class="inner">
+    <div class="hero-veil" aria-hidden="true"></div>
+    <div class="hero-inner reveal">
       <span class="eyebrow">Williamsburg, VA · Family-owned since 1992</span>
-      <h1>The people behind the <span class="accent">care</span></h1>
-      <p>The veterinarians, technicians, and familiar faces who know you and your pet by name.</p>
+      <h1>The familiar faces behind the <span class="accent">care</span></h1>
+      <p>The veterinarians, technicians, and front-desk friends who know you and your pet by name.</p>
     </div>
   </section>
 
@@ -167,29 +215,37 @@
         <h2>Four values, every visit</h2>
         <p class="lede">The principles every member of our team carries into the exam room.</p>
       </div>
-      <div class="values-grid">
-        <div class="value-card reveal">
-          <div class="ic"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 21s-7.6-4.8-10.1-9.2C-.1 8.4 1.8 4.8 5.4 4.8c2.1 0 3.4 1.1 4.7 2.7C11.3 5.9 12.6 4.8 14.7 4.8c3.6 0 5.5 3.6 3.5 7C15.6 16.2 12 21 12 21z"/></svg></div>
-          <div class="num">01</div><h3>Compassion</h3><p>For every animal in our care, for our clients, and for each other.</p>
+      <div class="v-show reveal">
+        <div class="v-tabs" role="tablist" aria-label="Our core values" aria-orientation="vertical">
+          <button class="v-tab" role="tab" id="vtab0" aria-selected="true" aria-controls="vpanel0" tabindex="0"><span class="n">01</span><span class="t">Compassion</span></button>
+          <button class="v-tab" role="tab" id="vtab1" aria-selected="false" aria-controls="vpanel1" tabindex="-1"><span class="n">02</span><span class="t">Drive</span></button>
+          <button class="v-tab" role="tab" id="vtab2" aria-selected="false" aria-controls="vpanel2" tabindex="-1"><span class="n">03</span><span class="t">Positive Attitude</span></button>
+          <button class="v-tab" role="tab" id="vtab3" aria-selected="false" aria-controls="vpanel3" tabindex="-1"><span class="n">04</span><span class="t">Proficient</span></button>
         </div>
-        <div class="value-card reveal">
-          <div class="ic"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M13.5 2 4 13.2h5.6L8.5 22 20 10.4h-5.7L15.5 2z"/></svg></div>
-          <div class="num">02</div><h3>Drive</h3><p>We show up driven to do our best work, every single day.</p>
-        </div>
-        <div class="value-card reveal">
-          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.4" fill="#fff" stroke="none"/><line x1="12" y1="2" x2="12" y2="4.6"/><line x1="12" y1="19.4" x2="12" y2="22"/><line x1="2" y1="12" x2="4.6" y2="12"/><line x1="19.4" y1="12" x2="22" y2="12"/><line x1="4.9" y1="4.9" x2="6.7" y2="6.7"/><line x1="17.3" y1="17.3" x2="19.1" y2="19.1"/><line x1="4.9" y1="19.1" x2="6.7" y2="17.3"/><line x1="17.3" y1="6.7" x2="19.1" y2="4.9"/></svg></div>
-          <div class="num">03</div><h3>Positive Attitude</h3><p>We choose to make the day brighter for everyone around us.</p>
-        </div>
-        <div class="value-card reveal">
-          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.6"/><circle cx="12" cy="12" r="1" fill="#fff" stroke="none"/></svg></div>
-          <div class="num">04</div><h3>Proficient</h3><p>Lives depend on us, so we strive for excellence in every task.</p>
+        <div class="v-stage">
+          <div class="v-slide active" role="tabpanel" id="vpanel0" aria-labelledby="vtab0">
+            <img src="assets/media/owner-beagle.jpg" alt="A beagle resting comfortably in caring arms" />
+            <div class="v-cap"><span class="cap-num">01</span><h3>Compassion</h3><p>For every animal in our care, for our clients, and for each other.</p></div>
+          </div>
+          <div class="v-slide" role="tabpanel" id="vpanel1" aria-labelledby="vtab1" aria-hidden="true">
+            <img src="assets/media/team-hero.jpg" alt="The Noah's Ark team caring for a patient" />
+            <div class="v-cap"><span class="cap-num">02</span><h3>Drive</h3><p>We show up driven to do our best work, every single day.</p></div>
+          </div>
+          <div class="v-slide" role="tabpanel" id="vpanel2" aria-labelledby="vtab2" aria-hidden="true">
+            <img src="assets/media/cta-join.jpg" alt="A happy dog enjoying a sunny day outdoors" />
+            <div class="v-cap"><span class="cap-num">03</span><h3>Positive Attitude</h3><p>We choose to make the day brighter for everyone around us.</p></div>
+          </div>
+          <div class="v-slide" role="tabpanel" id="vpanel3" aria-labelledby="vtab3" aria-hidden="true">
+            <img src="assets/media/proficient-cat.jpg" alt="A cat being held happily by its owner" />
+            <div class="v-cap"><span class="cap-num">04</span><h3>Proficient</h3><p>Lives depend on us, so we strive for excellence in every task.</p></div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- VETERINARIANS -->
-  <section class="team-section">
+  <section class="team-section dark">
     <div class="container">
       <div class="section-head reveal">
         <span class="eyebrow">Our Veterinarians</span>
@@ -255,18 +311,16 @@
 
   <!-- JOIN CTA -->
   <section class="join">
+    <div class="cta-bg"><img src="assets/media/cta-join.jpg" alt="A happy dog being petted outdoors on a sunny day" /></div>
     <div class="container">
-      <div class="box reveal">
-        <div class="copy">
-          <span class="eyebrow">Careers at Noah's Ark</span>
-          <h2>Want to join the <span class="accent">team?</span></h2>
-          <p>We're always looking for compassionate, driven people who love animals as much as we do.</p>
-          <div class="actions">
-            <a href="careers.html" class="btn btn-accent">See open roles <span class="arrow">→</span></a>
-            <a href="contact.html" class="btn btn-ghost-light">Get in touch</a>
-          </div>
+      <div class="cta-inner reveal">
+        <span class="eyebrow">Careers at Noah's Ark</span>
+        <h2>Want to join the <span class="accent">team?</span></h2>
+        <p>We're always looking for compassionate, driven people who love animals as much as we do.</p>
+        <div class="actions">
+          <a href="careers.html" class="btn btn-accent">See open roles <span class="arrow">→</span></a>
+          <a href="contact.html" class="btn btn-ghost-light">Get in touch</a>
         </div>
-        <div class="media"><img src="assets/media/cta-join.jpg" alt="A happy dog being petted outdoors on a sunny day" /></div>
       </div>
     </div>
   </section>
@@ -366,6 +420,27 @@ document.querySelectorAll('.read-bio').forEach(function(b){
   b.addEventListener('click', function(){ openBio(b.dataset.name, b.dataset.role, b.dataset.cred, b.dataset.photo, b.dataset.bio); });
 });
 modal.querySelectorAll('[data-close]').forEach(function(el){ el.addEventListener('click', closeBio); });
+
+/* values showcase — accessible tablist (hover + click + arrow keys, roving focus) */
+(function(){
+  var show = document.querySelector('.v-show'); if(!show) return;
+  var tabs = Array.prototype.slice.call(show.querySelectorAll('.v-tab'));
+  var slides = Array.prototype.slice.call(show.querySelectorAll('.v-slide'));
+  function go(i){
+    tabs.forEach(function(t, k){ var on = k === i; t.setAttribute('aria-selected', on ? 'true' : 'false'); t.tabIndex = on ? 0 : -1; });
+    slides.forEach(function(s, k){ var on = k === i; s.classList.toggle('active', on); s.setAttribute('aria-hidden', on ? 'false' : 'true'); });
+  }
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ go(i); });
+    t.addEventListener('mouseenter', function(){ go(i); });
+    t.addEventListener('keydown', function(e){
+      if(e.key === 'ArrowDown' || e.key === 'ArrowRight'){ e.preventDefault(); var n = (i + 1) % tabs.length; tabs[n].focus(); go(n); }
+      else if(e.key === 'ArrowUp' || e.key === 'ArrowLeft'){ e.preventDefault(); var p = (i - 1 + tabs.length) % tabs.length; tabs[p].focus(); go(p); }
+      else if(e.key === 'Home'){ e.preventDefault(); tabs[0].focus(); go(0); }
+      else if(e.key === 'End'){ e.preventDefault(); tabs[tabs.length - 1].focus(); go(tabs.length - 1); }
+    });
+  });
+})();
 </script>
 </body>
 </html>

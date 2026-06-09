@@ -1,9 +1,23 @@
 # Noah's Ark Veterinary Hospital — Session Notes
 
-**Status:** Team page built on locked design system. Design system finalized.
+**Status:** Team page REDESIGNED (2026-06-09) — new animated hero, interactive Values showcase, dark doctors section, full-bleed CTA. Design system finalized + WCAG AA enforced.
 **Started:** 2026-06-03
 **Designer:** Brees
 **Local dev:** `py -3 -m http.server 8791` (from project root) → http://localhost:8791/
+
+---
+
+## Team Page Redesign (2026-06-09)
+A full visual pass on `team.html` to make it less templated, more characterful, and full WCAG 2.1 AA. Body now sets `data-header="solid"` (header is light-page solid: navy logo/nav on white). `site.css` link cache-busted (`?v=2`).
+
+- **HERO — drifting portrait grid (Woodhaven JoinBand-inspired):** replaced the dark video hero. Now a LIGHT hero — an 8×3 grid of the 12 real staff portraits (each used twice) drifting/panning slowly (staggered `hdrift` keyframes), sunk under a solid paper veil `rgba(251,250,247,.82)` so faces read as warm texture, not a directory (avoids redundancy with profiles below). Centered headline "The familiar faces behind the **care**". Decorative grid (`aria-hidden`, empty alts). Client brief: professional / light / cheerful / happy / animated.
+  - `min-height:80vh`. Grid starts at `top:86px` (clears the fixed header so top-row heads aren't clipped). `object-position:center 18%` to frame heads high. **Portrait order is hand-tuned so no portrait's two copies are ever adjacent** (holds in both 8-col desktop and 4-col mobile reflow). Drift halts under `prefers-reduced-motion`.
+  - OPEN: veil opacity dial (.82 now; lower=more cheerful faces, higher=subtler). Real candids/headshots will improve it (some current crops are loose, e.g. Pate beach shot).
+- **SECTION 2 — interactive Values showcase (chose direction "L"):** replaced the flat 4-col value grid. Accessible tablist (value menu left) + crossfading image stage right with a solid-navy caption card (guaranteed contrast). Hover OR click switches; roving tabindex + arrow/Home/End keys; `role=tablist/tab/tabpanel`, `aria-selected/controls/labelledby`, inactive panels `aria-hidden`. Periwinkle active-bar + numbers + tick. Images: Compassion=owner-beagle, Drive=team-hero, Positive Attitude=cta-join, **Proficient=proficient-cat.jpg** (Pexels British Shorthair, swapped in per request so both species show). OPEN: hover-vs-click (currently both).
+- **SECTION 3 — doctors now DARK:** added `.team-section.dark` (bg `--ink` #342D4F), white head text, white vet cards float with shadow. Gives page color rhythm: light hero → light values → dark docs → light staff → image CTA → dark footer.
+- **JOIN CTA — full-bleed image, centered text:** replaced the old split-band (read "templated"). Full-bleed `cta-join.jpg`, solid navy scrim `rgba(26,21,38,.64)` (tuned so white body text clears 4.5:1), centered eyebrow/headline/buttons. No gradient.
+- **Scratch/demo files (safe to delete):** `section2-directions.html`, `-v2/-v3/-v4.html`, `hero-directions.html`, `a11y-cta-compare.html`, `brand-navy-compare.html`. Used to pick directions with Brees.
+- **WCAG hook active:** `~/.claude/hooks/wcag-*.sh` remind on every html/css edit + session stop; all edits checked.
 
 ---
 

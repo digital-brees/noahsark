@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Section 2 — Interactive | Noah's Ark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/site.css" />
+<style>
+  body{background:var(--paper-2)}
+  .intro{max-width:var(--maxw);margin:0 auto;padding:60px 32px 8px}
+  .intro .eyebrow{margin-bottom:14px}.intro .eyebrow::before{background:var(--accent)}
+  .intro h1{font-family:var(--font-head);font-size:clamp(30px,4.4vw,46px);letter-spacing:-.025em;margin-bottom:12px}
+  .intro p{color:var(--ink-soft);font-size:17px;max-width:74ch}
+  .demo-label{max-width:var(--maxw);margin:0 auto;padding:62px 32px 22px}
+  .demo-label .tag{display:inline-block;background:var(--ink);color:#fff;font-family:var(--font-body);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border-radius:var(--r-xs);margin-bottom:16px}
+  .demo-label .tag.try{background:var(--accent-dk);margin-left:8px}
+  .demo-label h2{font-family:var(--font-head);font-size:clamp(24px,3.4vw,36px);letter-spacing:-.02em;margin-bottom:8px}
+  .demo-label p{color:var(--ink-soft);font-size:16px;max-width:68ch}
+  .demo-frame{background:var(--white);box-shadow:0 30px 60px -40px rgba(52,45,79,.5)}
+  .spacer{height:30px}
+  .eyebrow::before{background:var(--accent)}
+  .vhead{max-width:680px;margin:0 0 38px}
+  .vhead .eyebrow{margin-bottom:14px}
+  .vhead h2{font-family:var(--font-head);font-size:clamp(28px,4vw,46px);letter-spacing:-.025em}
+
+  /* ===== J — expanding image panels ===== */
+  .dJ{padding:90px 0;background:#fff}.dJ .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+  .panels{display:flex;gap:12px;height:460px}
+  .panel{position:relative;flex:1 1 0;min-width:0;border:none;padding:0;cursor:pointer;border-radius:var(--r-md);overflow:hidden;background:var(--ink);transition:flex .55s cubic-bezier(.2,.8,.2,1)}
+  .panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+  .panel::after{content:"";position:absolute;inset:0;background:rgba(26,21,38,.55);transition:background .5s}
+  .panel .content{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:24px;color:#fff;text-align:left}
+  .panel .badge{align-self:flex-start;background:var(--accent);color:var(--ink);font-family:var(--font-head);font-weight:600;font-size:12.5px;padding:5px 14px;clip-path:polygon(12% 0,100% 0,88% 100%,0 100%);margin-bottom:auto}
+  .panel h3{font-size:21px;letter-spacing:-.01em;margin-bottom:10px;white-space:nowrap}
+  .panel p{font-size:13.5px;line-height:1.5;color:rgba(255,255,255,.88);max-width:34ch;opacity:0;transform:translateY(10px);max-height:0;transition:opacity .4s ease,transform .4s ease}
+  .panel.active{flex:3.6 1 0}
+  .panel.active img{transform:scale(1.04)}
+  .panel.active::after{background:rgba(26,21,38,.32)}
+  .panel.active p{opacity:1;transform:none;max-height:120px}
+  @media(max-width:760px){.panels{flex-direction:column;height:auto}.panel{height:96px}.panel.active{height:300px}}
+
+  /* ===== K — hover/tap reveal mosaic ===== */
+  .dK{padding:90px 0;background:#fff}.dK .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+  .kgrid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:228px;gap:16px}
+  .ktile{position:relative;border:none;padding:0;border-radius:var(--r-md);overflow:hidden;cursor:pointer;background:var(--ink)}
+  .ktile.feature{grid-column:1/3;grid-row:1/3}
+  .ktile.wide{grid-column:3/5}
+  .ktile img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+  .ktile::after{content:"";position:absolute;inset:0;background:rgba(26,21,38,.16);transition:background .4s}
+  .ktile .rev{position:absolute;left:0;right:0;bottom:0;z-index:2;background:var(--ink);color:#fff;padding:20px 22px;text-align:left;
+    transform:translateY(calc(100% - 58px));transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+  .ktile .rev .n{font-family:var(--font-head);color:var(--accent);font-size:12px;font-weight:600;letter-spacing:.05em}
+  .ktile .rev h3{font-size:19px;margin:6px 0 8px;letter-spacing:-.01em}
+  .ktile .rev p{font-size:13px;color:rgba(255,255,255,.85);line-height:1.5;opacity:0;transition:opacity .45s ease}
+  .ktile:hover img,.ktile:focus-visible img{transform:scale(1.05)}
+  .ktile:hover::after,.ktile:focus-visible::after{background:rgba(26,21,38,.32)}
+  .ktile:hover .rev,.ktile:focus-visible .rev,.ktile.open .rev{transform:translateY(0)}
+  .ktile:hover .rev p,.ktile:focus-visible .rev p,.ktile.open .rev p{opacity:1}
+  @media(max-width:760px){.kgrid{grid-template-columns:1fr 1fr;grid-auto-rows:190px}.ktile.feature{grid-column:1/3;grid-row:auto}.ktile.wide{grid-column:1/3}}
+
+  /* ===== L — interactive showcase tabs ===== */
+  .dL{padding:90px 0;background:#fff}.dL .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+  .show{display:grid;grid-template-columns:.82fr 1.18fr;gap:42px;align-items:stretch}
+  .tabs{display:flex;flex-direction:column;border-top:1px solid var(--line);align-self:center}
+  .tab{border:none;background:none;text-align:left;padding:22px 10px;border-bottom:1px solid var(--line);cursor:pointer;font-family:var(--font-body);display:flex;gap:16px;align-items:baseline;transition:padding .35s ease,box-shadow .35s ease}
+  .tab .n{font-family:var(--font-head);color:var(--accent-dk);font-weight:600;font-size:14px}
+  .tab h3{font-size:21px;letter-spacing:-.01em;color:var(--ink-faint);transition:color .35s ease;margin:0}
+  .tab.active{padding-left:20px;box-shadow:inset 3px 0 0 var(--accent)}
+  .tab.active h3{color:var(--ink)}
+  .stage{position:relative;border-radius:var(--r-lg);overflow:hidden;background:var(--ink);min-height:460px}
+  .slide{position:absolute;inset:0;opacity:0;transform:scale(1.04);transition:opacity .6s ease,transform .9s ease;pointer-events:none}
+  .slide img{width:100%;height:100%;object-fit:cover}
+  .slide::after{content:"";position:absolute;inset:0;background:rgba(26,21,38,.5)}
+  .slide.active{opacity:1;transform:none}
+  .slide .cap{position:absolute;left:0;bottom:0;z-index:2;padding:34px;color:#fff;max-width:30ch}
+  .slide .cap .n{font-family:var(--font-head);color:var(--accent);font-weight:600;font-size:13px;letter-spacing:.05em}
+  .slide .cap h3{font-size:clamp(24px,3vw,34px);letter-spacing:-.02em;margin:8px 0 10px}
+  .slide .cap p{font-size:15px;line-height:1.6;color:rgba(255,255,255,.9)}
+  @media(max-width:760px){.show{grid-template-columns:1fr;gap:22px}.stage{min-height:340px;order:-1}}
+
+  @media(prefers-reduced-motion:reduce){
+    .panel,.panel img,.panel p,.ktile img,.ktile .rev,.ktile .rev p,.slide,.tab{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <span class="eyebrow">Section 2 · Values — interactive</span>
+  <h1>Three ways to make it move</h1>
+  <p>Working prototypes — hover or click to feel them. Each keeps the editorial mosaic energy plus the periwinkle joy and sharp geometry, and adds real interaction. All are keyboard-operable and fall back gracefully with reduced-motion on. The note next to each tells you what to try.</p>
+</div>
+
+<!-- J -->
+<div class="demo-label">
+  <span class="tag">Direction J</span><span class="tag try">Hover / click a panel</span>
+  <h2>Expanding image panels</h2>
+  <p>Four photo panels share the row; hover or click one and it expands to reveal the value, the others slide aside. Image-forward, alive, and the slanted periwinkle number badge keeps it cheerful. This is the classic "stop and play" interaction.</p>
+</div>
+<div class="demo-frame"><section class="dJ"><div class="wrap">
+  <div class="vhead"><span class="eyebrow">What we stand for</span><h2>Four values, every visit</h2></div>
+  <div class="panels">
+    <button class="panel active"><img src="assets/media/cta-join.jpg" alt="A happy dog outdoors"><div class="content"><span class="badge">01</span><h3>Compassion</h3><p>For every animal in our care, for our clients, and for each other.</p></div></button>
+    <button class="panel"><img src="assets/media/owner-beagle.jpg" alt="A beagle being comforted"><div class="content"><span class="badge">02</span><h3>Drive</h3><p>We show up driven to do our best work, every single day.</p></div></button>
+    <button class="panel"><img src="assets/media/team-hero.jpg" alt="The Noah's Ark team at work"><div class="content"><span class="badge">03</span><h3>Positive Attitude</h3><p>We choose to make the day brighter for everyone around us.</p></div></button>
+    <button class="panel"><img src="assets/media/owner-lab.jpg" alt="A Labrador receiving care"><div class="content"><span class="badge">04</span><h3>Proficient</h3><p>Lives depend on us, so we strive for excellence in every task.</p></div></button>
+  </div>
+</div></section></div>
+
+<div class="spacer"></div>
+
+<!-- K -->
+<div class="demo-label">
+  <span class="tag">Direction K</span><span class="tag try">Hover / tap a tile</span>
+  <h2>Reveal-on-hover mosaic</h2>
+  <p>The editorial mosaic you liked — but each tile teases the value name, then slides a navy panel up to reveal the full line on hover. Bento sizing gives depth; the reveal gives life. Tap works on touch.</p>
+</div>
+<div class="demo-frame"><section class="dK"><div class="wrap">
+  <div class="vhead"><span class="eyebrow">What we stand for</span><h2>Four values, every visit</h2></div>
+  <div class="kgrid">
+    <button class="ktile feature"><img src="assets/media/cta-join.jpg" alt="A happy dog outdoors"><div class="rev"><div class="n">01</div><h3>Compassion</h3><p>For every animal in our care, for our clients, and for each other.</p></div></button>
+    <button class="ktile"><img src="assets/media/owner-beagle.jpg" alt="A beagle being comforted"><div class="rev"><div class="n">02</div><h3>Drive</h3><p>Our best work, every single day.</p></div></button>
+    <button class="ktile"><img src="assets/media/owner-lab.jpg" alt="A Labrador receiving care"><div class="rev"><div class="n">03</div><h3>Positive Attitude</h3><p>Brighter days for everyone around us.</p></div></button>
+    <button class="ktile wide"><img src="assets/media/team-hero.jpg" alt="The Noah's Ark team at work"><div class="rev"><div class="n">04</div><h3>Proficient</h3><p>Lives depend on us, so we strive for excellence in every task.</p></div></button>
+  </div>
+</div></section></div>
+
+<div class="spacer"></div>
+
+<!-- L -->
+<div class="demo-label">
+  <span class="tag">Direction L</span><span class="tag try">Hover / click a value</span>
+  <h2>Interactive showcase</h2>
+  <p>The four values become a menu; pick one and a big image crossfades in with its line. Editorial and calm, but interactive — and the large photo stage is the "stop and look." Great if you want one hero-quality image at a time.</p>
+</div>
+<div class="demo-frame"><section class="dL"><div class="wrap">
+  <div class="vhead"><span class="eyebrow">What we stand for</span><h2>Four values, every visit</h2></div>
+  <div class="show">
+    <div class="tabs" role="tablist" aria-label="Our values">
+      <button class="tab active" role="tab" aria-selected="true" data-i="0"><span class="n">01</span><h3>Compassion</h3></button>
+      <button class="tab" role="tab" aria-selected="false" data-i="1"><span class="n">02</span><h3>Drive</h3></button>
+      <button class="tab" role="tab" aria-selected="false" data-i="2"><span class="n">03</span><h3>Positive Attitude</h3></button>
+      <button class="tab" role="tab" aria-selected="false" data-i="3"><span class="n">04</span><h3>Proficient</h3></button>
+    </div>
+    <div class="stage">
+      <div class="slide active" data-i="0"><img src="assets/media/cta-join.jpg" alt="A happy dog outdoors"><div class="cap"><div class="n">01 · Compassion</div><h3>Care that starts with kindness</h3><p>For every animal in our care, for our clients, and for each other.</p></div></div>
+      <div class="slide" data-i="1"><img src="assets/media/owner-beagle.jpg" alt="A beagle being comforted"><div class="cap"><div class="n">02 · Drive</div><h3>Our best, every single day</h3><p>We show up driven to do our best work, every single day.</p></div></div>
+      <div class="slide" data-i="2"><img src="assets/media/team-hero.jpg" alt="The Noah's Ark team at work"><div class="cap"><div class="n">03 · Positive Attitude</div><h3>We make the day brighter</h3><p>We choose to make the day brighter for everyone around us.</p></div></div>
+      <div class="slide" data-i="3"><img src="assets/media/owner-lab.jpg" alt="A Labrador receiving care"><div class="cap"><div class="n">04 · Proficient</div><h3>Excellence in every task</h3><p>Lives depend on us, so we strive for excellence in every task.</p></div></div>
+    </div>
+  </div>
+</div></section></div>
+
+<div class="spacer"></div><div class="spacer"></div>
+
+<script>
+/* J — expanding panels: click to lock open */
+document.querySelectorAll('.dJ .panels').forEach(function(row){
+  row.querySelectorAll('.panel').forEach(function(p){
+    p.addEventListener('click', function(){
+      row.querySelectorAll('.panel').forEach(function(x){x.classList.remove('active');});
+      p.classList.add('active');
+    });
+  });
+});
+/* K — tap to toggle reveal on touch */
+document.querySelectorAll('.dK .ktile').forEach(function(t){
+  t.addEventListener('click', function(){ t.classList.toggle('open'); });
+});
+/* L — showcase tabs: hover + click + arrow keys */
+document.querySelectorAll('.dL .show').forEach(function(show){
+  var tabs = show.querySelectorAll('.tab');
+  var slides = show.querySelectorAll('.slide');
+  function go(i){
+    tabs.forEach(function(t){var on=t.dataset.i===String(i);t.classList.toggle('active',on);t.setAttribute('aria-selected',on);});
+    slides.forEach(function(s){s.classList.toggle('active',s.dataset.i===String(i));});
+  }
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){ go(t.dataset.i); });
+    t.addEventListener('mouseenter', function(){ go(t.dataset.i); });
+    t.addEventListener('keydown', function(e){
+      var i = parseInt(t.dataset.i,10);
+      if(e.key==='ArrowDown'||e.key==='ArrowRight'){ e.preventDefault(); var n=(i+1)%tabs.length; tabs[n].focus(); go(n); }
+      if(e.key==='ArrowUp'||e.key==='ArrowLeft'){ e.preventDefault(); var n=(i-1+tabs.length)%tabs.length; tabs[n].focus(); go(n); }
+    });
+  });
+});
+</script>
+</body>
+</html>
