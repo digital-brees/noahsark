@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Values — Zoom-Stage Prototype | Noah's Ark</title>
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ===========================================================
+   VALUES — Catskill zoom-stage treatment, Noah's Ark system
+   Standalone PROTOTYPE — does not touch index.html / site.css.
+   Tokens copied from site.css so the file is self-contained.
+   =========================================================== */
+:root{
+  --ink:#342D4F; --ink-soft:#5B5278; --ink-faint:#8C86A8;
+  --paper:#FBFAF7; --paper-2:#F2EFE9; --white:#fff;
+  --accent:#1FA6AC; --accent-dk:#0E7378; --accent-lt:#7FD0D4;
+  --sky:#EBEEFB; --line:rgba(52,45,79,.14);
+  --font-head:'Bricolage Grotesque',sans-serif; --font-body:'Inter',sans-serif;
+  --r-md:12px; --r-lg:16px;
+  --shadow-lg:0 30px 60px -34px rgba(0,0,0,.55);
+  --ease:cubic-bezier(.5,.05,.25,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+h1,h2,h3{font-family:var(--font-head);font-weight:600;line-height:1.08;letter-spacing:-.02em}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:3px}
+
+/* --- prototype context spacers (simulate page above/below) --- */
+.proto-bar{position:fixed;top:0;left:0;right:0;z-index:80;background:var(--ink);color:#fff;
+  font-size:12.5px;letter-spacing:.04em;padding:8px 18px;display:flex;gap:14px;align-items:center;justify-content:center;text-align:center}
+.proto-bar b{color:var(--accent-lt)}
+.spacer{min-height:62vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px;background:var(--paper)}
+.spacer p{max-width:46ch;color:var(--ink-faint);font-size:15px}
+.spacer.sky{background:var(--sky)}
+
+/* pill eyebrow (from site.css) */
+.pill-eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--ink);
+  font-family:var(--font-body);font-weight:600;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;
+  padding:9px 17px;border-radius:999px;margin-bottom:22px;box-shadow:0 6px 18px -10px rgba(0,0,0,.45)}
+.pill-eyebrow svg{width:18px;height:12px;color:var(--accent-dk);flex:0 0 auto}
+
+/* ============ VALUES ZOOM-STAGE ============ */
+.vz{background:var(--ink);color:#fff;position:relative}
+
+/* --- DEFAULT (no-JS / mobile / reduced-motion): clean stacked story --- */
+.vz-stage{position:relative}
+.vz-scene{position:relative;overflow:hidden}
+.vz-overlay{max-width:760px;margin:0 auto;text-align:center;padding:clamp(64px,9vw,104px) 24px clamp(20px,4vw,40px)}
+.vz-overlay h2{color:#fff;font-size:clamp(30px,4vw,52px);margin:0 0 16px}
+.vz-overlay .lede{color:rgba(255,255,255,.82);font-size:clamp(17px,2vw,20px);max-width:54ch;margin:0 auto}
+.vz-dots,.vz-cue{display:none}
+
+.vz-camera{position:relative}
+.vz-canvas{display:flex;flex-direction:column;align-items:center;gap:clamp(28px,4vw,48px);
+  padding:clamp(28px,4vw,48px) 24px clamp(64px,9vw,104px)}
+.vz-thread{display:none} /* the drawn thread only reads in camera mode */
+
+.vz-beat{width:100%;max-width:560px;background:var(--white);color:var(--ink);border-radius:var(--r-lg);
+  overflow:hidden;box-shadow:var(--shadow-lg);display:grid;grid-template-rows:auto auto}
+.vz-beat__img{aspect-ratio:4/3;overflow:hidden;background:var(--paper-2)}
+.vz-beat__img img{width:100%;height:100%;object-fit:cover}
+.vz-beat__body{padding:clamp(26px,3vw,40px) clamp(26px,3vw,40px) clamp(30px,3.4vw,44px)}
+.vz-beat__n{font-family:var(--font-head);font-weight:700;font-size:clamp(40px,5vw,68px);line-height:.9;
+  color:var(--accent-dk);letter-spacing:-.03em;display:block}
+.vz-beat__n::after{content:"";display:block;width:46px;height:3px;background:var(--accent);border-radius:2px;margin:14px 0 16px}
+.vz-beat__body h3{font-size:clamp(24px,3vw,34px);color:var(--ink);margin-bottom:12px}
+.vz-beat__body p{color:var(--ink-soft);font-size:16.5px;line-height:1.7;max-width:46ch}
+
+/* --- CAMERA MODE (JS adds .vz-ready on capable desktop) --- */
+.vz.vz-ready .vz-stage{height:400vh}
+.vz.vz-ready .vz-scene{position:sticky;top:0;height:100vh}
+/* title sits in the corner over card 1, then fades the moment you pan to card 2 */
+.vz.vz-ready .vz-overlay{position:absolute;top:0;left:0;z-index:12;max-width:min(32vw,460px);text-align:left;
+  margin:0;padding:clamp(28px,4vw,52px) clamp(28px,4vw,56px);transition:opacity .4s var(--ease)}
+.vz.vz-ready .vz-overlay h2{font-size:clamp(28px,3vw,44px)}
+.vz.vz-ready .vz-overlay .lede{margin:0;font-size:clamp(15px,1.5vw,18px);max-width:40ch}
+.vz.vz-ready.intro-gone .vz-overlay{opacity:0;pointer-events:none}
+.vz.vz-ready .vz-camera{position:absolute;inset:0;overflow:hidden}
+.vz.vz-ready .vz-canvas{position:absolute;top:0;left:0;width:5600px;height:3900px;display:block;padding:0;gap:0;
+  transform-origin:0 0;will-change:transform}
+.vz.vz-ready .vz-thread{display:block;position:absolute;inset:0;width:5600px;height:3900px;pointer-events:none;overflow:visible}
+.vz.vz-ready .vz-beat{position:absolute;width:1360px;max-width:none;height:1040px;grid-template-rows:none;
+  grid-template-columns:46fr 54fr;border-radius:20px}
+.vz.vz-ready .vz-beat__img{aspect-ratio:auto;height:100%}
+.vz.vz-ready .vz-beat[data-flip] .vz-beat__img{order:2}
+.vz.vz-ready .vz-beat__body{display:flex;flex-direction:column;justify-content:center;padding:64px 72px}
+.vz.vz-ready .vz-beat__n{font-size:150px}
+.vz.vz-ready .vz-beat__n::after{width:84px;height:5px;margin:26px 0 28px}
+.vz.vz-ready .vz-beat__body h3{font-size:62px;margin-bottom:26px}
+.vz.vz-ready .vz-beat__body p{font-size:25px;line-height:1.55;max-width:30ch}
+
+/* beat placement on the 5200x3700 canvas (loose descending zig-zag) */
+.vz.vz-ready .vz-beat[data-i="0"]{left:560px;top:380px}
+.vz.vz-ready .vz-beat[data-i="1"]{left:3680px;top:980px}
+.vz.vz-ready .vz-beat[data-i="2"]{left:640px;top:2040px}
+.vz.vz-ready .vz-beat[data-i="3"]{left:3560px;top:2640px}
+
+/* active beat lift */
+.vz.vz-ready .vz-beat{transition:box-shadow .5s var(--ease),transform .6s var(--ease);transform:scale(.985)}
+.vz.vz-ready .vz-beat.is-active{box-shadow:0 50px 110px -40px rgba(0,0,0,.7);transform:scale(1)}
+
+/* the teal thread (reuses the homepage Signature spine language) */
+.vz-thread .t-line{fill:none;stroke:rgba(127,208,212,.22);stroke-width:5}
+.vz-thread .t-fg{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;
+  stroke-dasharray:1;stroke-dashoffset:1}
+.vz-thread .t-node{fill:var(--ink);stroke:var(--accent);stroke-width:4;opacity:0;transition:opacity .5s var(--ease)}
+.vz-thread .t-node.on{opacity:1}
+.vz-thread .t-node-core{fill:var(--accent-lt);opacity:0;transition:opacity .5s var(--ease) .1s}
+.vz-thread .t-node-core.on{opacity:1}
+
+/* progress dots */
+.vz.vz-ready .vz-dots{display:flex;flex-direction:column;gap:14px;position:absolute;right:clamp(20px,3vw,40px);
+  top:50%;transform:translateY(-50%);z-index:12}
+.vz-dots span{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.24);transition:all .4s var(--ease)}
+.vz-dots span.on{background:var(--accent);transform:scale(1.45);box-shadow:0 0 0 5px rgba(31,166,172,.18)}
+
+/* scroll cue */
+.vz.vz-ready .vz-cue{display:flex;align-items:center;gap:9px;position:absolute;left:50%;bottom:26px;
+  transform:translateX(-50%);z-index:12;color:rgba(255,255,255,.7);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  transition:opacity .4s var(--ease)}
+.vz.vz-ready.is-end .vz-cue{opacity:0;pointer-events:none}
+.vz-cue svg{width:16px;height:16px;animation:vzbob 1.8s ease-in-out infinite}
+@keyframes vzbob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+
+@media(prefers-reduced-motion:reduce){
+  .vz-cue svg{animation:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<div class="proto-bar">PROTOTYPE · Values as Catskill <b>zoom-stage</b> · scroll through the dark band — desktop pans the camera, mobile/reduced-motion falls back to the clean stack</div>
+
+<section class="spacer" style="margin-top:34px">
+  <p>↑ (imagine the homepage Story + Signature sections above) — keep scrolling into the Values band ↓</p>
+</section>
+
+<!-- ============ VALUES — ZOOM-STAGE ============ -->
+<section class="vz" data-vz>
+  <div class="vz-stage">
+    <div class="vz-scene">
+
+      <div class="vz-overlay">
+        <span class="pill-eyebrow"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg>What We Stand For</span>
+        <h2>The Values Behind Every Visit</h2>
+        <p class="lede">Noah's Ark runs on four values. They aren't posters in a break room. They're how the day actually works.</p>
+      </div>
+
+      <div class="vz-dots" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span></div>
+
+      <div class="vz-camera">
+        <div class="vz-canvas">
+
+          <!-- teal thread connecting the four value beats -->
+          <svg class="vz-thread" viewBox="0 0 5600 3900" preserveAspectRatio="none" aria-hidden="true">
+            <path class="t-line" d="M1240 900 C2200 1120,3300 1180,4360 1500 C3300 2000,2300 2150,1320 2560 C2300 2850,3200 2850,4240 3160" />
+            <path class="t-fg"   d="M1240 900 C2200 1120,3300 1180,4360 1500 C3300 2000,2300 2150,1320 2560 C2300 2850,3200 2850,4240 3160" pathLength="1" />
+            <g><circle class="t-node" cx="1240" cy="900"  r="20"/><circle class="t-node-core" cx="1240" cy="900"  r="8"/></g>
+            <g><circle class="t-node" cx="4360" cy="1500" r="20"/><circle class="t-node-core" cx="4360" cy="1500" r="8"/></g>
+            <g><circle class="t-node" cx="1320" cy="2560" r="20"/><circle class="t-node-core" cx="1320" cy="2560" r="8"/></g>
+            <g><circle class="t-node" cx="4240" cy="3160" r="20"/><circle class="t-node-core" cx="4240" cy="3160" r="8"/></g>
+          </svg>
+
+          <!-- BEAT 1 — Compassion -->
+          <article class="vz-beat is-active" data-i="0" data-flip>
+            <div class="vz-beat__img"><img src="assets/media/value-compassion.jpg" alt="A pet owner hugging her dog closely at home" /></div>
+            <div class="vz-beat__body">
+              <span class="vz-beat__n">01</span>
+              <h3>Compassion</h3>
+              <p>For your pet, for your family, and for each other. It's why someone carries your cat's crate in, why we ask about the whole family and not just the symptoms, and why we give the hardest goodbyes the time and gentleness they deserve.</p>
+            </div>
+          </article>
+
+          <!-- BEAT 2 — Positive Attitude -->
+          <article class="vz-beat" data-i="1">
+            <div class="vz-beat__img"><img src="assets/media/value-positive.jpg" alt="A child playing happily with a dog in a sunny field" /></div>
+            <div class="vz-beat__body">
+              <span class="vz-beat__n">02</span>
+              <h3>Positive Attitude</h3>
+              <p>This is a team that likes being here, likes working with each other, and likes working with you. You'll feel it in every interaction, even on the tough days.</p>
+            </div>
+          </article>
+
+          <!-- BEAT 3 — Proficiency -->
+          <article class="vz-beat" data-i="2" data-flip>
+            <div class="vz-beat__img"><img src="assets/media/value-proficiency.jpg" alt="A pet owner gently holding a calm cat at home" /></div>
+            <div class="vz-beat__body">
+              <span class="vz-beat__n">03</span>
+              <h3>Proficiency</h3>
+              <p>We're AAHA-accredited, which means we're graded against strict national standards and inspected to prove we meet them. When you're trusted with animals' lives, that rigor is the difference between done and done well.</p>
+            </div>
+          </article>
+
+          <!-- BEAT 4 — Drive -->
+          <article class="vz-beat" data-i="3">
+            <div class="vz-beat__img"><img src="assets/media/value-drive.jpg" alt="A man walking his dog along a trail at sunset" /></div>
+            <div class="vz-beat__body">
+              <span class="vz-beat__n">04</span>
+              <h3>Drive</h3>
+              <p>If there's a problem, we keep investigating until we have answers. Your pet's health isn't something we take lightly.</p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <div class="vz-cue" aria-hidden="true">Scroll <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+
+    </div>
+  </div>
+</section>
+
+<section class="spacer sky">
+  <p>↓ (the Neighborhood / map section would continue here) — the band unpins cleanly after the camera pulls back to show all four values.</p>
+</section>
+
+<script>
+/* =================================================================
+   Values zoom-stage camera — adapted from Catskill's origin scene.
+   Desktop + motion-OK: pin the scene, translate/scale a giant canvas
+   between four value "beats" on scroll. Mobile / reduced-motion /
+   no-JS: leave the clean stacked layout untouched (no .vz-ready).
+   ================================================================= */
+(function valuesZoomStage(){
+  var sec    = document.querySelector('[data-vz]');
+  if (!sec) return;
+  var stage  = sec.querySelector('.vz-stage');
+  var canvas = sec.querySelector('.vz-canvas');
+  var beats  = [].slice.call(sec.querySelectorAll('.vz-beat'));
+  var fg     = sec.querySelector('.t-fg');
+  var nodes  = [].slice.call(sec.querySelectorAll('.t-node'));
+  var cores  = [].slice.call(sec.querySelectorAll('.t-node-core'));
+  var dots   = [].slice.call(sec.querySelectorAll('.vz-dots span'));
+
+  var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function capable(){ return !rm && window.innerWidth > 900; }
+
+  // beat centers (must match the CSS left/top + 680,520 half-size)
+  var CENTERS = [[1240,900],[4360,1500],[1320,2560],[4240,3160]];
+
+  // 0.70 multiplier leaves a comfortable margin of dark band around each
+  // card (was 0.92 = near edge-to-edge) so the values read as cards in a
+  // scene, not billboards. Lower this further to pull the camera back more.
+  function beatScale(){ return Math.min(window.innerWidth/1360, window.innerHeight/1040) * 0.70; }
+
+  function keyframes(){
+    var bs = beatScale();
+    var c = CENTERS;
+    return [
+      [0.00, c[0][0], c[0][1], bs],
+      [0.14, c[0][0], c[0][1], bs],  // hold card 1
+      [0.34, c[1][0], c[1][1], bs],  // pan to card 2
+      [0.48, c[1][0], c[1][1], bs],
+      [0.64, c[2][0], c[2][1], bs],  // pan to card 3
+      [0.78, c[2][0], c[2][1], bs],
+      [0.94, c[3][0], c[3][1], bs],  // pan to card 4
+      [1.00, c[3][0], c[3][1], bs]   // hold card 4, then unpin straight into the next section
+    ];
+  }
+  function smoothstep(x){ return x*x*(3-2*x); }
+  function lerp(a,b,t){ return a + (b-a)*t; }
+  function getCamera(t){
+    var kf = keyframes();
+    for (var i=0;i<kf.length-1;i++){
+      var a = kf[i], b = kf[i+1];
+      if (t >= a[0] && t <= b[0]){
+        var u  = (b[0]===a[0]) ? 0 : (t-a[0])/(b[0]-a[0]);
+        var eu = smoothstep(u);
+        return [lerp(a[1],b[1],eu), lerp(a[2],b[2],eu), lerp(a[3],b[3],eu)];
+      }
+    }
+    var last = kf[kf.length-1];
+    return [last[1],last[2],last[3]];
+  }
+  function applyCamera(t){
+    var cam = getCamera(t), lx=cam[0], ly=cam[1], s=cam[2];
+    var tx = window.innerWidth/2  - lx*s;
+    var ty = window.innerHeight/2 - ly*s;
+    canvas.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+  }
+
+  // which beat is "in focus" for a given progress
+  var THRESH = [0, 0.24, 0.56, 0.86]; // t at which each beat becomes active
+  function activeIndex(t){
+    var idx = 0;
+    for (var i=0;i<THRESH.length;i++){ if (t >= THRESH[i]) idx = i; }
+    return idx;
+  }
+
+  function update(){
+    if (!sec.classList.contains('vz-ready')) return;
+    var rect = stage.getBoundingClientRect();
+    var total = stage.offsetHeight - window.innerHeight;
+    var scrolled = Math.max(0, Math.min(total, -rect.top));
+    var t = total ? scrolled/total : 0;
+
+    applyCamera(t);
+
+    // thread draws across [0 .. 0.90]
+    var drawn = Math.min(1, t / 0.90);
+    fg.style.strokeDashoffset = String(1 - drawn);
+
+    sec.classList.toggle('intro-gone', t > 0.16); // title fades as we leave card 1
+    sec.classList.toggle('is-end', t > 0.9);       // fade the scroll cue near the end
+    var ai = activeIndex(t);
+    beats.forEach(function(b,i){ b.classList.toggle('is-active', i===ai); });
+    dots.forEach(function(d,i){ d.classList.toggle('on', i<=ai); });
+    // light each node once its beat is reached
+    nodes.forEach(function(n,i){ n.classList.toggle('on', i<=ai); });
+    cores.forEach(function(n,i){ n.classList.toggle('on', i<=ai); });
+  }
+
+  function layout(){
+    if (capable()){
+      sec.classList.add('vz-ready');
+      update();
+    } else {
+      sec.classList.remove('vz-ready');
+      canvas.style.transform = '';      // hand layout back to CSS stack
+      if (fg) fg.style.strokeDashoffset = '';
+      beats.forEach(function(b){ b.classList.remove('is-active'); });
+    }
+  }
+
+  var raf = false;
+  window.addEventListener('scroll', function(){
+    if (raf) return; raf = true;
+    requestAnimationFrame(function(){ update(); raf = false; });
+  }, { passive:true });
+  window.addEventListener('resize', function(){ layout(); }, { passive:true });
+
+  layout();
+})();
+</script>
+</body>
+</html>

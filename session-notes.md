@@ -1,5 +1,12 @@
 # Noah's Ark Veterinary Hospital — Session Notes
 
+## Homepage Values + FAQ + GMB (2026-06-10, Brees session) — DONE, on `site.css?v=31` / `load-partials.js?v=10`
+- **Values section REBUILT as a Catskill-style zoom-stage** (replaced the old `.vstory` sticky-crossfade). Desktop + motion-OK: the dark ink band pins (`.vz-ready`, stage 400vh) and a 5600×3900 canvas pans/zooms value→value (4 beats, smoothstep keyframes) along a drawn **teal thread** (reuses the homepage Signature spine language). Title sits top-left over card 1, **fades when you reach card 2**; camera **holds on card 4 then unpins straight into Neighborhood** (Brees cut the pull-back overview). Cards are white "photo cards" on ink, **text on OUTER edge / photo on INNER edge** so the thread never crosses copy. Card scale multiplier 0.70 (Brees: original 0.92 was too big). Mobile / reduced-motion / no-JS = clean **stacked fallback** (JS never adds `.vz-ready`). Engine = `initValuesZoom()` in `load-partials.js`; styles `.vz*` in `site.css` (replaced all `.vstory`/`.vimg`/`.vitem`). Built + tuned via scratch **`values-zoomstage-proto.html`** (kept in repo as sandbox — safe to delete later).
+- **Homepage FAQ → collapsing accordion** (native `<details>/<summary>`, collapsed by default) to cut scroll (two long answers bloated the page). Reused the project's accessible toggle pattern; kept sticky aside, 01–07 numbering, question `<h3>`s, all copy, and FAQPage JSON-LD. +/- indicator, teal focus ring, reduced-motion gated. NOTE: this is the **homepage** FAQ — service pages stay open-editorial per the earlier "no toggles" call.
+- **GMB linked to the map** (clears the flagged launch blocker): map embed + Neighborhood address + **shared footer address** now query by business **NAME + address**, resolving to Noah's Ark's real Google Business Profile (named pin, 4.7★/346 reviews, "View larger map" → their listing). Builder note updated: swap iframe `src` for the practice's GMB share/embed link or a Maps Embed API key + place_id for the exact canonical embed when provided.
+
+---
+
 **Status:** WELLNESS PAGE = NEW DESIGN-DIRECTION EXEMPLAR, IN ACTIVE ITERATION (2026-06-09 pm). After several rounds, Brees rejected the generic "modern vet" look ("any logo could be on this site") and we pivoted the **Wellness page** to a new direction modeled on the **CarelyGo Webflow template** (warm, photo-forward, light/cheerful, community). This is now the exemplar to validate before propagating to the other 5 service pages. See **"Wellness Redesign — CarelyGo Direction"** section below for full detail + OPEN DECISIONS (accent color coral vs teal is the live open question). Service restructure (5 hubs + emergency + 4 blog posts + dropdown nav + 46 301s) and Team page redesign remain done from earlier in the day.
 **Started:** 2026-06-03
 **Designer:** Brees
@@ -191,8 +198,31 @@ Full a11y pass on the built surfaces (team.html + shared header/footer/css/js):
 - **Footer copyright** opacity raised .5→.66 to clear 4.5:1 on navy.
 - NOTE: when homepage + other pages are built, reuse the same patterns (skip link target id=main, accent-dk CTAs, focus-visible inherited from site.css).
 
+## HOMEPAGE — v1 BUILT (2026-06-10) — in review
+`index.html` (was a 429-byte placeholder) is now the full homepage, built on the locked CarelyGo direction (teal, Bricolage+Inter, pill eyebrows, warm photo-forward), full WCAG 2.1 AA, all motion reduced-motion gated. Copy is **VERBATIM from Alie's doc** (Drive: "Noah's Ark Veterinary Hospital — Homepage Copy (For Review)", id `132Zr9_PdVzFEJMLqpxhFP9fm8CzTc_MZJ6GnWPSAaM0`).
+
+**Sections (7) + storytelling treatments (refs: Catskill continuous-line spine + Woodhaven motion):**
+1. **Hero** (`.home-hero`) — warm full-bleed `hero-owner.jpg`, scrim `.60`, Ken-Burns `heroZoom`. **Sequenced load**: pill → H1 → subhead → actions → trust-bar, then 4 trust chips fade in 1-by-1 (CSS `seqUp`/`chipIn`, reduced-motion = all visible). "Request an Appointment" (teal) + "Call Us" link. Trust chips have own dark bg for AA over photo.
+2. **Story — Independently Owned Since 1983** (`.home-story`, paper) — 3 verbatim paras + `.stat-strip` (1983 / 40+ / AAHA; the 40+ **counts up** on scroll via `initCountUp`, `data-plain` opts the year out) + framed parallax `team-hero.jpg` w/ "Est. 1983" stamp.
+3. **THE SIGNATURE — Care for Every Stage** (`.journey`, white) — scroll-linked **teal spine** (`initJourney` draws `.journey__line-fg` via stroke-dashoffset as the section passes through; reduced-motion = fully drawn static). 6 services as a life-journey, zig-zag (`nth-of-type(even)` flip — NOTE the inline `<svg>` is the track's first child, so must be nth-of-type not nth-child), node dots on the line, hover image-zoom. Links to the 5 service hubs (+ Senior→wellness).
+4. **Values** (`.vstory`, DARK ink band) — **REDESIGNED 2026-06-10**: Brees rejected the first version (2×2 frosted-glass cards — "glass boxes are an AI giveaway"; section's job is TRUST). Now a **cinematic pinned, photo-anchored story**: a sticky full-height image column **crossfades** between 4 warm owner+pet photos as the 4 values scroll past as oversized editorial entries (big teal index, name, copy, hairline-divided — NO boxes); active value lights teal (`initValueStory`, IO center-band `rootMargin:-45% 0 -45%`). Reduced-motion/no-IO = first image holds + clean static stack (no dimming). Mobile (≤900px) = sticky media hidden, each value shows its own inline image stacked above the copy. **4 NEW images pulled from Pexels + optimized** (`assets/media/value-{compassion,positive,proficiency,drive}.jpg`, 1200×1800): compassion=woman hugging husky pup, positive=boy+dog sunny field, proficiency=woman holding cat soft-light, drive=man+dog hiking at sunset. All pet-owner lifestyle (faces OK per rules, no clinical/gloves). Still stock — swap for real Noah's Ark team/client photos when available.
+5. **Neighborhood** (`.home-place`, sky) — copy + facts (address/hours/phone) + **Google map embed**. White pill (sky bg).
+6. **FAQ** (`.svc-faq` reused) — 7 verbatim Qs, FAQPage JSON-LD.
+7. **Closing CTA** (`.cta-band--image` reused) — "There's Room for Your Pet…", warm `cta-join.jpg`, teal button.
+- JSON-LD: VeterinaryCare + FAQPage. `site.css?v=28`, `load-partials.js?v=8` (added `initJourney` + `initCountUp`).
+
+**FOUNDING YEAR FIXED → 1983** (Brees confirmed): updated about.html (meta+H1), footer (shared), team.html (meta+pill), wellness (intro+cap) from "1992"→"1983". **Left Jill Moon's bio "since 1992" intact** (that's her real staff tenure — the likely source of the original mix-up).
+
+**OPEN / follow-ups before launch:**
+- **GMB link (flagged per skill):** the map + address use a generic `maps?q=address` embed — NOT the real Google Business Profile place. Need the practice's actual GMB listing URL. Builder note left in `index.html`. Applies to footer address too (currently plain text, not linked).
+- **GTM (project-wide gap):** no Google Tag Manager on the site yet. Per DE Standard it must load on every page; needs the container ID from Salesforce `Project__c.GTM_Code__c`. Add across all pages before launch.
+- **Imagery:** all homepage photos are existing Pexels stock placeholders reused from `assets/media/` (hero reuses the wellness hero shot; journey reuses card/owner photos — warm + on-brand but generic, not service-literal). Swap for real local Williamsburg photography (Drive folders still empty), and ideally give the homepage hero its own distinct shot vs wellness.
+- Review hero scrim warmth (.60) vs the wellness hero (.52) — went heavier for AA on the extra small text (sub + chips).
+
 ## To Do / Next
-- [ ] **HOMEPAGE — NOW ACTIVE (2026-06-10).** Brees: Alie's copy should be available now (was the blocker). Design bar: reference the **example sites in the vet-website-designer skill** + bake in **storytelling scroll animations in the spirit of Catskill + Woodhaven** so the homepage really stands out (not a static template). Must use the locked CarelyGo direction (teal accent, Bricolage+Inter, pill eyebrows, warm photo-forward) + full WCAG 2.1 AA + reduced-motion gating on every animation.
+- [ ] Homepage review w/ Brees → iterate → connect the 5 hubs are already linked from the journey
+- [ ] GMB listing URL (map + footer/contact address links) — BLOCKING for accurate map
+- [ ] GTM container ID from Salesforce → add site-wide
 - [ ] Connect Vercel
 - [ ] About, Contact, Services hub, Careers, Blog
 - [ ] Service detail template → mass-produce ~47

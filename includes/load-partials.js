@@ -137,11 +137,170 @@
     update();
   }
 
+  function initJourney() {
+    // Scroll-linked "spine": the teal line draws as the journey section passes through view.
+    // Reduced-motion: line is shown fully drawn, statically.
+    var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('[data-journey]').forEach(function (sec) {
+      var fg = sec.querySelector('.journey__line-fg');
+      if (!fg) return;
+      var track = sec.querySelector('.journey__track') || sec;
+      if (rm) { fg.style.strokeDashoffset = '0'; return; }
+      var ticking = false;
+      function update() {
+        ticking = false;
+        var r = track.getBoundingClientRect();
+        var vh = window.innerHeight;
+        var prog = (vh * 0.62 - r.top) / r.height;
+        if (prog < 0) prog = 0; else if (prog > 1) prog = 1;
+        fg.style.strokeDashoffset = String(1 - prog);
+      }
+      function onScroll() { if (!ticking) { ticking = true; window.requestAnimationFrame(update); } }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      update();
+    });
+  }
+
+  function initCountUp() {
+    // Animate [data-count] numbers up when they scroll into view. data-plain="true" opts out
+    // (e.g. a literal year). Reduced-motion: jump straight to the final value.
+    var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var els = [].slice.call(document.querySelectorAll('dd[data-count]'))
+      .filter(function (el) { return el.getAttribute('data-plain') !== 'true'; });
+    if (!els.length) return;
+    function run(el) {
+      var target = parseFloat(el.getAttribute('data-count')) || 0;
+      var suffix = el.getAttribute('data-suffix') || '';
+      if (rm) { el.textContent = target + suffix; return; }
+      var dur = 1100, start = null;
+      function step(ts) {
+        if (!start) start = ts;
+        var p = Math.min((ts - start) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * eased) + suffix;
+        if (p < 1) window.requestAnimationFrame(step);
+      }
+      window.requestAnimationFrame(step);
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } });
+      }, { threshold: 0.5 });
+      els.forEach(function (el) { io.observe(el); });
+    } else { els.forEach(run); }
+  }
+
+  function initValuesZoom() {
+    // Values zoom-stage: pin the dark band and translate/scale a giant canvas
+    // between four value "beats" on scroll, drawing a teal thread between them.
+    // Desktop + motion-OK only. Mobile / reduced-motion / no-JS: the CSS stacked
+    // layout holds (we simply never add .vz-ready).
+    var sec = document.querySelector('[data-vz]');
+    if (!sec) return;
+    var stage  = sec.querySelector('.vz-stage');
+    var canvas = sec.querySelector('.vz-canvas');
+    var beats  = [].slice.call(sec.querySelectorAll('.vz-beat'));
+    var fg     = sec.querySelector('.t-fg');
+    var nodes  = [].slice.call(sec.querySelectorAll('.t-node'));
+    var cores  = [].slice.call(sec.querySelectorAll('.t-node-core'));
+    var dots   = [].slice.call(sec.querySelectorAll('.vz-dots span'));
+    if (!stage || !canvas || !beats.length) return;
+
+    var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function capable() { return !rm && window.innerWidth > 900; }
+
+    // beat centers (match the CSS left/top + 680,520 half-size)
+    var CENTERS = [[1240, 900], [4360, 1500], [1320, 2560], [4240, 3160]];
+    function beatScale() { return Math.min(window.innerWidth / 1360, window.innerHeight / 1040) * 0.70; }
+
+    function keyframes() {
+      var bs = beatScale(), c = CENTERS;
+      return [
+        [0.00, c[0][0], c[0][1], bs],
+        [0.14, c[0][0], c[0][1], bs],  // hold card 1
+        [0.34, c[1][0], c[1][1], bs],  // pan to card 2
+        [0.48, c[1][0], c[1][1], bs],
+        [0.64, c[2][0], c[2][1], bs],  // pan to card 3
+        [0.78, c[2][0], c[2][1], bs],
+        [0.94, c[3][0], c[3][1], bs],  // pan to card 4
+        [1.00, c[3][0], c[3][1], bs]   // hold card 4, then unpin into the next section
+      ];
+    }
+    function smoothstep(x) { return x * x * (3 - 2 * x); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function getCamera(t) {
+      var kf = keyframes();
+      for (var i = 0; i < kf.length - 1; i++) {
+        var a = kf[i], b = kf[i + 1];
+        if (t >= a[0] && t <= b[0]) {
+          var u = (b[0] === a[0]) ? 0 : (t - a[0]) / (b[0] - a[0]);
+          var eu = smoothstep(u);
+          return [lerp(a[1], b[1], eu), lerp(a[2], b[2], eu), lerp(a[3], b[3], eu)];
+        }
+      }
+      var last = kf[kf.length - 1];
+      return [last[1], last[2], last[3]];
+    }
+    function applyCamera(t) {
+      var cam = getCamera(t), lx = cam[0], ly = cam[1], s = cam[2];
+      var tx = window.innerWidth / 2 - lx * s;
+      var ty = window.innerHeight / 2 - ly * s;
+      canvas.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+    }
+
+    var THRESH = [0, 0.24, 0.56, 0.86];
+    function activeIndex(t) {
+      var idx = 0;
+      for (var i = 0; i < THRESH.length; i++) { if (t >= THRESH[i]) idx = i; }
+      return idx;
+    }
+
+    function update() {
+      if (!sec.classList.contains('vz-ready')) return;
+      var rect = stage.getBoundingClientRect();
+      var total = stage.offsetHeight - window.innerHeight;
+      var scrolled = Math.max(0, Math.min(total, -rect.top));
+      var t = total ? scrolled / total : 0;
+      applyCamera(t);
+      var drawn = Math.min(1, t / 0.90);
+      if (fg) fg.style.strokeDashoffset = String(1 - drawn);
+      sec.classList.toggle('intro-gone', t > 0.16); // title fades as we leave card 1
+      sec.classList.toggle('is-end', t > 0.9);       // fade the scroll cue near the end
+      var ai = activeIndex(t);
+      beats.forEach(function (b, i) { b.classList.toggle('is-active', i === ai); });
+      dots.forEach(function (d, i) { d.classList.toggle('on', i <= ai); });
+      nodes.forEach(function (n, i) { n.classList.toggle('on', i <= ai); });
+      cores.forEach(function (n, i) { n.classList.toggle('on', i <= ai); });
+    }
+
+    function layout() {
+      if (capable()) { sec.classList.add('vz-ready'); update(); }
+      else {
+        sec.classList.remove('vz-ready');
+        canvas.style.transform = '';
+        if (fg) fg.style.strokeDashoffset = '';
+        beats.forEach(function (b) { b.classList.remove('is-active'); });
+      }
+    }
+
+    var raf = false;
+    window.addEventListener('scroll', function () {
+      if (raf) return; raf = true;
+      window.requestAnimationFrame(function () { update(); raf = false; });
+    }, { passive: true });
+    window.addEventListener('resize', function () { layout(); }, { passive: true });
+    layout();
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     inject('global-header', 'header.html', initHeader);
     inject('global-footer', 'footer.html', initFooter);
     initHeroVideos();
     initParallax();
+    initJourney();
+    initCountUp();
+    initValuesZoom();
 
     // global scroll-reveal
     var els = document.querySelectorAll('.reveal, .reveal-right');
