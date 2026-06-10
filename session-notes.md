@@ -1,5 +1,11 @@
 # Noah's Ark Veterinary Hospital — Session Notes
 
+## Find Us — faint Virginia watermark (2026-06-10, Brees) — DONE, index on `site.css?v=33`
+- Added a **decorative faint Virginia state silhouette** behind the homepage Neighborhood/"Find Us" section (`.home-place__bg`, inline SVG). Purely ornamental — grounds the section in place, NOT functional (the live Google map stays the functional element).
+- Accurate state outline (real path from the `@svg-maps/usa` dataset, tight viewBox `982 250 150 86`), **single flat ink fill at 6% opacity** (no gradient, on-brand), **bleeds off the LEFT edge** behind the copy column so it doesn't read as a second contained map / compete with the map on the right. `aria-hidden`, `pointer-events:none`, content lifted above via z-index; text contrast untouched (AA fine).
+- CSS: `.home-place` now `position:relative;overflow:hidden`; `.home-place__bg` absolute left-bleed; `.home-place__inner` z-index:1. Only the homepage uses `.home-place`, so bumped ONLY `index.html` (`site.css?v=32 → v=33`).
+- DIALS for later: opacity (6% = whisper; ~8–10% more present), size/position, fill-vs-hairline-outline, optional Williamsburg locator dot (left off to stay purely decorative).
+
 ## Header utility-bar cleanup (2026-06-10, Brees) — DONE, on `site.css?v=32`
 - **Killed the duplicate "Request Appointment."** There were two — one in the navy utility (top) bar and one in the main nav. Removed the utility-bar one (`.util-appt`); kept the main-header `.nav-cta`. Mobile menu `.mm-cta` appointment button untouched (correct — desktop nav hidden on mobile).
 - **Moved the phone** from the far-left of the utility bar to the right end, next to Online Store (where the appt button was). New utility order (right-aligned): Pet Portal · RX Refill · Online Store · (757) 564-9815.
