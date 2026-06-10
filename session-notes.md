@@ -25,16 +25,14 @@ Canonical file: `services/wellness-care.html` + shared `assets/css/site.css` + `
 
 **Reusable pieces added to site.css:** `.pill-eyebrow` (+`--soft` sky variant), `.peak-eyebrow`, `.pcards/.pcard/.pcard__label`, `.carely-hero*`, `--sky` token, `heroZoom` keyframe, parallax engine in load-partials.js (`[data-parallax]`, reduced-motion gated), directional reveals (`.reveal-right`, `.reveal-delay-*`, svc-card nth-child cascade).
 
-### OPEN DECISION — ACCENT COLOR (pick up here)
-Periwinkle no longer works now that light-purple + dark-purple carry the palette (too same-hue, muddy). Explored, AA-tuned, 3 tokens each (`--accent` / `--accent-dk` for white-text buttons + marks on light / `--accent-lt` for text on dark ink):
-- **Coral** `#E8765A / #C24B33 / #F4A48F` — warm, cheerful, pops on the warm hero + purples. Brees was OK with it.
-- **Gold/amber** `#F2A900 / #936000 / #F3C56B` — **REJECTED** ("omg no this is worse"; AA forces a muddy deep-amber button that dies on the warm hero).
-- **Teal** `#1FA6AC / #0E7378 / #7FD0D4` — fresh/clean jewel-tone, pops cool-on-warm. **Currently live in the committed code (v25).** Brees asked to see it, then paused.
-- Prior periwinkle (for reference/revert): `#7C8AD9 / #5E6CC0 / #AEB8E8`.
-**Decision still open: Coral vs Teal.** Code currently ships TEAL. Swap is just the 3 `--accent*` tokens in `:root`.
+### ACCENT COLOR — LOCKED: TEAL (decided 2026-06-10, Brees)
+**Teal** `#1FA6AC / #0E7378 / #7FD0D4` is the locked accent (`--accent` fills/marks · `--accent-dk` white-text buttons + marks/links on light, AA · `--accent-lt` accent text on dark ink). Already live in committed code (v25) — no token swap needed. Chosen via a side-by-side scratch (`accent-decision.html`, now deleted) on the real hero photo + `--sky` purple: teal pops cool-on-warm and stays crisp; Coral camouflaged into the warm sunset hero. Rejected along the way: periwinkle (retired — too same-hue as the purples, muddy), gold/amber ("omg no, worse"), Coral `#E8765A / #C24B33 / #F4A48F` (warm but blended into the hero).
+
+### DONE 2026-06-10 (Brees session) — Wellness exemplar polish complete, now on `site.css?v=27`
+1. **Accent LOCKED = Teal** (see decision block above). 2. **Feature reconciled:** dropped the arch (`.svc-feature__media` border-radius now `var(--r-lg)`), KEPT the dark indigo overlap card as the mid-page contrast anchor + the `--sky` purple spill straddle (Brees chose "keep dark card, drop arch"). 3. **CTA warmed:** swapped image to `owner-lab.jpg` (warm golden owner+dog), lightened scrim `.78`→`.68` to reveal the warmth, white text/pill (AA worst-case ~6:1), body bumped to `rgba(255,255,255,.9)`, phone icon→white (Brees chose "keep image band, warm it"). 4. **Pill-eyebrow consistency pass:** ALL section tags now one language — white `.pill-eyebrow` on dark/photo/color bg (hero, cards, feature card, CTA), `.pill-eyebrow--soft` (sky) on paper (intro, FAQ). Retired the plain `.eyebrow` + `.peak-eyebrow` instances on this page. Every pill carries the peak mark.
 
 ### NEXT (when we pick back up)
-1. Lock the accent (coral vs teal). 2. Reconcile the **feature** section (drop leftover arch, bring into CarelyGo warm/light language) + rework the **CTA** as a warm photo closer. 3. **Pill eyebrows** on the remaining sections for one consistent tag language. 4. Then template the whole Wellness system across Diagnostics/Surgery/Dental/End-of-Life/Emergency. 5. Real local Williamsburg photography eventually (all current photos are Pexels stock placeholders).
+1. **Template the locked Wellness system across the other 5 service pages** (Diagnostics/Surgery/Dental/End-of-Life/Emergency): carely-hero, pcards on `--sky`, dark-card feature (no arch), warm photo CTA, unified pill eyebrows. Each needs its own imagery + copy but reuses the exact components. 2. Real local Williamsburg photography eventually (all current photos are Pexels stock placeholders). 3. Then homepage (await Alie copy), Vercel connect, JotForm forms.
 
 ---
 
@@ -76,6 +74,12 @@ Three rounds of feedback reshaped the service-page design. Key reference: **Lewi
 **NEXT (pending Brees OK):** propagate the rich pattern to Diagnostics, Surgery, Dental, End-of-Life, Emergency (each: own icon cards + split + imagery), bump all to `?v=5`. Open Qs for Brees: (1) is the pattern right? (2) full-bleed vs split hero (L&C uses split mirroring its team hero); (3) unique per-service video clips vs wait for real clinic footage (only hero.mp4 placeholder exists now).
 
 ---
+
+## Team Page — Light Harmonize (2026-06-10)
+Brought `team.html` into sync with the locked Wellness direction WITHOUT redesigning it (Brees chose "light harmonize"). The page already inherited **teal** automatically (it uses shared `var(--accent)` tokens — no hardcoded periwinkle hex), so only two things were out of sync, both fixed:
+- **All 5 plain `.eyebrow` tags → unified pill-eyebrows** (same rule as Wellness): white `.pill-eyebrow` on hero (light photo veil), dark Doctors section, and Careers CTA (photo); `.pill-eyebrow--soft` (sky) on the paper Values + Support sections. Each carries the peak mark. Verified rendering on all 5.
+- **Cache-bust bumped `?v=4` → `?v=27`** (was stale; shared CSS is the same file, the bump just forces a fresh fetch).
+Design otherwise unchanged — the drifting-portrait hero, interactive Values showcase, dark Doctors, and full-bleed CTA all stand. (Team is an about/team page type, so it intentionally does NOT take the full CarelyGo warm/photo-forward service-page treatment.)
 
 ## Team Page Redesign (2026-06-09)
 A full visual pass on `team.html` to make it less templated, more characterful, and full WCAG 2.1 AA. Body now sets `data-header="solid"` (header is light-page solid: navy logo/nav on white). `site.css` link cache-busted (`?v=2`).
@@ -188,8 +192,8 @@ Full a11y pass on the built surfaces (team.html + shared header/footer/css/js):
 - NOTE: when homepage + other pages are built, reuse the same patterns (skip link target id=main, accent-dk CTAs, focus-visible inherited from site.css).
 
 ## To Do / Next
+- [ ] **HOMEPAGE — NOW ACTIVE (2026-06-10).** Brees: Alie's copy should be available now (was the blocker). Design bar: reference the **example sites in the vet-website-designer skill** + bake in **storytelling scroll animations in the spirit of Catskill + Woodhaven** so the homepage really stands out (not a static template). Must use the locked CarelyGo direction (teal accent, Bricolage+Inter, pill eyebrows, warm photo-forward) + full WCAG 2.1 AA + reduced-motion gating on every animation.
 - [ ] Connect Vercel
-- [ ] Homepage — WAITING on Alie's copy
 - [ ] About, Contact, Services hub, Careers, Blog
 - [ ] Service detail template → mass-produce ~47
 - [ ] Real staff/patient photography (Drive Team + Candid folders empty) — portraits are branded placeholders
