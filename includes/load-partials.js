@@ -210,9 +210,17 @@
     var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     function capable() { return !rm && window.innerWidth > 900; }
 
+    // Fixed header overlaps the top of the pinned scene — measure it so we can
+    // keep the active beat + intro overlay centered in the VISIBLE area below it.
+    function headerH() {
+      var h = document.querySelector('.site-header');
+      return h ? h.offsetHeight : 0;
+    }
+    function safeH() { return Math.max(0, window.innerHeight - headerH()); }
+
     // beat centers (match the CSS left/top + 680,520 half-size)
     var CENTERS = [[1240, 900], [4360, 1500], [1320, 2560], [4240, 3160]];
-    function beatScale() { return Math.min(window.innerWidth / 1360, window.innerHeight / 1040) * 0.70; }
+    function beatScale() { return Math.min(window.innerWidth / 1360, safeH() / 1040) * 0.84; }
 
     function keyframes() {
       var bs = beatScale(), c = CENTERS;
@@ -245,7 +253,7 @@
     function applyCamera(t) {
       var cam = getCamera(t), lx = cam[0], ly = cam[1], s = cam[2];
       var tx = window.innerWidth / 2 - lx * s;
-      var ty = window.innerHeight / 2 - ly * s;
+      var ty = headerH() + safeH() / 2 - ly * s;   // center within the area below the fixed header
       canvas.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
     }
 
@@ -258,6 +266,7 @@
 
     function update() {
       if (!sec.classList.contains('vz-ready')) return;
+      sec.style.setProperty('--vz-safe', headerH() + 'px'); // header loads async — keep the title clear of it
       var rect = stage.getBoundingClientRect();
       var total = stage.offsetHeight - window.innerHeight;
       var scrolled = Math.max(0, Math.min(total, -rect.top));
@@ -275,6 +284,7 @@
     }
 
     function layout() {
+      sec.style.setProperty('--vz-safe', headerH() + 'px');
       if (capable()) { sec.classList.add('vz-ready'); update(); }
       else {
         sec.classList.remove('vz-ready');

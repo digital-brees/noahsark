@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/css/site.css?v=33" />
+<link rel="stylesheet" href="assets/css/site.css?v=43" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -59,7 +59,11 @@
 
   <!-- ============ HERO — warm welcome, sequenced load ============ -->
   <section class="home-hero">
-    <div class="home-hero__bg" aria-hidden="true"><img src="assets/media/hero-owner.jpg" alt="" /></div>
+    <div class="home-hero__bg" aria-hidden="true">
+      <video data-hero muted loop playsinline preload="metadata" poster="assets/media/hero-poster.jpg">
+        <source src="assets/media/hero.mp4" type="video/mp4" />
+      </video>
+    </div>
     <div class="home-hero__scrim" aria-hidden="true"></div>
     <div class="home-hero__inner">
       <span class="pill-eyebrow seq"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg>Williamsburg, VA · Independently Owned</span>
@@ -69,12 +73,38 @@
         <a class="btn btn-accent" href="https://connect.allydvm.com/practice/noahsark_vh/appointment_request" target="_blank" rel="noopener">Request an Appointment <span class="arrow">→</span></a>
         <a class="home-hero__call" href="tel:+17575649815"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3l2 5-2.4 1.5a11 11 0 0 0 5 5L15 13l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>Call Us · (757) 564-9815</a>
       </div>
-      <ul class="trust-bar seq" aria-label="Why families trust Noah's Ark">
-        <li class="trust-chip">AAHA-Accredited</li>
-        <li class="trust-chip">Locally Owned Since 1983</li>
-        <li class="trust-chip">Serving Williamsburg, Norge &amp; Toano, VA</li>
-        <li class="trust-chip">Accepting New Clients</li>
-      </ul>
+      <div class="trust-marquee seq">
+        <!-- Visible scrolling strip (decorative duplicate for SR; real list below) -->
+        <div class="trust-track" aria-hidden="true">
+          <div class="trust-set">
+            <span class="trust-item">AAHA-Accredited</span>
+            <span class="trust-sep"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg></span>
+            <span class="trust-item">Locally Owned Since 1983</span>
+            <span class="trust-sep"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg></span>
+            <span class="trust-item">Serving Williamsburg, Norge &amp; Toano, VA</span>
+            <span class="trust-sep"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg></span>
+            <span class="trust-item">Accepting New Clients</span>
+            <span class="trust-sep"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg></span>
+          </div>
+          <div class="trust-set" aria-hidden="true">
+            <span class="trust-item">AAHA-Accredited</span>
+            <span class="trust-sep"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg></span>
+            <span class="trust-item">Locally Owned Since 1983</span>
+            <span class="trust-sep"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg></span>
+            <span class="trust-item">Serving Williamsburg, Norge &amp; Toano, VA</span>
+            <span class="trust-sep"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg></span>
+            <span class="trust-item">Accepting New Clients</span>
+            <span class="trust-sep"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg></span>
+          </div>
+        </div>
+        <!-- Accessible, static version of the same trust signals -->
+        <ul class="trust-sr" aria-label="Why families trust Noah's Ark">
+          <li>AAHA-Accredited</li>
+          <li>Locally Owned Since 1983</li>
+          <li>Serving Williamsburg, Norge &amp; Toano, VA</li>
+          <li>Accepting New Clients</li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -82,9 +112,9 @@
   <section class="home-story">
     <div class="container home-story__inner">
       <div class="home-story__copy reveal">
-        <span class="pill-eyebrow pill-eyebrow--soft"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg>Our Story</span>
-        <h2>Independently Owned Since 1983</h2>
-        <p>Noah's Ark has been part of Williamsburg for four decades. Dr. Sean Sparkman took ownership in 2014 and has kept it purposefully independent ever since. Independence buys one thing he wasn't willing to give up: time. Time to know a pet, time to answer a question, time to do things right.</p>
+        <span class="pill-eyebrow"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg>Our Story</span>
+        <h2>Independently Owned <span class="accent">Since 1983</span></h2>
+        <p class="lead">Noah's Ark has been part of Williamsburg for four decades. Dr. Sean Sparkman took ownership in 2014 and has kept it purposefully independent ever since. Independence buys one thing he wasn't willing to give up: time. Time to know a pet, time to answer a question, time to do things right.</p>
         <p>That shows up in ways you notice — and ways you don't. A team that remembers your cat's name and your last conversation. Doctors who ask about your family, not just your dog's symptoms. Care built around your pet and your budget, never a corporate script.</p>
         <p>We're AAHA-accredited, which holds us to the highest medical standards — something only a small group of veterinary practices achieve. But what keeps families coming back year after year isn't a plaque on the wall. It's the welcome you feel the minute you walk in.</p>
         <dl class="stat-strip" aria-label="Noah's Ark at a glance">
@@ -271,7 +301,7 @@
       </div>
       <div class="home-place__map reveal-right">
         <!-- Map queries the business by NAME + address, so it resolves to Noah's Ark's actual Google Business Profile (named pin + reviews + "View larger map" -> their listing), not a bare coordinate. If the practice provides their GMB "share/embed" link (with place CID) or a Maps Embed API key, swap src for that exact canonical embed. -->
-        <iframe title="Map to Noah's Ark Veterinary Hospital, 7297 Richmond Rd, Williamsburg, VA" src="https://www.google.com/maps?q=Noah%27s+Ark+Veterinary+Hospital%2C+7297+Richmond+Rd%2C+Williamsburg%2C+VA+23188&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe title="Map to Noah's Ark Veterinary Hospital, 7297 Richmond Rd, Williamsburg, VA" src="https://www.google.com/maps?q=Noah%27s+Ark+Veterinary+Hospital%2C+7297+Richmond+Rd%2C+Williamsburg%2C+VA+23188&t=h&z=17&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </div>
   </section>
@@ -345,6 +375,6 @@
 </main>
 
 <div id="global-footer"></div>
-<script src="includes/load-partials.js?v=10"></script>
+<script src="includes/load-partials.js?v=12"></script>
 </body>
 </html>
