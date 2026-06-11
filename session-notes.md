@@ -1,5 +1,23 @@
 # Noah's Ark Veterinary Hospital — Session Notes
 
+## Standards audit + fixes, GTM/GMB/media (2026-06-11 pm, Brees) — DONE, all pages on `site.css?v=48` / `load-partials.js?v=13`
+Ran a 3-reviewer audit of the site vs the vet-website-designer skill + DE global rules, then actioned Brees' calls. All copy still verbatim.
+
+- **GTM wired site-wide (was MISSING — hard standard violation).** Container `GTM-592RD6LK` (from Salesforce `Project__c.GTM_Code__c`; GA4 prop `536219164` also on file) injected from ONE spot: `GTM_ID` const at the top of `load-partials.js`. Every page already loads that shared file, so GTM is inherited automatically; new pages need zero steps. Caveat: injects from end-of-body shared script (fires slightly later than a `<head>` snippet; `<noscript>` is best-effort) — known stopgap until Neuron.
+- **README.md created** (Step 7 deliverable): aesthetic direction, palette, fonts, copy mode, sitemap, build status, integrations, assumptions.
+- **GMB links fixed → real listing.** Found the practice's canonical Google Business Profile from the live site: share link `https://maps.app.goo.gl/iam5n6XTq26e7s8U8`, place CID `0x89b08db21c345753:0x1faa37ac9d2b5897`, coords `37.363977,-76.767599`. Footer + homepage address links now use the share link; homepage map embed locked to the exact `ll` coords (hybrid satellite). (Contact page's inline address link still on the old form — parked with the rest of the contact-page work.)
+- **Cache normalized** to `site.css?v=44` / `load-partials.js?v=13` across all pages (cleared the audit-flagged version skew), then bumped through `v=48` over the session.
+- **HOME HERO VIDEO = real footage.** Brees picked Pexels "morning walk with dog" (ID 5740002). Downloaded, compressed via ffmpeg (no audio, scaled 1600px, CRF28, faststart → 2.6 MB) to `assets/media/home-hero.mp4` + extracted `home-hero-poster.jpg`. Index hero points to these (its OWN files — generic `hero.mp4` left for the parked service pages). **NEW IMAGE RULE (Brees, now in global `Claude Projects/CLAUDE.md`):** no dogs panting except outdoors playing/walking (panting indoors/at-rest reads as stressed); use cats for calm indoor shots. Applied when curating — dropped indoor dog-hug clips.
+- **Facebook icon** added — header utility bar (`.util-social`, left-aligned via margin-right:auto, survives the mobile breakpoint) + footer social row (`.footer-social`, circular button). Links `https://www.facebook.com/noahsarkvet.page/`. (Live site also has Twitter/Pinterest — offered, not added yet.)
+- **LOGO white-block BUG fixed.** Both `assets/logo/noahs-ark-{navy,white}.png` were fully OPAQUE with a solid white background (0 transparent px) — the white one was white-on-white, rendering a white block on the dark header/footer. Regenerated both from the navy logo's shape via PIL (solid-color + alpha mask from ink coverage → no fringe): navy-on-transparent + white-on-transparent. Cache-busted logo `src`s to `?v=2` in header + footer.
+- **Logo 50% bigger:** header `.brand img` 54→81px, footer 64→96px.
+- **Hero eyebrow removed** (homepage) — H1 now leads; `.seq` cascade still works.
+- **Button arrows removed** — `.btn .arrow{display:none}` (text-link arrows kept, e.g. `.textlink`/`.xcard`/`.hub-card`).
+- **Quick wins:** (1) team Values reordered + spelling to MATCH HOMEPAGE — `01 Compassion · 02 Positive Attitude · 03 Proficiency · 04 Drive` (was Compassion/Drive/Positive Attitude/Proficient); each value kept its image, ARIA wiring intact. (2) removed dead reduced-motion shim in team.html (targeted a nonexistent `.team-hero .bg video`). (3) footer email `info@noahsarkvet.com` added (mailto, envelope icon) between phone + hours.
+- **Footer email** now present (was an audit gap).
+
+**Audit items still OPEN:** service-page propagation (5 pages a generation behind — PARKED until client approves first design); contact page completion (map/email/form/emergency/GMB link — PARKED); section bridging (flat color hard-cuts); two "could-be-any-vet-site" blocks (wellness `.svc-cards` grid, homepage `.journey` uniform cards); H1 weight 600 vs skill's 700 (taste). External/blocked: real Williamsburg photography (Drive empty), JotForm forms, emergency after-hours ER, about/careers copy (Alie), Vercel connect, launch swap. Media still queued: Wellness/Story ginger-cat still (ID 31595492); hero-scrim check over the brighter video.
+
 ## Homepage polish pass (2026-06-11, Brees) — DONE, all pages on `site.css?v=39`, index on `site.css?v=43` / `load-partials.js?v=12`
 Iteration session on the homepage. All copy still VERBATIM from Alie's doc (Brees reaffirmed mid-session: design only, never reword).
 

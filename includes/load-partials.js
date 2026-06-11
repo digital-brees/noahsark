@@ -1,6 +1,29 @@
 /* Loads shared header + footer into #global-header / #global-footer.
    Detects path depth so subdirectory pages resolve includes/ + links correctly. */
 (function () {
+
+  /* ============================================================
+     Google Tag Manager — DE Standard (every page, ONE config spot).
+     Every page loads this shared file, so GTM is inherited automatically;
+     a brand-new page needs zero GTM steps. To change containers, edit GTM_ID below.
+     Container ID source: Salesforce Project__c.GTM_Code__c.
+     NOTE: injected from this end-of-body shared script, so the classic <head>
+     placement + <noscript> fallback are approximated (stopgap until Neuron). ============ */
+  var GTM_ID = 'GTM-592RD6LK';
+  if (GTM_ID && !window.__gtmLoaded) {
+    window.__gtmLoaded = true;
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', GTM_ID);
+    // <noscript> fallback (best-effort from JS; primary value is the gtm.js load above)
+    var gtmNo = document.createElement('noscript');
+    gtmNo.innerHTML = '<iframe src="https://www.googletagmanager.com/ns.html?id=' + GTM_ID + '" height="0" width="0" style="display:none;visibility:hidden"></iframe>';
+    (document.body || document.documentElement).insertBefore(gtmNo, (document.body || document.documentElement).firstChild);
+  }
+
   // Depth: how many folders deep from site root. Root pages -> base "".
   var path = window.location.pathname;
   // strip filename
