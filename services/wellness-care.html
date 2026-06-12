@@ -8,7 +8,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="../assets/css/site.css?v=48" />
+<link rel="stylesheet" href="../assets/css/site.css?v=59" />
+<!-- Feedbucket — client review feedback widget (remove at launch) -->
+<script type="text/javascript">
+    (function(k) {
+        let s=document.createElement('script');s.defer=true;
+        s.src="https://cdn.feedbucket.app/assets/feedbucket.js";
+        s.dataset.feedbucket=k;document.head.appendChild(s);
+    })('DkTFVvCKanwCYWNvzmsR')
+</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -40,16 +48,17 @@
 <body data-base="../" data-page="services">
 <div id="global-header"></div>
 
-<main id="main" tabindex="-1">
+<main id="main" tabindex="-1" class="bridge">
 
   <!-- HERO — warm & photo-forward (CarelyGo language, our palette) -->
   <section class="carely-hero">
     <div class="carely-hero__bg" aria-hidden="true">
-      <img src="../assets/media/hero-owner.jpg" alt="" />
+      <video data-hero muted loop playsinline preload="metadata" poster="../assets/media/wellness-hero-poster.jpg">
+        <source src="../assets/media/wellness-hero.mp4" type="video/mp4" />
+      </video>
     </div>
     <div class="carely-hero__scrim" aria-hidden="true"></div>
     <div class="carely-hero__inner reveal">
-      <span class="pill-eyebrow"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg>Wellness &amp; Prevention</span>
       <h1>Wellness &amp; Preventive Care for Dogs and Cats in Williamsburg</h1>
       <p class="intro">Catch problems before they start — friendly, preventive care for dogs and cats, here in the Williamsburg neighborhood since 1983.</p>
       <div class="carely-hero__actions">
@@ -84,7 +93,7 @@
       </div>
       <div class="pcards">
         <article class="pcard reveal">
-          <img src="../assets/media/card-exam.jpg" alt="A happy, healthy dog sitting outdoors in bright sunshine" />
+          <img src="../assets/media/well-exams-dog.jpg" alt="A healthy young puppy sitting in a backyard" />
           <div class="pcard__label">
             <h3>Wellness Exams</h3>
             <p>Head-to-tail checks that catch small problems early.</p>
@@ -100,7 +109,7 @@
         </article>
 
         <article class="pcard reveal reveal-delay-2">
-          <img src="../assets/media/card-parasite.jpg" alt="A happy dog with a collar on lush green grass" />
+          <img src="../assets/media/well-parasites-dog.jpg" alt="A dog resting in a green, wildflower-dotted meadow" />
           <div class="pcard__label">
             <h3>Parasite Prevention</h3>
             <p>Year-round defense against fleas, ticks, and heartworm.</p>
@@ -116,7 +125,7 @@
         </article>
 
         <article class="pcard reveal reveal-delay-1">
-          <img src="../assets/media/card-microchip.jpg" alt="A curious cat looking at the camera indoors" />
+          <img src="../assets/media/well-microchip-dog.jpg" alt="A beagle resting comfortably at home" />
           <div class="pcard__label">
             <h3>Microchipping</h3>
             <p>A permanent ID, so a lost pet always finds its way home.</p>
@@ -124,7 +133,7 @@
         </article>
 
         <article class="pcard reveal reveal-delay-2">
-          <img src="../assets/media/card-nutrition.jpg" alt="A small dog enjoying a meal from its bowl in a bright home" />
+          <img src="../assets/media/well-nutrition-cat.jpg" alt="A cat eating from its bowl at home" />
           <div class="pcard__label">
             <h3>Nutrition</h3>
             <p>Honest, judgment-free guidance on food for every stage.</p>
@@ -138,7 +147,7 @@
   <section class="svc-feature">
     <div class="svc-feature__inner">
       <div class="svc-feature__media reveal">
-        <img src="../assets/media/dog-flowers.jpg?v=2" data-parallax="0.16" alt="A happy dog running through a sunlit garden of purple flowers" />
+        <img src="../assets/media/well-feature-dog.jpg" data-parallax="0.16" alt="A dog walking through lush green woods in summer" />
       </div>
       <div class="svc-feature__card reveal-right">
         <span class="pill-eyebrow"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg>Parasite Prevention</span>
@@ -224,7 +233,7 @@
 
   <!-- CTA — warm photo closer (lighter scrim, warm owner+dog image) -->
   <section class="cta-band cta-band--image">
-    <div class="cta-bg" data-parallax="0.28" aria-hidden="true"><img src="../assets/media/owner-lab.jpg" alt="" /></div>
+    <div class="cta-bg" data-parallax="0.28" aria-hidden="true"><img src="../assets/media/well-cta-cat.jpg" alt="" /></div>
     <div class="cta-scrim" aria-hidden="true"></div>
     <div class="container">
       <span class="pill-eyebrow"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg>Start Here</span>
@@ -240,6 +249,6 @@
 </main>
 
 <div id="global-footer"></div>
-<script src="../includes/load-partials.js?v=13"></script>
+<script src="../includes/load-partials.js?v=14"></script>
 </body>
 </html>

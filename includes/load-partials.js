@@ -326,9 +326,28 @@
     layout();
   }
 
+  // Prototype lock: only Home, Team, and Wellness & Prevention navigate.
+  // Every other link is greyed out + non-clickable for this demo build.
+  function lockPrototype() {
+    var allow = [/\/index\.html$/i, /^\/$/, /\/team\.html$/i, /\/services\/wellness-care\.html$/i];
+    document.querySelectorAll('a[href]:not(.proto-checked)').forEach(function (a) {
+      a.classList.add('proto-checked');
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#') return; // skip-link / in-page anchors stay active
+      var p = '';
+      try { p = a.pathname || ''; } catch (e) {}
+      if (allow.some(function (re) { return re.test(p); })) return;
+      a.classList.add('is-locked');
+      a.setAttribute('aria-disabled', 'true');
+      a.setAttribute('tabindex', '-1');
+      a.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); });
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
-    inject('global-header', 'header.html', initHeader);
-    inject('global-footer', 'footer.html', initFooter);
+    inject('global-header', 'header.html', function () { initHeader(); lockPrototype(); });
+    inject('global-footer', 'footer.html', function () { initFooter(); lockPrototype(); });
+    lockPrototype();
     initHeroVideos();
     initParallax();
     initJourney();

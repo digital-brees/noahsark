@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Section Bridging — Scratch Mockup (Noah's Ark)</title>
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<!-- the REAL site stylesheet so tokens/components/fonts match index.html exactly -->
+<link rel="stylesheet" href="assets/css/site.css?v=59" />
+<style>
+/* ============================================================
+   SCRATCH-ONLY STYLES — bridging treatments + the demo toggle.
+   Everything below is ADDITIVE and scoped under .bridged, so it
+   lifts cleanly into site.css later. Nothing here overrides the
+   base look when the toggle is OFF.
+   Hard constraints honored: solid colors only — NO gradients,
+   NO wave dividers. Bridges come from overlap + thread + straddle.
+   ============================================================ */
+
+/* --- demo chrome (not part of the design) --- */
+.proto-bar{position:fixed;top:14px;right:14px;z-index:9999;display:flex;align-items:center;gap:12px;
+  background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px -18px rgba(52,45,79,.45);
+  padding:10px 12px 10px 16px;font-family:var(--font-body)}
+.proto-bar b{font-family:var(--font-head);font-size:13px;color:var(--ink)}
+.proto-bar .state{font-size:12px;font-weight:600;color:var(--ink-soft)}
+.proto-toggle{appearance:none;border:none;cursor:pointer;width:54px;height:30px;border-radius:30px;background:var(--line-strong,#cfcbe0);position:relative;transition:background .25s}
+.proto-toggle::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .25s}
+body.bridged .proto-toggle{background:var(--accent-dk)}
+body.bridged .proto-toggle::after{transform:translateX(24px)}
+.proto-note{position:fixed;left:14px;bottom:14px;z-index:9999;max-width:330px;background:var(--ink);color:#fff;
+  border-radius:14px;padding:14px 16px;font-family:var(--font-body);font-size:12.5px;line-height:1.55;box-shadow:0 18px 40px -18px rgba(0,0,0,.6)}
+.proto-note b{color:var(--accent-lt)}
+.faux-hero{background:var(--ink);color:#fff;text-align:center;padding:64px 24px;font-family:var(--font-head)}
+.faux-hero span{display:inline-block;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-lt);font-family:var(--font-body);font-weight:700;margin-bottom:8px}
+.faux-hero h1{color:#fff;font-size:clamp(28px,4vw,44px)}
+
+/* ============================================================
+   THE BRIDGING SYSTEM  (everything under body.bridged)
+   ------------------------------------------------------------
+   1. STACKED ROUNDED PANELS — each section lifts ~52px onto the
+      one above with a rounded top + soft upward shadow. The hard
+      horizontal seam becomes a layered ledge; the previous
+      section's color peeks through the rounded shoulders.
+   2. CONTINUOUS TEAL THREAD — a hairline teal stitch + node sits
+      on every seam, so the Signature spine reads as ONE line
+      running the length of the page (the Catskill spine concept,
+      now spanning sections instead of restarting each one).
+   3. STRADDLE ACCENT — the Find Us map lifts over its ledge so a
+      content element crosses the boundary (the Wellness move).
+   ============================================================ */
+
+/* smooth the toggle so the difference is legible, not jarring */
+.home-story,.journey,.vz,.home-place{transition:margin .3s ease,border-radius .3s ease,box-shadow .3s ease,padding .3s ease}
+
+/* 1 — stacked rounded panels */
+body.bridged .home-story{position:relative;z-index:2}
+body.bridged .journey{position:relative;z-index:3}
+body.bridged .vz{position:relative;z-index:4;overflow:hidden}
+body.bridged .home-place{position:relative;z-index:5}
+
+body.bridged .home-story,
+body.bridged .journey,
+body.bridged .vz,
+body.bridged .home-place{
+  margin-top:-52px;
+  border-top-left-radius:40px;border-top-right-radius:40px;
+}
+/* deeper shadow where a panel sits on a DARK band (more separation needed) */
+body.bridged .journey{box-shadow:0 -22px 50px -28px rgba(52,45,79,.30)}
+body.bridged .home-place{box-shadow:0 -22px 50px -28px rgba(52,45,79,.30)}
+body.bridged .home-story{box-shadow:0 -22px 50px -28px rgba(52,45,79,.45)}  /* onto ink hero */
+body.bridged .vz{box-shadow:0 -22px 50px -26px rgba(52,45,79,.55)}          /* onto white   */
+
+/* give the rounded shoulder + thread room to breathe */
+body.bridged .home-story{padding-top:clamp(80px,9vw,116px)}
+body.bridged .journey{padding-top:clamp(80px,10vw,124px)}
+body.bridged .vz .vz-overlay{padding-top:clamp(80px,10vw,120px)}
+body.bridged .home-place{padding-top:clamp(76px,9vw,112px)}
+
+/* 2 — continuous teal thread: a stitch + node centered on each seam */
+body.bridged .home-story::before,
+body.bridged .journey::before,
+body.bridged .vz::before,
+body.bridged .home-place::before{
+  content:"";position:absolute;top:-30px;left:50%;transform:translateX(-50%);
+  width:2px;height:60px;background:var(--accent);border-radius:2px;z-index:6;pointer-events:none;
+}
+body.bridged .home-story::after,
+body.bridged .journey::after,
+body.bridged .vz::after,
+body.bridged .home-place::after{
+  content:"";position:absolute;top:-7px;left:50%;transform:translateX(-50%);
+  width:15px;height:15px;border-radius:50%;background:var(--accent);z-index:7;pointer-events:none;
+}
+/* node ring = the panel's OWN bg, so it punches cleanly through the ledge */
+body.bridged .home-story::after{box-shadow:0 0 0 5px var(--sky)}
+body.bridged .journey::after{box-shadow:0 0 0 5px #fff}
+body.bridged .vz::before{background:var(--accent-lt)}     /* lighter teal reads better on dark */
+body.bridged .vz::after{background:var(--accent-lt);box-shadow:0 0 0 5px var(--ink)}
+body.bridged .home-place::after{box-shadow:0 0 0 5px var(--sky)}
+
+/* tie the node into the Signature spine: nudge the drawn spine up to meet the seam node */
+body.bridged .journey__track{margin-top:44px}
+
+/* 3 — straddle accent: the Find Us map lifts over the ledge onto the dark band above */
+body.bridged .home-place__inner{align-items:start}
+body.bridged .home-place__map{margin-top:clamp(-96px,-7vw,-40px);position:relative;z-index:3;
+  box-shadow:0 30px 60px -28px rgba(52,45,79,.55)}
+
+@media(max-width:860px){
+  body.bridged .home-place__map{margin-top:0}   /* single-column: don't lift */
+}
+@media(prefers-reduced-motion:reduce){
+  .home-story,.journey,.vz,.home-place{transition:none}
+}
+</style>
+</head>
+<body class="bridged">
+
+<div class="proto-bar">
+  <b>Section bridges</b>
+  <span class="state" id="state">ON</span>
+  <button class="proto-toggle" id="toggle" aria-label="Toggle section bridging" aria-pressed="true"></button>
+</div>
+<div class="proto-note">
+  Scratch mockup — real <b>site.css</b>, real sections. Flip the toggle to compare against today's hard-cut seams.
+  Values shows in its <b>stacked</b> form here (the pinned zoom-stage needs scroll-pinning; the seam treatment is what matters).
+</div>
+
+<!-- faux hero just to give the Story section something dark to bridge up onto -->
+<div class="faux-hero">
+  <span>Hero ends here</span>
+  <h1>…putting pets first.</h1>
+</div>
+
+<!-- ============ STORY (sky) ============ -->
+<section class="home-story">
+  <div class="container home-story__inner">
+    <div class="home-story__copy reveal">
+      <span class="pill-eyebrow"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg>Our Story</span>
+      <h2>Independently Owned <span class="accent">Since 1983</span></h2>
+      <p class="lead">Noah's Ark has been part of Williamsburg for four decades. Dr. Sean Sparkman took ownership in 2014 and has kept it purposefully independent ever since.</p>
+      <p>That shows up in ways you notice — and ways you don't. A team that remembers your cat's name and your last conversation.</p>
+      <dl class="stat-strip" aria-label="Noah's Ark at a glance">
+        <div class="stat"><dt>Caring since</dt><dd>1983</dd></div>
+        <div class="stat"><dt>Years in Williamsburg</dt><dd>40+</dd></div>
+        <div class="stat"><dt>Standard of care</dt><dd>AAHA</dd></div>
+      </dl>
+    </div>
+    <div class="home-story__media reveal-right">
+      <div class="home-story__frame"><img src="assets/media/team-hero.jpg" alt="The Noah's Ark team caring for a patient in Williamsburg, Virginia" /></div>
+      <span class="home-story__stamp" aria-hidden="true">Est.<strong>1983</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ JOURNEY / SIGNATURE (white) ============ -->
+<section class="journey" id="journey">
+  <div class="container">
+    <div class="journey__head reveal">
+      <span class="pill-eyebrow pill-eyebrow--soft"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg>Care for Every Life Stage</span>
+      <h2>From the First Checkup to Their Golden Years.</h2>
+      <p class="lede">Noah's Ark is a full-service animal hospital — most of what your dog or cat needs throughout their life can be done by a team who already knows them.</p>
+    </div>
+
+    <div class="journey__track">
+      <svg class="journey__line" viewBox="0 0 4 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path class="journey__line-bg" d="M2 0 V100" pathLength="1" />
+        <path class="journey__line-fg" d="M2 0 V100" pathLength="1" style="stroke-dashoffset:0" />
+      </svg>
+
+      <article class="jstep">
+        <div class="jstep__media"><img src="assets/media/card-exam.jpg" alt="A happy, healthy dog outdoors in bright sunshine" /></div>
+        <div class="jstep__body">
+          <span class="jstep__node" aria-hidden="true"></span>
+          <h3>Wellness &amp; Preventive Care</h3>
+          <p>The exams, vaccines, and screenings that catch small problems before they become big ones.</p>
+          <a class="textlink" href="#">Explore wellness care <span class="arrow">→</span></a>
+        </div>
+      </article>
+
+      <article class="jstep">
+        <div class="jstep__media"><img src="assets/media/card-vaccine.jpg" alt="A curious young kitten resting at home" /></div>
+        <div class="jstep__body">
+          <span class="jstep__node" aria-hidden="true"></span>
+          <h3>Dentistry</h3>
+          <p>Most dental disease hides below the gumline. Under anesthesia, we x-ray, clean, and remove problem teeth.</p>
+          <a class="textlink" href="#">Explore dental care <span class="arrow">→</span></a>
+        </div>
+      </article>
+
+      <article class="jstep">
+        <div class="jstep__media"><img src="assets/media/card-spay.jpg" alt="A calm tabby cat resting comfortably" /></div>
+        <div class="jstep__body">
+          <span class="jstep__node" aria-hidden="true"></span>
+          <h3>Surgery</h3>
+          <p>From spays and neuters to soft-tissue procedures, your pet is monitored closely from start to finish.</p>
+          <a class="textlink" href="#">Explore surgery <span class="arrow">→</span></a>
+        </div>
+      </article>
+
+      <article class="jstep">
+        <div class="jstep__media"><img src="assets/media/cat-intro.jpg" alt="A calico cat being examined calmly" /></div>
+        <div class="jstep__body">
+          <span class="jstep__node" aria-hidden="true"></span>
+          <h3>Diagnostic Imaging &amp; In-House Lab</h3>
+          <p>Digital x-ray, ultrasound, and in-house lab work help us find answers in hours, not days.</p>
+          <a class="textlink" href="#">Explore diagnostics <span class="arrow">→</span></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VALUES (ink — shown stacked) ============ -->
+<section class="vz" id="values">
+  <div class="vz-stage">
+    <div class="vz-scene">
+      <div class="vz-overlay">
+        <span class="pill-eyebrow"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg>What We Stand For</span>
+        <h2>The values behind the care.</h2>
+        <p class="lede">Four things every member of the Noah's Ark team is held to — with your pet, and with you.</p>
+      </div>
+      <div class="vz-camera">
+        <div class="vz-canvas">
+          <article class="vz-beat is-active" data-i="0">
+            <div class="vz-beat__img"><img src="assets/media/value-compassion.jpg" alt="A pet owner hugging her dog closely at home" /></div>
+            <div class="vz-beat__body"><span class="vz-beat__n">01</span><h3>Compassion</h3><p>We treat every pet like our own and every owner like a friend — because that's how it should feel.</p></div>
+          </article>
+          <article class="vz-beat" data-i="1">
+            <div class="vz-beat__img"><img src="assets/media/value-positive.jpg" alt="A child playing happily with a dog in a sunny field" /></div>
+            <div class="vz-beat__body"><span class="vz-beat__n">02</span><h3>Positive Attitude</h3><p>A calm, warm room makes a hard day easier — for your pet and for you.</p></div>
+          </article>
+          <article class="vz-beat" data-i="2">
+            <div class="vz-beat__img"><img src="assets/media/value-proficiency.jpg" alt="A pet owner gently holding a calm cat at home" /></div>
+            <div class="vz-beat__body"><span class="vz-beat__n">03</span><h3>Proficiency</h3><p>AAHA-accredited medicine, kept current — so the care is as good as the welcome.</p></div>
+          </article>
+          <article class="vz-beat" data-i="3">
+            <div class="vz-beat__img"><img src="assets/media/value-drive.jpg" alt="A man walking his dog along a trail at sunset" /></div>
+            <div class="vz-beat__body"><span class="vz-beat__n">04</span><h3>Drive</h3><p>We keep looking for the better answer, the earlier catch, the next thing we can do well.</p></div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FIND US (sky) ============ -->
+<section class="home-place">
+  <div class="home-place__bg" aria-hidden="true"></div>
+  <div class="container home-place__inner">
+    <div class="home-place__copy reveal">
+      <span class="pill-eyebrow"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15V9a9 9 0 0 1 18 0v6"/></svg>Find Us</span>
+      <h2>Right here in the Williamsburg neighborhood.</h2>
+      <p>Easy to find, easy to get to, and staffed by people who live here too.</p>
+      <ul class="place__facts">
+        <li><span class="place__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>7297 Richmond Rd, Williamsburg, VA 23188</li>
+        <li><span class="place__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>Mon–Fri 7:30a–6p · Sat 7:30a–12p · Sun closed</li>
+        <li><span class="place__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3l2 5-2.4 1.5a11 11 0 0 0 5 5L15 13l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><a href="tel:+17575649815">(757) 564-9815</a></li>
+      </ul>
+    </div>
+    <div class="home-place__map reveal-right">
+      <iframe title="Map to Noah's Ark Veterinary Hospital" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=7297+Richmond+Rd,+Williamsburg,+VA+23188&output=embed"></iframe>
+    </div>
+  </div>
+</section>
+
+<div style="height:120px"></div>
+
+<script>
+  const body=document.body, btn=document.getElementById('toggle'), state=document.getElementById('state');
+  btn.addEventListener('click',()=>{
+    const on=body.classList.toggle('bridged');
+    btn.setAttribute('aria-pressed',on);
+    state.textContent=on?'ON':'OFF';
+  });
+</script>
+</body>
+</html>
