@@ -872,7 +872,11 @@ body[data-page="home"] .cta-band{position:relative;z-index:7;
 }
 
 /* ── Prototype lock — only Home, Team, and Wellness & Prevention navigate.
-   Every other link is greyed out + non-clickable for this demo build.
-   (Remove `.is-locked` handling in load-partials.js + this rule at launch.) */
+   About/Services parents + CTA buttons stay visually normal (.proto-noop) but
+   navigate nowhere; every other link is greyed out + non-clickable.
+   (Remove `.is-locked`/`.proto-noop` handling in load-partials.js + this rule at launch.) */
 .is-locked{opacity:.4 !important;cursor:not-allowed !important}
+/* Subnav links set their own opacity:1 (higher specificity), so grey locked
+   dropdown items with a matching-specificity rule or they'd stay full-strength. */
+.subnav a.is-locked{opacity:.4 !important;cursor:not-allowed !important}
 .subnav a.is-locked:hover,.subnav a.is-locked:focus-visible{background:none !important}

@@ -1,5 +1,16 @@
 # Noah's Ark Veterinary Hospital — Session Notes
 
+## Prototype-lock refinement + footer trim (2026-06-16, Brees) — DONE, all pages on `site.css?v=60` / `load-partials.js?v=15`
+Tightened how the client-review link-lock reads, per Brees feedback. Copy still verbatim; design system untouched.
+
+- **NAV PARENTS stay visually live.** `lockPrototype()` (in `load-partials.js`) now keeps the **About** and **Services** top-level nav parents un-greyed (new `.proto-noop` state) because each contains a live nested page — but they navigate nowhere (preventDefault). They stay focusable so keyboard users can open the dropdown to reach the live child. `showNoop` regex = `/about\.html$/`, `/services\.html$/`. **Resources stays greyed** (no live child).
+- **BUTTONS read normal, go nowhere.** Any `.btn`/`.nav-cta`/`.mm-cta` link gets `.proto-noop` instead of `.is-locked` — full-strength styling, click does nothing. (Earlier they were greyed; Brees: "buttons can stay normal, just link to nowhere.")
+- **PHONE/EMAIL never greyed.** `tel:`/`mailto:` links now early-return from the lock entirely (they're real working contacts). Fixed the faded hero `(757) 564-9815` that read as broken.
+- **SUBNAV GREYING BUG FIXED.** `.subnav a{opacity:1 !important}` (line ~236) out-specifies `.is-locked{opacity:.4}`, so locked dropdown items never actually faded. Added `.subnav a.is-locked{opacity:.4 !important;cursor:not-allowed}` (matching specificity). Now **Careers** (under About) and the 5 non-wellness **Services** children correctly grey out; only **Team** + **Wellness & Prevention** stay dark/clickable.
+- **FOOTER trim.** Removed **About Us** and **Forms** from the footer Explore column (`includes/footer.html`). Explore is now Our Team / Careers / Blog / Contact.
+- **"Grey bar" non-issue.** Brees flagged a grey bar under the wellness hero — verified via Playwright it's the **Feedbucket review widget overlay**, not the site. Removing `<feedbucket-app>` leaves the hero flowing straight into the paper `.svc-intro` section. No markup change. Feedbucket stays (it's the client feedback tool; removed at launch).
+- **Launch removal (updated):** delete the `lockPrototype()` call + the `.is-locked`/`.proto-noop` rule, AND restore About/Services/footer links to their real targets.
+
 ## Bridging + sticky hero + image dedup/balance + wellness video + prototype lock (2026-06-12, Brees) — DONE, all pages on `site.css?v=59` / `load-partials.js?v=14`
 Big iteration + polish session, then locked for client review. All copy still verbatim.
 

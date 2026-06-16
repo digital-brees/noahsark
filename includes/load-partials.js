@@ -326,17 +326,33 @@
     layout();
   }
 
-  // Prototype lock: only Home, Team, and Wellness & Prevention navigate.
+  // Prototype lock: only Home, Team, and Wellness & Prevention actually navigate.
+  // The About + Services nav parents stay visually active (they each contain a live
+  // nested page) but navigate nowhere, and CTA buttons stay normal but go nowhere.
   // Every other link is greyed out + non-clickable for this demo build.
   function lockPrototype() {
     var allow = [/\/index\.html$/i, /^\/$/, /\/team\.html$/i, /\/services\/wellness-care\.html$/i];
+    // Parents kept un-greyed because a child page below them is live.
+    var showNoop = [/\/about\.html$/i, /\/services\.html$/i];
     document.querySelectorAll('a[href]:not(.proto-checked)').forEach(function (a) {
       a.classList.add('proto-checked');
       var href = a.getAttribute('href') || '';
       if (href.charAt(0) === '#') return; // skip-link / in-page anchors stay active
+      if (/^(tel:|mailto:)/i.test(href)) return; // phone/email are real working contacts — never grey them
       var p = '';
       try { p = a.pathname || ''; } catch (e) {}
-      if (allow.some(function (re) { return re.test(p); })) return;
+      if (allow.some(function (re) { return re.test(p); })) return; // real navigation
+
+      // Buttons + the About/Services parents look normal but don't navigate.
+      var isButton = /\bbtn\b/.test(a.className) || a.classList.contains('nav-cta') || a.classList.contains('mm-cta');
+      var isShowParent = showNoop.some(function (re) { return re.test(p); });
+      if (isButton || isShowParent) {
+        a.classList.add('proto-noop'); // no greying; stays focusable/operable
+        a.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); });
+        return;
+      }
+
+      // Everything else: greyed + non-clickable.
       a.classList.add('is-locked');
       a.setAttribute('aria-disabled', 'true');
       a.setAttribute('tabindex', '-1');
