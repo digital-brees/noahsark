@@ -37,10 +37,15 @@
   var base = override !== null ? override : '';
   var incBase = base; // includes live at <base>includes/
 
+  // Cache-bust the runtime include fetch. Bump this in lockstep with the
+  // load-partials.js?v= query in the HTML whenever header.html/footer.html change,
+  // or edits to the partials get served stale from CDN/browser cache.
+  var INC_V = '16';
+
   function inject(id, file, done) {
     var el = document.getElementById(id);
     if (!el) { if (done) done(); return; }
-    fetch(incBase + 'includes/' + file)
+    fetch(incBase + 'includes/' + file + '?v=' + INC_V)
       .then(function (r) { return r.text(); })
       .then(function (html) {
         el.innerHTML = html.replace(/\{\{base\}\}/g, base);

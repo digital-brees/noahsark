@@ -1,6 +1,9 @@
 # Noah's Ark Veterinary Hospital — Session Notes
 
-## Prototype-lock refinement + footer trim (2026-06-16, Brees) — DONE, all pages on `site.css?v=60` / `load-partials.js?v=15`
+## Prototype-lock refinement + footer trim (2026-06-16, Brees) — DONE, all pages on `site.css?v=60` / `load-partials.js?v=16`
+
+**Deploy reality check (2026-06-16):** Brees reported changes not showing + grey bar on the Vercel/Team page. Diagnosed: `vercel project ls` returns **ZERO projects** under Brees's only scope (`brees-projects-61eb3847` "Digital Empathy - Brees"). Confirms the old "Vercel: not yet connected" note — **the prototype was never actually deployed to Vercel.** What Brees sees with the grey bar (Feedbucket) is the LOCAL server (`localhost:8791`) serving a cached copy. Grey bar = Feedbucket widget (Brees confirmed: LEAVE IT). **Latent cache bug fixed:** the runtime `fetch()` of header/footer had no cache-bust, so include edits (e.g. footer trim) served stale even after a JS bump. Added `INC_V` const in `load-partials.js` → `fetch('includes/<file>?v=INC_V)`; bump it in lockstep with the `load-partials.js?v=` query when partials change (now `16`). NEXT: deploy to Vercel (`vercel --prod`) under Brees's scope to give a real review URL.
+
 Tightened how the client-review link-lock reads, per Brees feedback. Copy still verbatim; design system untouched.
 
 - **NAV PARENTS stay visually live.** `lockPrototype()` (in `load-partials.js`) now keeps the **About** and **Services** top-level nav parents un-greyed (new `.proto-noop` state) because each contains a live nested page — but they navigate nowhere (preventDefault). They stay focusable so keyboard users can open the dropdown to reach the live child. `showNoop` regex = `/about\.html$/`, `/services\.html$/`. **Resources stays greyed** (no live child).
