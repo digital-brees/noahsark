@@ -2,7 +2,7 @@
 
 ## Prototype-lock refinement + footer trim (2026-06-16, Brees) — DONE, all pages on `site.css?v=60` / `load-partials.js?v=16`
 
-**Deploy reality check (2026-06-16):** Brees reported changes not showing + grey bar on the Vercel/Team page. Diagnosed: `vercel project ls` returns **ZERO projects** under Brees's only scope (`brees-projects-61eb3847` "Digital Empathy - Brees"). Confirms the old "Vercel: not yet connected" note — **the prototype was never actually deployed to Vercel.** What Brees sees with the grey bar (Feedbucket) is the LOCAL server (`localhost:8791`) serving a cached copy. Grey bar = Feedbucket widget (Brees confirmed: LEAVE IT). **Latent cache bug fixed:** the runtime `fetch()` of header/footer had no cache-bust, so include edits (e.g. footer trim) served stale even after a JS bump. Added `INC_V` const in `load-partials.js` → `fetch('includes/<file>?v=INC_V)`; bump it in lockstep with the `load-partials.js?v=` query when partials change (now `16`). NEXT: deploy to Vercel (`vercel --prod`) under Brees's scope to give a real review URL.
+**Deploy reality check (2026-06-16):** Brees reported changes not showing + grey bar on the Vercel/Team page. Diagnosed: `vercel project ls` returns **ZERO projects** under Brees's only scope (`brees-projects-61eb3847` "Digital Empathy - Brees"). Confirms the old "Vercel: not yet connected" note — **the prototype was never actually deployed to Vercel.** What Brees sees with the grey bar (Feedbucket) is the LOCAL server (`localhost:8791`) serving a cached copy. Grey bar = Feedbucket widget (Brees confirmed: LEAVE IT). **Latent cache bug fixed:** the runtime `fetch()` of header/footer had no cache-bust, so include edits (e.g. footer trim) served stale even after a JS bump. Added `INC_V` const in `load-partials.js` → `fetch('includes/<file>?v=INC_V)`; bump it in lockstep with the `load-partials.js?v=` query when partials change (now `16`). DONE: deployed to Vercel under Brees's scope → project `noahsark`, GitHub-connected (auto-deploys on push), live at **https://noahsark-sand.vercel.app**. Verified deployed footer shows only Our Team/Careers/Blog/Contact (About Us + Forms gone).
 
 Tightened how the client-review link-lock reads, per Brees feedback. Copy still verbatim; design system untouched.
 
@@ -194,7 +194,7 @@ A full visual pass on `team.html` to make it less templated, more characterful, 
 ## Repo / Infra
 - **Project folder:** `C:\Users\brees\Claude Projects\Noah's Ark\` (standalone git repo)
 - **GitHub:** `digital-brees/noahsark` (pushes to `main`)
-- **Vercel:** not yet connected — Add New Project → import `digital-brees/noahsark` → Framework: Other
+- **Vercel:** CONNECTED 2026-06-16. Project `brees-projects-61eb3847/noahsark`, GitHub repo wired (pushes to `main` auto-deploy). **Live review URL: https://noahsark-sand.vercel.app** (Framework: Other, output dir `.`). Manual deploy: `vercel --prod --yes --scope brees-projects-61eb3847` from project root. robots.txt still blocks all (pre-launch).
 - robots.txt blocks all (preview default); robots.production.txt ready for launch swap.
 
 ## Drive Assets
