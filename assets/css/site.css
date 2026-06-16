@@ -374,7 +374,7 @@ h1,h2,h3,h4{font-family:var(--font-head);font-weight:600;line-height:1.08;color:
 .carely-hero__bg img,.carely-hero__bg video{width:100%;height:100%;object-fit:cover;display:block}
 .carely-hero__bg img{animation:heroZoom 22s ease-in-out infinite alternate}
 .carely-hero__scrim{position:absolute;inset:0;z-index:1;background:rgba(26,21,38,.52)}
-.carely-hero__inner{position:relative;z-index:2;max-width:var(--maxw);width:100%;margin:0 auto;padding:0 32px 60px}
+.carely-hero__inner{position:relative;z-index:2;max-width:var(--maxw);width:100%;margin:0 auto;padding:0 32px 104px}
 .carely-hero h1{font-family:var(--font-head);font-weight:600;font-size:clamp(38px,5.4vw,72px);letter-spacing:-.03em;line-height:1.02;color:#fff;max-width:20ch;margin-bottom:18px}
 .carely-hero .intro{color:#fff;font-size:clamp(16.5px,1.8vw,20px);line-height:1.6;max-width:52ch;margin-bottom:30px}
 .carely-hero__actions{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
@@ -382,7 +382,7 @@ h1,h2,h3,h4{font-family:var(--font-head);font-weight:600;line-height:1.08;color:
 .carely-hero__call svg{width:18px;height:18px;color:var(--accent-lt)}
 .carely-hero__call:hover{color:var(--accent-lt)}
 @media(prefers-reduced-motion:reduce){.carely-hero__bg img{animation:none}}
-@media(max-width:860px){.carely-hero{min-height:74vh}.carely-hero__inner{padding-bottom:52px}}
+@media(max-width:860px){.carely-hero{min-height:74vh}.carely-hero__inner{padding-bottom:76px}}
 
 /* soft pill tag for light sections */
 .pill-eyebrow--soft{background:var(--sky);color:var(--ink)}
@@ -862,6 +862,10 @@ body[data-page="home"] .cta-band{position:relative;z-index:7;
   margin-top:-52px;
   border-top-left-radius:40px;border-top-right-radius:40px;
   box-shadow:0 -22px 50px -28px rgba(52,45,79,.34);
+  /* sit above the hero's dark scrim (z-index:1) so the lifted porcelain panel
+     paints over it instead of being tinted grey by it. Equal z-index to the
+     scrim → DOM order wins (panel comes later); still below hero text (z-index:2). */
+  z-index:1;
 }
 /* svc-feature has its own sky-spill + floating dark card composition —
    the bridging curve clashes with it, so opt this section out. */
