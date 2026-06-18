@@ -1,5 +1,12 @@
 # Noah's Ark Veterinary Hospital — Session Notes
 
+## Homepage hero video swap (2026-06-18, Brees) — DONE, committed + deployed
+Brees asked to change the homepage hero to Pexels video **3191251** (golden retriever leaping for a tennis ball with its owner on a sunlit, lush-green park path). Content checks out against the image rules: outdoor play (happy panting, not stressed), leafy green (reads Virginia not desert), photo-forward/warm, no staff faces.
+- Downloaded (19MB, 2732×1440, 13s) → transcoded with the project's standard recipe (no audio, `scale=1600:-2`, libx264 CRF 28, `+faststart`) → **`assets/media/home-hero-park.mp4` (2.1MB)** + poster `ffmpeg -ss 4` → **`assets/media/home-hero-park-poster.jpg` (140K)**.
+- Used **NEW filenames** (did NOT overwrite `home-hero.mp4`) so the live Vercel site self-busts the cache — no `site.css`/JS version bump needed for a media swap.
+- `index.html` hero `<video>` `src` + `poster` updated to the new files.
+- **Orphaned (kept in repo, harmless):** `home-hero.mp4`, `home-hero-poster.jpg` (previous "morning walk with dog" Pexels 5740002 clip).
+
 ## Wellness hero "grey bar" fix + button breathing room (2026-06-16, Brees) — DONE, all pages on `site.css?v=61` / `load-partials.js?v=16`
 
 Brees flagged a grey rounded bar under the wellness hero, AND that it sat too close to the hero button. Diagnosed both via Playwright (`elementsFromPoint` + geometry probes). NOT Feedbucket (that's the floating widget on the right).
